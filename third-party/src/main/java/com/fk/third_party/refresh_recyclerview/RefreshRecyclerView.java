@@ -163,6 +163,11 @@ public class RefreshRecyclerView extends LinearLayout {
         this.loadMoreEnable = enable;
     }
 
+    public void setFooterViewGone(){
+        footerView.setVisibility(GONE);
+    }
+
+
     public void setFooterViewText(CharSequence text) {
         loadMoreText.setText(text);
     }

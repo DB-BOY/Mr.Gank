@@ -72,7 +72,9 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
     private fun loadMeiziList() {
         ApiClient.instance.mService.getGankList("福利", 10, page).compose(
-            RxScheduler.compose()).doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(
+            RxScheduler.compose()).doOnSubscribe {
+            rv_meizi.setRefreshing(true)
+        }.doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(
             object : ApiResponse<HttpEntity>(activity!!) {
                 override fun success(data: HttpEntity) {
                     if (page == 1) {
@@ -97,6 +99,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     }
 
     override fun onLoadMore() {
+        rv_meizi.setFooterViewGone()
         ++page
         loadMeiziList()
     }

@@ -1,23 +1,24 @@
 ext {
-  supportVersion = '26.1.0'
+  supportVersion = '27.0.2'
   butterVersion = '8.6.0'
   retrofitVersion = '2.3.0'
   okhttp3Version = '3.8.0'
   leakcanaryVersion = '1.5.1'
   daggerVersion = '2.12'
+  glideVersion = '4.5.0'
 
-  android = [compileSdkVersion: 26,
-             buildToolsVersion: '26.0.2',
+  android = [compileSdkVersion: 27,
+             buildToolsVersion: '27.0.3',
              minSdkVersion    : 16,
-             targetSdkVersion : 26]
+             targetSdkVersion : 27]
 
   dependencies = [appcompatV7              : "com.android.support:appcompat-v7:${supportVersion}",
                   supportV4                : "com.android.support:support-v4:${supportVersion}",
                   cardView                 : "com.android.support:cardview-v7:${supportVersion}",
                   design                   : "com.android.support:design:${supportVersion}",
                   recyclerview             : "com.android.support:recyclerview-v7:${supportVersion}",
-                  glide                    : 'com.github.bumptech.glide:glide:4.1.1',
-                  glideCompiler            : 'com.github.bumptech.glide:compiler:4.1.1',
+                  glide                    : "com.github.bumptech.glide:glide:${glideVersion}",
+                  glideCompiler            : "com.github.bumptech.glide:compiler:${glideVersion}",
                   glideTransformations     : 'jp.wasabeef:glide-transformations:3.0.1',
                   okhttputils              : 'com.zhy:okhttputils:2.5.2',
                   butterknife              : "com.jakewharton:butterknife:${butterVersion}",

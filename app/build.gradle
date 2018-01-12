@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-kapt'
 
 def dep = rootProject.ext.dependencies
 def an = rootProject.ext.android
@@ -29,10 +30,12 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation project(":third-party")
     implementation dep.appcompatV7
+    implementation dep.supportV4
     implementation dep.design
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation dep.recyclerview
     implementation dep.glide
+//    kapt dep.glideCompiler
     implementation dep.glideTransformations
     implementation dep.retrofit
     implementation dep.converterGson

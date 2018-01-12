@@ -8,7 +8,7 @@
     >
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tab_news"
+        android:id="@+id/tab_gank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -20,8 +20,14 @@
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#f2f2f2"
+        />
+
     <com.fk.third_party.refresh_recyclerview.RefreshRecyclerView
-        android:id="@+id/rv_news"
+        android:id="@+id/rv_gank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

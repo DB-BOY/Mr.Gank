@@ -16,9 +16,9 @@ import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.fk.third_party.refresh_recyclerview.RefreshRecyclerView.PullLoadMoreListener
-import kotlinx.android.synthetic.main.fragment_news.rv_news
-import kotlinx.android.synthetic.main.fragment_news.tab_news
-import kotlinx.android.synthetic.main.fragment_news.view.tab_news
+import kotlinx.android.synthetic.main.fragment_gank.rv_gank
+import kotlinx.android.synthetic.main.fragment_gank.tab_gank
+import kotlinx.android.synthetic.main.fragment_gank.view.tab_gank
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
@@ -40,20 +40,20 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        layout = inflater.inflate(R.layout.fragment_news, container, false)
+        layout = inflater.inflate(R.layout.fragment_gank, container, false)
         return layout
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        tab_news.run {
+        tab_gank.run {
             val tabList = listOf("Android", "iOS", "前端", "拓展资源", "瞎推荐", "App")
             tabList.forEach {
-                val tab = tab_news.newTab()
+                val tab = tab_gank.newTab()
                 tab.text = it
-                tab_news.addTab(tab)
+                tab_gank.addTab(tab)
             }
-            tab_news.addOnTabSelectedListener(object : OnTabSelectedListener {
+            tab_gank.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabReselected(tab: Tab?) {
                 }
 
@@ -63,16 +63,16 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
                 override fun onTabSelected(tab: Tab?) {
                     type = tab?.text.toString()
                     page = 1
-                    rv_news.scrollToTop()
+                    rv_gank.scrollToTop()
                     loadGankList()
                 }
             })
         }
-        rv_news.run {
-            rv_news.setColorSchemeResources(R.color.colorPrimary)
-            rv_news.setLinearLayout()
-            rv_news.setOnPullLoadMoreListener(this@GankFragment)
-            rv_news.setAdapter(mGankAdapter)
+        rv_gank.run {
+            rv_gank.setColorSchemeResources(R.color.colorPrimary)
+            rv_gank.setLinearLayout()
+            rv_gank.setOnPullLoadMoreListener(this@GankFragment)
+            rv_gank.setAdapter(mGankAdapter)
         }
         mGankAdapter.run {
             mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
@@ -92,14 +92,16 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
                 }
             })
         }
-        rv_news.setRefreshing(true)
+        rv_gank.setRefreshing(true)
         type = "Android"
         loadGankList()
     }
 
     private fun loadGankList() {
         ApiClient.instance.mService.getGankList(type, 10, page).compose(
-            RxScheduler.compose()).doAfterTerminate { rv_news.setPullLoadMoreCompleted() }.subscribe(
+            RxScheduler.compose()).doOnSubscribe {
+            rv_gank.setRefreshing(true)
+        }.doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(
             object : ApiResponse<HttpEntity>(activity!!) {
                 override fun success(data: HttpEntity) {
                     if (page == 1) {
@@ -124,6 +126,7 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
     }
 
     override fun onLoadMore() {
+        rv_gank.setFooterViewGone()
         ++page
         loadGankList()
     }
