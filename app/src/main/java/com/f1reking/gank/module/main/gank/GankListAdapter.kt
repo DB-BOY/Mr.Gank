@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.f1reking.gank.R
 import com.f1reking.gank.entity.GankEntity
+import com.f1reking.gank.util.DateUtil
 import me.f1reking.adapter.RecyclerAdapter
 import me.f1reking.adapter.RecyclerViewHolder
 
@@ -22,6 +23,6 @@ class GankListAdapter(var context: Context,
             RequestOptions().error(R.drawable.pic_no).placeholder(R.drawable.pic_loading)).into(
             holder?.getView(R.id.iv_pic))
         holder?.setText(R.id.tv_title, entity?.desc)
-        holder?.setText(R.id.tv_time, entity?.publishedAt)
+        holder?.setText(R.id.tv_time, entity?.publishedAt?.let { DateUtil.toDate(it) })
     }
 }
