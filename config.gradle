@@ -1,0 +1,77 @@
+ext {
+  supportVersion = '26.1.0'
+  butterVersion = '8.6.0'
+  retrofitVersion = '2.3.0'
+  okhttp3Version = '3.8.0'
+  leakcanaryVersion = '1.5.1'
+  daggerVersion = '2.12'
+
+  android = [compileSdkVersion: 26,
+             buildToolsVersion: '26.0.2',
+             minSdkVersion    : 16,
+             targetSdkVersion : 26]
+
+  dependencies = [appcompatV7              : "com.android.support:appcompat-v7:${supportVersion}",
+                  supportV4                : "com.android.support:support-v4:${supportVersion}",
+                  cardView                 : "com.android.support:cardview-v7:${supportVersion}",
+                  design                   : "com.android.support:design:${supportVersion}",
+                  recyclerview             : "com.android.support:recyclerview-v7:${supportVersion}",
+                  glide                    : 'com.github.bumptech.glide:glide:4.1.1',
+                  glideCompiler            : 'com.github.bumptech.glide:compiler:4.1.1',
+                  glideTransformations     : 'jp.wasabeef:glide-transformations:3.0.1',
+                  okhttputils              : 'com.zhy:okhttputils:2.5.2',
+                  butterknife              : "com.jakewharton:butterknife:${butterVersion}",
+                  butterknifeCompiler      : "com.jakewharton:butterknife-compiler:${butterVersion}",
+                  greenDao                 : 'org.greenrobot:greendao:3.2.2',
+                  zxing                    : 'com.google.zxing:core:3.3.0',
+                  leakcanaryDebug          : "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}",
+                  leakcanaryRelease        : "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}",
+                  stickylistheaders        : 'se.emilsjolander:stickylistheaders:2.7.0',
+                  stickyheadersrecyclerview: 'com.timehop.stickyheadersrecyclerview:library:[0.4.3]@aar',
+                  eventbus                 : 'org.greenrobot:eventbus:3.0.0',
+                  superAdapter             : 'com.github.F1ReKing:SuperAdapter:v1.2.1',
+                  retrofit                 : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+                  converterGson            : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+                  adapterRxjava2           : "com.squareup.retrofit2:adapter-rxjava2:2.2.0",
+                  rxjava2                  : 'io.reactivex.rxjava2:rxjava:2.1.2',
+                  rxandroid2               : 'io.reactivex.rxjava2:rxandroid:2.0.1',
+                  converterFastjson        : 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0',
+                  gson                     : 'com.google.code.gson:gson:2.7',
+                  okhttp3                  : "com.squareup.okhttp3:okhttp:${okhttp3Version}",
+                  okhttp3Logging           : "com.squareup.okhttp3:logging-interceptor:${okhttp3Version}",
+                  fastjson                 : "com.alibaba:fastjson:1.1.61.android",
+                  rxpermissions            : 'com.tbruyelle.rxpermissions:rxpermissions:0.7.1@aar',
+                  rxpermissions2           : 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar',
+                  rxlint                   : 'nl.littlerobots.rxlint:rxlint:1.0',
+                  multidex                 : 'com.android.support:multidex:1.0.1',
+                  ucrop                    : 'com.yalantis:ucrop:2.2.0',
+                  umengAnalytics           : 'com.umeng.analytics:analytics:6.1.0',
+                  PhotoView                : 'com.github.chrisbanes:PhotoView:2.0.0',
+                  IMCore                   : 'com.alibaba.mobileim:IMCore:2.0.2.1@aar',
+                  IMKit                    : 'com.alibaba.mobileim:IMKit:2.0.2.1@aar',
+                  bugly                    : 'com.tencent.bugly:crashreport:2.6.5',
+                  wechat                   : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6',
+                  alignTextView            : 'me.codeboy.android:align-text-view:2.3.0',
+                  walle                    : 'com.meituan.android.walle:library:1.1.5',
+                  systembartint            : 'com.readystatesoftware.systembartint:systembartint:1.0.3',
+                  map2d                    : 'com.amap.api:map2d:5.2.0',
+                  mapSearch                : 'com.amap.api:search:5.2.1',
+                  mapLocation              : 'com.amap.api:location:3.4.1',
+                  banner                   : 'com.youth.banner:banner:1.4.10',
+                  buglyTinker              : 'com.tencent.bugly:crashreport_upgrade:1.3.1',
+                  nativecrashreport        : 'com.tencent.bugly:nativecrashreport:3.3.0',
+                  rxlifecycle2             : 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0',
+                  rxrelay2                 : 'com.jakewharton.rxrelay2:rxrelay:2.0.0',
+                  XTabLayout               : 'com.androidkun:XTabLayout:1.1.2',
+                  rxbinding                : 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
+                  rxbinding_support_v4     : 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0',
+                  rxbinding_appcompat_v7   : 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0',
+                  rxbinding_design         : 'com.jakewharton.rxbinding2:rxbinding-design:2.0.0',
+                  rxbinding_recyclerview_v7: 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0',
+                  stetho                   : 'com.facebook.stetho:stetho:1.5.0',
+                  dagger                   : "com.google.dagger:dagger:${daggerVersion}",
+                  daggerCompiler           : "com.google.dagger:dagger-compiler:${daggerVersion}",
+                  tiny                     : 'com.zxy.android:tiny:0.1.0'
+
+  ]
+}

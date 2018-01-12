@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def dep = rootProject.ext.dependencies
+def an = rootProject.ext.android
+
+android {
+    compileSdkVersion an.compileSdkVersion
+    buildToolsVersion an.buildToolsVersion
+    defaultConfig {
+        applicationId "com.f1reking.gank"
+        minSdkVersion an.minSdkVersion
+        targetSdkVersion an.targetSdkVersion
+        versionCode 1
+        versionName "0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation project(":third-party")
+    implementation dep.appcompatV7
+    implementation dep.design
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation dep.recyclerview
+    implementation dep.glide
+    implementation dep.glideTransformations
+    implementation dep.retrofit
+    implementation dep.converterGson
+    implementation dep.adapterRxjava2
+    implementation dep.rxjava2
+    implementation dep.rxandroid2
+    implementation dep.gson
+    implementation dep.okhttp3
+    implementation dep.okhttp3Logging
+    implementation dep.bugly
+    implementation dep.superAdapter
+    implementation dep.PhotoView
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+//    implementation(['com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.0',
+//             'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'])
+}

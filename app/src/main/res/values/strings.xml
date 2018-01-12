@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Mr.Gank</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="service_error">service_error</string>
+    <string name="not_found">not_found</string>
+    <string name="timeout">timeout</string>
+    <string name="network_wrong">network_wrong</string>
+    <string name="unexpected_error">unexpected_error</string>
+    <string name="share_article_url">我在 %1$s 发现：【%2$s】：%3$s</string>
+    <string name="share_title">Share</string>
+
+    <string name="picture_has_save_to">图片已保存至 %s 文件夹</string>
+
+</resources>

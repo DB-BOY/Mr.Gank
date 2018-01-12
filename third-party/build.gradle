@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+def dep = rootProject.ext.dependencies
+def an = rootProject.ext.android
+
+android {
+    compileSdkVersion an.compileSdkVersion
+    buildToolsVersion an.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion an.minSdkVersion
+        targetSdkVersion an.targetSdkVersion
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api dep.recyclerview
+}
