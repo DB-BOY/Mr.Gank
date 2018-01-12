@@ -29,7 +29,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     private var page: Int = 1
 
     private val mMeiziAdapter: MeiziListAdapter by lazy {
-        MeiziListAdapter(this.activity!!, datas)
+        MeiziListAdapter(activity!!, datas)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -60,7 +60,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                                          p1: View?,
                                          p2: GankEntity?,
                                          p3: Int) {
-                    val intent = Intent(activity, BigMeiziActivity::class.java)
+                    val intent = Intent(activity!!, BigMeiziActivity::class.java)
                     intent.putExtra(BigMeiziActivity.URL, p2?.url)
                     startActivity(intent)
                 }
@@ -73,7 +73,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     private fun loadMeiziList() {
         ApiClient.instance.mService.getGankList("福利", 10, page).compose(
             RxScheduler.compose()).doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(
-            object : ApiResponse<HttpEntity>(this.activity!!) {
+            object : ApiResponse<HttpEntity>(activity!!) {
                 override fun success(data: HttpEntity) {
                     if (page == 1) {
                         mMeiziAdapter.clear()

@@ -14,5 +14,7 @@
     <string name="share_title">Share</string>
 
     <string name="picture_has_save_to">图片已保存至 %s 文件夹</string>
+    <string name="settings">设置</string>
+    <string name="about">关于 Mr.Gank</string>
 
 </resources>

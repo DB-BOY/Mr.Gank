@@ -101,7 +101,7 @@ import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_web, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

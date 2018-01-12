@@ -34,7 +34,7 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
     private lateinit var type: String
 
     private val mGankAdapter: GankListAdapter by lazy {
-        GankListAdapter(this.activity!!, datas)
+        GankListAdapter(activity!!, datas)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -88,7 +88,7 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
                                          p2: GankEntity?,
                                          p3: Int) {
 
-                    WebActivity.newIntent(p1!!.context, p2!!.url, p2.desc)
+                    WebActivity.newIntent(activity!!, p2!!.url, p2.desc)
                 }
             })
         }
@@ -100,7 +100,7 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
     private fun loadGankList() {
         ApiClient.instance.mService.getGankList(type, 10, page).compose(
             RxScheduler.compose()).doAfterTerminate { rv_news.setPullLoadMoreCompleted() }.subscribe(
-            object : ApiResponse<HttpEntity>(this.activity!!) {
+            object : ApiResponse<HttpEntity>(activity!!) {
                 override fun success(data: HttpEntity) {
                     if (page == 1) {
                         mGankAdapter.clear()

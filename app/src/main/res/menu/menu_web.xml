@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_setting"
-        android:title="@string/settings"
+    <item android:id="@+id/menu_share"
+        android:title="分享"
         android:orderInCategory="100"
         app:showAsAction="never"
         />
-    <item android:id="@+id/menu_about"
-        android:title="@string/about"
+    <item android:id="@+id/menu_browser"
+        android:title="浏览器打开"
         android:orderInCategory="100"
         app:showAsAction="never" />
 

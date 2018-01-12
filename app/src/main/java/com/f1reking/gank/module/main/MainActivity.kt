@@ -1,12 +1,17 @@
 package com.f1reking.gank.module.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
+import android.view.Menu
+import android.view.MenuItem
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.module.about.AboutActivity
 import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
+import com.f1reking.gank.module.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.bottomNavigation
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
@@ -88,5 +93,24 @@ class MainActivity : BaseActivity() {
                 false
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_setting -> {
+                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                return true
+            }
+            R.id.menu_about -> {
+                startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.settings.SettingsActivity"/>
-        <activity android:name=".module.donate.DonateActivity"/>
+        <activity android:name=".module.about.AboutActivity"/>
         <activity android:name=".module.web.WebActivity"/>
         <activity android:name=".module.main.meizi.BigMeiziActivity"/>
     </application>
