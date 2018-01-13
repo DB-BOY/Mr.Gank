@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 def dep = rootProject.ext.dependencies
 def an = rootProject.ext.android
@@ -21,4 +22,8 @@ android {
 
 dependencies {
     api dep.recyclerview
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
