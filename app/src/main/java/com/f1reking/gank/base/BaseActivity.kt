@@ -1,11 +1,9 @@
 package com.f1reking.gank.base
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.widget.Toast
 import com.f1reking.gank.R
 
 /**
@@ -28,8 +26,4 @@ open class BaseActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    fun Activity.toast(message: CharSequence,
-                       duration: Int = Toast.LENGTH_SHORT) {
-        Toast.makeText(this, message, duration).show()
-    }
 }

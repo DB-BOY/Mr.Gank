@@ -13,6 +13,7 @@ import com.f1reking.gank.entity.HttpEntity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
+import com.f1reking.gank.toast
 import com.fk.third_party.refresh_recyclerview.RefreshRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_meizi.rv_meizi
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
@@ -48,7 +49,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
             rv_meizi.setAdapter(mMeiziAdapter)
         }
         mMeiziAdapter.run {
-            mMeiziAdapter.setOnItemClickListener(object :OnItemClickListener<GankEntity>{
+            mMeiziAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
                 override fun onItemLongClick(p0: ViewGroup?,
                                              p1: View?,
                                              p2: GankEntity?,
@@ -85,7 +86,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
                 override fun failure(statusCode: Int,
                                      apiErrorModel: ApiErrorModel) {
-                    toast(apiErrorModel.msg)
+                    activity!!.toast(apiErrorModel.msg)
                 }
             })
     }

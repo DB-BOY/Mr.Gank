@@ -15,6 +15,7 @@ import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
+import com.f1reking.gank.toast
 import com.fk.third_party.refresh_recyclerview.RefreshRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_gank.rv_gank
 import kotlinx.android.synthetic.main.fragment_gank.tab_gank
@@ -112,7 +113,7 @@ class GankFragment : BaseFragment(), PullLoadMoreListener {
 
                 override fun failure(statusCode: Int,
                                      apiErrorModel: ApiErrorModel) {
-                    toast(apiErrorModel.msg)
+                    activity!!.toast(apiErrorModel.msg)
                 }
             })
     }
