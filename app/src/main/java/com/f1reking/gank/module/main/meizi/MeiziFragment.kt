@@ -2,6 +2,8 @@ package com.f1reking.gank.module.main.meizi
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +65,14 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                                          p3: Int) {
                     val intent = Intent(activity!!, BigMeiziActivity::class.java)
                     intent.putExtra(BigMeiziActivity.URL, p2?.url)
-                    startActivity(intent)
+                    val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity!!, p1!!, BigMeiziActivity.TRANSIT_PIC)
+                    try {
+                        ActivityCompat.startActivity(activity!!, intent, optionsCompat.toBundle())
+                    } catch (e: IllegalArgumentException) {
+                        e.printStackTrace()
+                        startActivity(intent)
+                    }
                 }
             })
         }

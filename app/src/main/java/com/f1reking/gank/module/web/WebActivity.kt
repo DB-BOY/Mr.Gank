@@ -1,11 +1,14 @@
 package com.f1reking.gank.module.web
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.WebChromeClient
@@ -16,6 +19,7 @@ import android.webkit.WebViewClient
 import com.f1reking.gank.Constant
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.toast
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_web.sr_gank
 import kotlinx.android.synthetic.main.activity_web.wv_gank
@@ -26,7 +30,7 @@ import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
  * @date: 2018/1/8 21:37
  * @desc:
  */
- class WebActivity : BaseActivity() {
+class WebActivity : BaseActivity() {
 
     companion object {
         val EXTRA_URL = "webUrl"
@@ -48,6 +52,15 @@ import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
         initView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (wv_gank != null) {
+            wv_gank.removeAllViews()
+            wv_gank.destroy()
+            null === wv_gank
+        }
     }
 
     private fun initView() {
@@ -126,7 +139,25 @@ import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
                 }
                 return true
             }
+            R.id.menu_copy -> {
+                val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newRawUri("Mr.gank", Uri.parse(wv_gank.url))
+                cm.primaryClip = clipData
+                toast("复制成功，可以发给好友")
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onKeyDown(keyCode: Int,
+                           event: KeyEvent?): Boolean {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && wv_gank.canGoBack()) {
+            wv_gank.goBack()
+            return true
+        } else {
+            finish()
+            return false
+        }
     }
 }

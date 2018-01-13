@@ -1,6 +1,7 @@
 package com.f1reking.gank.module.main.meizi
 
 import android.os.Bundle
+import android.support.v4.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.f1reking.gank.R
@@ -17,6 +18,8 @@ class BigMeiziActivity : BaseActivity() {
 
     companion object {
         val URL = "mImageUrl"
+
+        val TRANSIT_PIC = "picture"
     }
 
     private lateinit var mImageUrl: String
@@ -25,6 +28,7 @@ class BigMeiziActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_big_meizi)
         initView()
+        ViewCompat.setTransitionName(iv_pic, TRANSIT_PIC)
     }
 
     private fun initView() {
@@ -34,7 +38,7 @@ class BigMeiziActivity : BaseActivity() {
         }
         mImageUrl = intent.getStringExtra(URL)
         Glide.with(this).load(mImageUrl).transition(
-            DrawableTransitionOptions.withCrossFade()).thumbnail(0.1f).into(iv_pic)
+            DrawableTransitionOptions.withCrossFade()).into(iv_pic)
     }
 }
 
