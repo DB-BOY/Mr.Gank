@@ -11,7 +11,6 @@ import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
 import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
-import com.f1reking.gank.module.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.bottomNavigation
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
@@ -102,10 +101,6 @@ class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_setting -> {
-                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
-                return true
-            }
             R.id.menu_about -> {
                 startActivity(Intent(this@MainActivity, AboutActivity::class.java))
                 return true
