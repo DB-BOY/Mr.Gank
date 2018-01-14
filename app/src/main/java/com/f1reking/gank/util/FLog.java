@@ -93,7 +93,8 @@ public class FLog {
     private static final String BOTTOM_BORDER =
         "╚═══════════════════════════════════════════════════════════════════════════════════════════════════";
     private static final int MAX_LEN = 4000;
-    private static final Format FORMAT = new SimpleDateFormat("MM-dd HH:mm:ss.SSS ", Locale.getDefault());
+    private static final Format FORMAT =
+        new SimpleDateFormat("MM-dd HH:mm:ss.SSS ", Locale.getDefault());
     private static final String NULL = "null";
     private static final String ARGS = "args";
     private static Config sConfig;
@@ -256,20 +257,22 @@ public class FLog {
             if (sLogHeadSwitch) {
                 String tName = Thread.currentThread().getName();
                 final String head =
-                    new Formatter().format("%s, %s(%s:%d)", tName, targetElement.getMethodName(), fileName,
-                        targetElement.getLineNumber()).toString();
+                    new Formatter().format("%s, %s(%s:%d)", tName, targetElement.getMethodName(),
+                        fileName, targetElement.getLineNumber()).toString();
                 final String fileHead = " [" + head + "]: ";
                 if (sStackDeep <= 1) {
                     return new TagHead(tag, new String[] { head }, fileHead);
                 } else {
-                    final String[] consoleHead = new String[Math.min(sStackDeep, stackTrace.length - 3)];
+                    final String[] consoleHead =
+                        new String[Math.min(sStackDeep, stackTrace.length - 3)];
                     consoleHead[0] = head;
                     int spaceLen = tName.length() + 2;
                     String space = new Formatter().format("%" + spaceLen + "s", "").toString();
                     for (int i = 1, len = consoleHead.length; i < len; ++i) {
                         targetElement = stackTrace[i + 3];
-                        consoleHead[i] = new Formatter().format("%s%s(%s:%d)", space, targetElement.getMethodName(),
-                            targetElement.getFileName(), targetElement.getLineNumber()).toString();
+                        consoleHead[i] = new Formatter().format("%s%s(%s:%d)", space,
+                            targetElement.getMethodName(), targetElement.getFileName(),
+                            targetElement.getLineNumber()).toString();
                     }
                     return new TagHead(tag, consoleHead, fileHead);
                 }
@@ -337,7 +340,8 @@ public class FLog {
         return xml;
     }
 
-    private static void print2Console(final int type, final String tag, final String[] head, final String msg) {
+    private static void print2Console(final int type, final String tag, final String[] head,
+        final String msg) {
         printBorder(type, tag, true);
         printHead(type, tag, head);
         printMsg(type, tag, msg);
@@ -395,7 +399,8 @@ public class FLog {
         String format = FORMAT.format(now);
         String date = format.substring(0, 5);
         String time = format.substring(6);
-        final String fullPath = (sDir == null ? sDefaultDir : sDir) + sFilePrefix + "-" + date + ".txt";
+        final String fullPath =
+            (sDir == null ? sDefaultDir : sDir) + sFilePrefix + "-" + date + ".txt";
         if (!createOrExistsFile(fullPath)) {
             Log.e(tag, "log to " + fullPath + " failed!");
             return;
@@ -407,7 +412,8 @@ public class FLog {
             sExecutor = Executors.newSingleThreadExecutor();
         }
         sExecutor.execute(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 BufferedWriter bw = null;
                 try {
                     bw = new BufferedWriter(new FileWriter(fullPath, true));
@@ -548,7 +554,8 @@ public class FLog {
             return this;
         }
 
-        @Override public String toString() {
+        @Override
+        public String toString() {
             return "switch: "
                 + sLogSwitch
                 + LINE_SEP
