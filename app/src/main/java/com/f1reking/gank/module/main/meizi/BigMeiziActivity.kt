@@ -2,10 +2,9 @@ package com.f1reking.gank.module.main.meizi
 
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.util.GlideApp
 import kotlinx.android.synthetic.main.activity_big_meizi.iv_pic
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
@@ -37,8 +36,7 @@ class BigMeiziActivity : BaseActivity() {
             toolbar.alpha = 0.7f
         }
         mImageUrl = intent.getStringExtra(URL)
-        Glide.with(this).load(mImageUrl).transition(
-            DrawableTransitionOptions.withCrossFade()).into(iv_pic)
+        GlideApp.with(this).load(mImageUrl).into(iv_pic)
     }
 }
 

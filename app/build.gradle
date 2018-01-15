@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 
 def dep = rootProject.ext.dependencies
 def an = rootProject.ext.android
@@ -35,7 +35,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation dep.recyclerview
     implementation dep.glide
-//    kapt dep.glideCompiler
+    kapt dep.glideCompiler
     implementation dep.glideTransformations
     implementation dep.retrofit
     implementation dep.converterGson
