@@ -74,7 +74,7 @@ class BigMeiziActivity : BaseActivity() {
                 return true
             }
             R.id.menu_share -> {
-
+                FileUtil.shareImage(this, bitmap)
                 return true
             }
         }

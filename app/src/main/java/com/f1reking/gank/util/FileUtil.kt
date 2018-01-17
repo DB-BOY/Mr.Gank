@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.net.Uri.parse
 import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore.Images.Media
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
@@ -27,6 +29,9 @@ class FileUtil {
 
     companion object {
 
+        /**
+         * 保存图片到相册
+         */
         fun saveImageToGallery(context: Context,
                                view: View,
                                bitmap: Bitmap,
@@ -52,7 +57,7 @@ class FileUtil {
                 e.printStackTrace()
             } //通知图库更新
             context.sendBroadcast(
-                Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.path)))
+                Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, parse("file://" + file.path)))
             if (save) {
                 Snackbar.make(view, context.getString(string.save_image_success),
                     Snackbar.LENGTH_LONG).setActionTextColor(
@@ -75,6 +80,19 @@ class FileUtil {
                 Toast.makeText(context, context.getString(string.save_image_fail),
                     Toast.LENGTH_SHORT).show()
             }
+        }
+
+        /**
+         * 分享图片
+         */
+        fun shareImage(context: Context,
+                       bitmap: Bitmap) {
+            val uri = parse(Media.insertImage(context.contentResolver, bitmap, null, null))
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+            shareIntent.type = "image/*"
+            context.startActivity(Intent.createChooser(shareIntent, "分享"))
         }
     }
 }
