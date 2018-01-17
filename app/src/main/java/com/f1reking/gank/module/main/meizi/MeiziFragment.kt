@@ -64,7 +64,8 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                                          p2: GankEntity?,
                                          p3: Int) {
                     val intent = Intent(activity!!, BigMeiziActivity::class.java)
-                    intent.putExtra(BigMeiziActivity.URL, p2?.url)
+                    intent.putExtra(BigMeiziActivity.EXTRA_URL, p2?.url)
+                    intent.putExtra(BigMeiziActivity.EXTRA_TITLE, p2?._id)
                     val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity!!, p1!!, BigMeiziActivity.TRANSIT_PIC)
                     try {

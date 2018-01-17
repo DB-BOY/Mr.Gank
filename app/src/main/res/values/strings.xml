@@ -16,5 +16,8 @@
     <string name="picture_has_save_to">图片已保存至 %s 文件夹</string>
     <string name="settings">设置</string>
     <string name="about">关于 Mr.Gank</string>
+    <string name="save_image_success">图片已成功保存</string>
+    <string name="save_image_fail">图片保存失败,请重试</string>
+    <string name="open">打开</string>
 
 </resources>
