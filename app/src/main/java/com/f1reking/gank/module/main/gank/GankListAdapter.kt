@@ -19,7 +19,7 @@ class GankListAdapter(var context: Context,
     override fun convert(holder: RecyclerViewHolder,
                          entity: GankEntity?) {
         GlideApp.with(context).load(entity?.images?.get(0)).placeholder(
-            R.drawable.pic_loading).error(R.drawable.pic_no).into(holder.getView(R.id.iv_pic))
+            R.drawable.pic_loading).error(R.drawable.pic_no).centerCrop().into(holder.getView(R.id.iv_pic))
         holder.setText(R.id.tv_title, entity?.desc)
         holder.setText(R.id.tv_time, entity?.publishedAt?.let { DateUtil.toDate(it) })
     }

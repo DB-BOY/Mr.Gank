@@ -17,9 +17,6 @@
             android:id="@+id/iv_pic"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"
             />
@@ -49,13 +46,6 @@
             android:textColor="@color/text"
             android:textSize="14sp"
             />
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="10dp"-->
-            <!--android:background="@color/line"-->
-            <!--/>-->
-
 
     </LinearLayout>
 
