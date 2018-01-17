@@ -20,5 +20,7 @@
     <string name="save_image_fail">图片保存失败,请重试</string>
     <string name="open">打开</string>
     <string name="about_intro">Mr.Gank是一款kotlin语言写的app,提供IT技术分享内容及妹子图。\n\n数据内容来源于 http://gank.io \n\n 本项目GitHub: https://github.com/F1ReKing/Mr.Gank \n\n </string>
+    <string name="share_app">我发现了[Mr.Gank]，提供IT技术分享内容及妹子图，推荐你也下载:\n https://github.com/F1ReKing/Mr.Gank</string>
+
 
 </resources>

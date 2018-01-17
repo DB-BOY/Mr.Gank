@@ -1,5 +1,6 @@
 package com.f1reking.gank.module.about
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -31,10 +32,18 @@ class AboutActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_share -> {
-
+                share()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun share() {
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app))
+        shareIntent.type = "text/plain"
+        startActivity(Intent.createChooser(shareIntent, "分享给好友"))
     }
 }
