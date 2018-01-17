@@ -28,7 +28,6 @@
         <activity android:name=".module.about.AboutActivity"/>
         <activity android:name=".module.web.WebActivity"/>
         <activity android:name=".module.main.meizi.BigMeiziActivity"/>
-
         <!-- 兼容7.0私有文件权限 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
