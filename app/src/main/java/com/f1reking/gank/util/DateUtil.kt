@@ -13,7 +13,7 @@ class DateUtil {
     companion object {
 
         fun toDate(date: Date): String {
-            val dateFormat = SimpleDateFormat("yyyy/MM/dd H:m:s")
+            val dateFormat = SimpleDateFormat("yyyy/MM/dd")
             return dateFormat.format(date)
         }
     }

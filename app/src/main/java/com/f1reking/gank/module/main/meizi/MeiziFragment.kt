@@ -46,7 +46,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
         super.onActivityCreated(savedInstanceState)
         rv_meizi.run {
             rv_meizi.setColorSchemeResources(R.color.colorPrimary)
-            rv_meizi.setGridLayout(2)
+            rv_meizi.setStaggeredGridLayout(2)
             rv_meizi.setOnPullLoadMoreListener(this@MeiziFragment)
             rv_meizi.setAdapter(mMeiziAdapter)
         }

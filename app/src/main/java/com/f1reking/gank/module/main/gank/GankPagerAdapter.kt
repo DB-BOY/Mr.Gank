@@ -11,7 +11,7 @@ import android.view.ViewGroup
  * @desc:
  */
 class TabPagerAdapter(fm: FragmentManager,
-                      private val fragmentList: List<Fragment>?,
+                      private val fragmentList: ArrayList<Fragment>?,
                       private val titles: Array<String>) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment? {

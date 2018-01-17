@@ -11,10 +11,14 @@ import android.view.ViewGroup
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.module.main.gank.fragment.GankAndroidFragment
+import com.f1reking.gank.module.main.gank.fragment.GankAppFragment
+import com.f1reking.gank.module.main.gank.fragment.GankRecommendFragment
+import com.f1reking.gank.module.main.gank.fragment.GankResourcesFragment
+import com.f1reking.gank.module.main.gank.fragment.GankWebFragment
+import com.f1reking.gank.module.main.gank.fragment.GankiOSFragment
 import kotlinx.android.synthetic.main.fragment_gank.tab_gank
 import kotlinx.android.synthetic.main.fragment_gank.view.tab_gank
 import kotlinx.android.synthetic.main.fragment_gank.vp_gank
-import java.util.ArrayList
 
 /**
  * @author: huangyh
@@ -24,7 +28,7 @@ import java.util.ArrayList
 class GankFragment : BaseFragment() {
 
     private var layout: View? = null
-    private var mGankAndroidFragment: GankAndroidFragment? = null
+    private var fragmentList = ArrayList<Fragment>()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -35,14 +39,18 @@ class GankFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mGankAndroidFragment = GankAndroidFragment()
-        val fragmentList: ArrayList<Fragment>? = null
-        fragmentList?.add(mGankAndroidFragment!!)
-        fragmentList?.add(mGankAndroidFragment!!)
-        fragmentList?.add(mGankAndroidFragment!!)
-        fragmentList?.add(mGankAndroidFragment!!)
-        fragmentList?.add(mGankAndroidFragment!!)
-        fragmentList?.add(mGankAndroidFragment!!)
+        val mGankAndroidFragment = GankAndroidFragment()
+        val mGankiOSFragment = GankiOSFragment()
+        val mGankWebFragment = GankWebFragment()
+        val mGankResourcesFragment = GankResourcesFragment()
+        val mGankRecommendFragment = GankRecommendFragment()
+        val mGankAppFragment = GankAppFragment()
+        fragmentList.add(mGankAndroidFragment)
+        fragmentList.add(mGankiOSFragment)
+        fragmentList.add(mGankWebFragment)
+        fragmentList.add(mGankResourcesFragment)
+        fragmentList.add(mGankRecommendFragment)
+        fragmentList.add(mGankAppFragment)
         val pagerAdapter = TabPagerAdapter(childFragmentManager, fragmentList,
             resources.getStringArray(R.array.tab_gank))
         tab_gank.run {
@@ -77,6 +85,7 @@ class GankFragment : BaseFragment() {
         }
     }
 }
+
 
 
 

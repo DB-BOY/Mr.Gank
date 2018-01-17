@@ -17,7 +17,6 @@ class BigMeiziActivity : BaseActivity() {
 
     companion object {
         val URL = "mImageUrl"
-
         val TRANSIT_PIC = "picture"
     }
 
@@ -35,8 +34,11 @@ class BigMeiziActivity : BaseActivity() {
         toolbar.run {
             toolbar.alpha = 0.7f
         }
-        mImageUrl = intent.getStringExtra(URL)
-        GlideApp.with(this).load(mImageUrl).into(iv_pic)
+        iv_pic.run {
+            mImageUrl = intent.getStringExtra(URL)
+            GlideApp.with(this).load(mImageUrl).into(iv_pic)
+            setOnClickListener { onBackPressed() }
+        }
     }
 }
 

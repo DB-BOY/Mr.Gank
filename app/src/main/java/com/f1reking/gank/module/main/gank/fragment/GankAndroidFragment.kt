@@ -26,6 +26,10 @@ import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
  */
 class GankAndroidFragment : BaseFragment(), PullLoadMoreListener {
 
+    companion object {
+        val TYPE = "Android"
+    }
+
     private var layout: View? = null
     private val datas = mutableListOf<GankEntity>()
     private var page: Int = 1
@@ -73,7 +77,7 @@ class GankAndroidFragment : BaseFragment(), PullLoadMoreListener {
     }
 
     private fun loadGankList() {
-        ApiClient.instance.mService.getGankList("Android", 10, page).compose(
+        ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
             RxScheduler.compose()).doOnSubscribe {
             rv_gank.setRefreshing(true)
         }.doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(

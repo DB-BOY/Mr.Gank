@@ -4,7 +4,6 @@ import android.content.Context
 import com.f1reking.gank.R
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.util.GlideApp
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import me.f1reking.adapter.RecyclerAdapter
 import me.f1reking.adapter.RecyclerViewHolder
 
@@ -19,7 +18,6 @@ class MeiziListAdapter(var context: Context,
     override fun convert(holder: RecyclerViewHolder,
                          entity: GankEntity?) {
         GlideApp.with(context).load(entity?.url).placeholder(R.drawable.pic_loading).error(
-            R.drawable.pic_no).centerCrop().transform(RoundedCornersTransformation(10, 0)).into(
-            holder.getView(R.id.iv_pic))
+            R.drawable.pic_no).into(holder.getView(R.id.iv_pic))
     }
 }
