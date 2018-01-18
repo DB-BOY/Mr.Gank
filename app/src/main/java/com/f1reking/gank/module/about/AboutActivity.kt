@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.util.AppUtil
+import kotlinx.android.synthetic.main.activity_about.tv_version
 
 /**
  * @author: huangyh
@@ -22,6 +24,10 @@ class AboutActivity : BaseActivity() {
 
     private fun initView() {
         setToolbarTitle("")
+        tv_version.run {
+            tv_version.text = String.format(getString(R.string.app_version),
+                AppUtil.getVersionName(this@AboutActivity))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

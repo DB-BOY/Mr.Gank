@@ -1,13 +1,13 @@
 package com.f1reking.gank.module.main.gank
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout.OnTabSelectedListener
-import android.support.design.widget.TabLayout.Tab
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager.OnPageChangeListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.androidkun.xtablayout.XTabLayout
+import com.androidkun.xtablayout.XTabLayout.OnTabSelectedListener
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.module.main.gank.fragment.GankAndroidFragment
@@ -56,20 +56,6 @@ class GankFragment : BaseFragment() {
         fragmentList.add(mGankAppFragment)
         val pagerAdapter = TabPagerAdapter(childFragmentManager, fragmentList,
             resources.getStringArray(R.array.tab_gank))
-        tab_gank.run {
-            tab_gank.setupWithViewPager(vp_gank)
-            tab_gank.addOnTabSelectedListener(object : OnTabSelectedListener {
-                override fun onTabReselected(tab: Tab?) {
-                }
-
-                override fun onTabUnselected(tab: Tab?) {
-                }
-
-                override fun onTabSelected(tab: Tab?) {
-                    vp_gank.currentItem = tab!!.position
-                }
-            })
-        }
         vp_gank.run {
             vp_gank.adapter = pagerAdapter
             vp_gank.offscreenPageLimit = 7
@@ -86,6 +72,23 @@ class GankFragment : BaseFragment() {
                 }
             })
         }
+        tab_gank.run {
+            tab_gank.setupWithViewPager(vp_gank)
+            tab_gank.setOnTabSelectedListener(object : OnTabSelectedListener {
+                override fun onTabReselected(tab: XTabLayout.Tab?) {
+
+                }
+
+                override fun onTabUnselected(tab: XTabLayout.Tab?) {
+                }
+
+                override fun onTabSelected(tab: XTabLayout.Tab?) {
+                    vp_gank.currentItem = tab!!.position
+                }
+
+            })
+        }
+
     }
 }
 

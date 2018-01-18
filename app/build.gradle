@@ -13,8 +13,8 @@ android {
         applicationId "com.f1reking.gank"
         minSdkVersion an.minSdkVersion
         targetSdkVersion an.targetSdkVersion
-        versionCode 1
-        versionName "0.1"
+        versionCode 10
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -47,6 +47,7 @@ dependencies {
     implementation dep.superAdapter
     implementation dep.PhotoView
     implementation dep.cardView
+    implementation dep.XTabLayout
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

@@ -7,17 +7,18 @@
     android:orientation="vertical"
     >
 
-    <android.support.design.widget.TabLayout
+    <com.androidkun.xtablayout.XTabLayout
         android:id="@+id/tab_gank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorPrimary"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabTextColor="@color/text"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:xTabDividerWidthWidthText="true"
+        app:xTabIndicatorColor="@color/colorPrimary"
+        app:xTabIndicatorHeight="2dp"
+        app:xTabMode="scrollable"
+        app:xTabSelectedTextColor="@color/colorPrimary"
+        app:xTabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:xTabTextColor="@color/text"
         />
 
     <View
