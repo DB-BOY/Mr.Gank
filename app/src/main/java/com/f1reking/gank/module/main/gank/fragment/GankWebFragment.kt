@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.f1reking.gank.R
-import com.f1reking.gank.base.BaseFragment
+import com.f1reking.gank.base.LazyFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
@@ -24,7 +24,7 @@ import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
  * @date: 2018/1/15 22:31
  * @desc:
  */
-class GankWebFragment : BaseFragment(), PullLoadMoreListener {
+class GankWebFragment : LazyFragment(), PullLoadMoreListener {
 
     companion object {
         val TYPE = "前端"
@@ -33,7 +33,6 @@ class GankWebFragment : BaseFragment(), PullLoadMoreListener {
     private var layout: View? = null
     private val datas = mutableListOf<GankEntity>()
     private var page: Int = 1
-    private lateinit var type: String
 
     private val mGankAdapter: GankListAdapter by lazy {
         GankListAdapter(activity!!, datas)
@@ -72,6 +71,9 @@ class GankWebFragment : BaseFragment(), PullLoadMoreListener {
                 }
             })
         }
+    }
+
+    override fun onFirstUserVisible() {
         rv_gank.setRefreshing(true)
         loadGankList()
     }

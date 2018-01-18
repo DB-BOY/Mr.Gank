@@ -72,7 +72,7 @@ class GankFragment : BaseFragment() {
         }
         vp_gank.run {
             vp_gank.adapter = pagerAdapter
-            vp_gank.offscreenPageLimit = 6
+            vp_gank.offscreenPageLimit = 7
             vp_gank.addOnPageChangeListener(object : OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {
                 }

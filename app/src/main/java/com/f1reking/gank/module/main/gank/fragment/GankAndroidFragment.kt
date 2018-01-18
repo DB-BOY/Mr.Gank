@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.f1reking.gank.R
-import com.f1reking.gank.base.BaseFragment
+import com.f1reking.gank.base.LazyFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
@@ -24,7 +24,7 @@ import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
  * @date: 2018/1/15 22:27
  * @desc:
  */
-class GankAndroidFragment : BaseFragment(), PullLoadMoreListener {
+class GankAndroidFragment : LazyFragment(), PullLoadMoreListener {
 
     companion object {
         val TYPE = "Android"
@@ -33,7 +33,6 @@ class GankAndroidFragment : BaseFragment(), PullLoadMoreListener {
     private var layout: View? = null
     private val datas = mutableListOf<GankEntity>()
     private var page: Int = 1
-    private lateinit var type: String
 
     private val mGankAdapter: GankListAdapter by lazy {
         GankListAdapter(activity!!, datas)
@@ -45,6 +44,7 @@ class GankAndroidFragment : BaseFragment(), PullLoadMoreListener {
         layout = inflater.inflate(R.layout.fragment_gank_android, container, false)
         return layout
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -62,7 +62,6 @@ class GankAndroidFragment : BaseFragment(), PullLoadMoreListener {
                                              p3: Int): Boolean {
                     return true
                 }
-
                 override fun onItemClick(p0: ViewGroup?,
                                          p1: View?,
                                          p2: GankEntity?,
@@ -70,12 +69,15 @@ class GankAndroidFragment : BaseFragment(), PullLoadMoreListener {
 
                     WebActivity.newIntent(activity!!, p2!!.url, p2.desc)
                 }
+
             })
         }
+    }
+
+    override fun onFirstUserVisible() {
         rv_gank.setRefreshing(true)
         loadGankList()
     }
-
     private fun loadGankList() {
         ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
             RxScheduler.compose()).doOnSubscribe {
