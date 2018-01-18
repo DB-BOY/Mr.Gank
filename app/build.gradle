@@ -6,6 +6,14 @@ apply plugin: 'kotlin-kapt'
 def dep = rootProject.ext.dependencies
 def an = rootProject.ext.android
 
+static def appName() {
+    return "MrGank"
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getDefault())
+}
+
 android {
     compileSdkVersion an.compileSdkVersion
     buildToolsVersion an.buildToolsVersion
@@ -15,19 +23,47 @@ android {
         targetSdkVersion an.targetSdkVersion
         versionCode 10
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        ndk {
+            abiFilters 'armeabi', 'x86'
+        }
     }
+
+    Properties props = new Properties()
+    props.load(new FileInputStream(file("signing.properties")))
+    signingConfigs {
+        release {
+            keyAlias props['KEY_ALIAS']
+            keyPassword props['KEY_PASSWORD']
+            storeFile file(props['KEYSTORE_FILE'])
+            storePassword props['KEYSTORE_PASSWORD']
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                        def fileNames = "${appName()}_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${releaseTime()}.apk"
+                        outputFileName = fileNames
+                    }
+                }
+            }
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation project(":third-party")
     implementation dep.appcompatV7
     implementation dep.supportV4
@@ -44,11 +80,11 @@ dependencies {
     implementation dep.okhttp3
     implementation dep.okhttp3Logging
     implementation dep.bugly
+    implementation dep.multidex
     implementation dep.superAdapter
     implementation dep.PhotoView
     implementation dep.cardView
     implementation dep.XTabLayout
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    debugImplementation dep.leakcanaryDebug
+    releaseImplementation dep.leakcanaryRelease
 }
