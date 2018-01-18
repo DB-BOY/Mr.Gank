@@ -12,7 +12,5 @@ object Constant{
      */
     const val BASE_URL = "http://gank.io/api/data/"
 
-    const val KEY = "8804f8abee318535bd416e5fdda00e76"
-
     const val CONTENT_SHARE_TYPE = "text/plain"
 }
