@@ -3,10 +3,8 @@ package com.f1reking.gank.base
 import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
-import com.f1reking.gank.Constant
 import com.f1reking.gank.net.ApiClient
 import com.squareup.leakcanary.LeakCanary
-import com.tencent.bugly.Bugly
 
 /**
  * @author: huangyh
@@ -18,7 +16,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         ApiClient.instance.init()
-        Bugly.init(applicationContext, Constant.BUGLY_ID, true)
+        BuglyConfig.init(applicationContext)
         LeakCanary.install(this)
     }
 
