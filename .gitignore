@@ -7,3 +7,6 @@
 /build
 /captures
 .externalNativeBuild
+/app/MrGank.jks
+/app/signing.properties
+app/libs/
