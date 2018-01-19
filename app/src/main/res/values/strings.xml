@@ -22,6 +22,8 @@
     <string name="about_intro">Mr.Gank是一款kotlin语言写的app,提供IT技术分享内容及妹子图浏览。\n\n数据内容来源于 http://gank.io \n\n本项目GitHub: https://github.com/F1ReKing/Mr.Gank</string>
     <string name="share_app">我发现了[Mr.Gank]，这个App提供IT技术分享内容及妹子图浏览，推荐你也下载:\n https://github.com/F1ReKing/Mr.Gank</string>
     <string name="app_version">Version %1$s</string>
+    <string name="permission_help">需要给予权限才能正常使用，去打开权限吧</string>
+    <string name="snake_open">打开</string>
 
 
 </resources>

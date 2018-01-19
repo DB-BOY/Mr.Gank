@@ -86,6 +86,7 @@ dependencies {
     implementation dep.cardView
     implementation dep.XTabLayout
     implementation dep.bugly
+    implementation dep.rxpermissions2
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
 }

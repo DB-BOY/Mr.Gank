@@ -1,16 +1,23 @@
 package com.f1reking.gank.module.main.meizi
 
+import android.Manifest
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
+import android.support.design.widget.Snackbar
 import android.support.v4.view.ViewCompat
 import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.f1reking.gank.R
+import com.f1reking.gank.R.string
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.util.FileUtil
 import com.f1reking.gank.util.GlideApp
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_big_meizi.iv_pic
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
@@ -21,10 +28,14 @@ import kotlinx.android.synthetic.main.toolbar.toolbar
  */
 class BigMeiziActivity : BaseActivity() {
 
+    private val PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE)
+
     companion object {
         val EXTRA_URL = "mImageUrl"
         val TRANSIT_PIC = "picture"
         val EXTRA_TITLE = "title"
+        val CODE_PERMISSIONS = 101
     }
 
     private lateinit var mImageUrl: String
@@ -70,7 +81,7 @@ class BigMeiziActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_save -> {
-                FileUtil.saveImageToGallery(this, iv_pic, bitmap, title)
+                saveImage()
                 return true
             }
             R.id.menu_share -> {
@@ -79,6 +90,35 @@ class BigMeiziActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun saveImage() {
+        val permissions = RxPermissions(this)
+        permissions.request(*PERMISSIONS).subscribe { aBoolean ->
+            if (aBoolean!!) {
+                FileUtil.saveImageToGallery(this, iv_pic, bitmap, title)
+            } else {
+                showPermissionDialog()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int,
+                                  resultCode: Int,
+                                  data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CODE_PERMISSIONS) {
+            saveImage()
+        }
+    }
+
+    private fun showPermissionDialog() {
+        Snackbar.make(iv_pic, getString(string.permission_help), Snackbar.LENGTH_LONG).setAction(getString(
+                    string.snake_open)) {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = Uri.parse("package:" + packageName)
+            startActivityForResult(intent, CODE_PERMISSIONS)
+        }.show()
     }
 }
 
