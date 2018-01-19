@@ -1,11 +1,24 @@
 # Mr.Gank
-一个Kotlin写的Gank.App
+提供IT技术分享及妹子图分享
 
-#### 开发计划：
-[x]web界面历史回退与关闭   
-[x]妹子图片保存功能  
-[x]妹子图片分享功能  
-[x]完善关于界面功能    
+<center>![](http://7xplt3.com1.z0.glb.clouddn.com/20180119151635014238448.png)</center>
+
+#### 功能：
+1. 查看技术分享文章
+2. 保存妹子图及分享给微信QQ好友
+
+#### 下载：
+[https://www.pgyer.com/DuSY](https://www.pgyer.com/DuSY)   
+
+![](http://7xplt3.com1.z0.glb.clouddn.com/2018011915163513742965.png) 
+
+#### Todo：
+- [ ]提交资料
+- [ ]煎蛋妹子图
+- [ ]搜索功能
+- [ ]闲阅
+- [ ]夜间模式
+
 
 
 
