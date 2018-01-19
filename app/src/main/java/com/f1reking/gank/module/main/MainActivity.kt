@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import com.f1reking.gank.R
@@ -11,16 +12,19 @@ import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
 import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
+import com.f1reking.gank.toast
+import com.f1reking.gank.util.AppUtil
 import kotlinx.android.synthetic.main.activity_main.bottomNavigation
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
 class MainActivity : BaseActivity() {
 
     private var mGankFrament: GankFragment? = null
-    private var mHahaFragment: MeiziFragment? = null
+    private var mMeiziFragment: MeiziFragment? = null
     private val fragmentManager by lazy {
         supportFragmentManager
     }
+    private var exitTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +51,9 @@ class MainActivity : BaseActivity() {
                     add(R.id.ll_container, it)
                 }
             }
-            mHahaFragment ?: let {
+            mMeiziFragment ?: let {
                 MeiziFragment().let {
-                    mHahaFragment = it
+                    mMeiziFragment = it
                     add(R.id.ll_container, it)
                 }
             }
@@ -61,7 +65,7 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 R.id.nav_haha -> {
-                    mHahaFragment?.let {
+                    mMeiziFragment?.let {
                         this.show(it)
                     }
                 }
@@ -73,7 +77,7 @@ class MainActivity : BaseActivity() {
         mGankFrament?.let {
             transaction.hide(it)
         }
-        mHahaFragment?.let {
+        mMeiziFragment?.let {
             transaction.hide(it)
         }
     }
@@ -107,5 +111,20 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onKeyDown(keyCode: Int,
+                           event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                toast("再次点击退出 " + AppUtil.getAppName(this))
+                exitTime = System.currentTimeMillis()
+            } else {
+                finish()
+                System.exit(0)
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

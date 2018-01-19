@@ -19,5 +19,15 @@ class AppUtil {
             e.printStackTrace()
             null
         }
+
+        fun getAppName(context: Context): String? = try {
+            val packageManager = context.packageManager
+            val packageInfo = packageManager.getPackageInfo(context.packageName, 0)
+            val labelRes = packageInfo.applicationInfo.labelRes
+            context.resources.getString(labelRes)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            null
+        }
     }
 }
