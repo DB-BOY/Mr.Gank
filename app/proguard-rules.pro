@@ -39,7 +39,7 @@
 }
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 # 从glide4.0开始，GifDrawable没有提供getDecoder()方法，
 # 需要通过反射获取gifDecoder字段值，所以需要保持GifFrameLoader和GifState类不被混淆
@@ -78,6 +78,7 @@
 #bugly
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}
 
 #---------------------------------webview------------------------------------
 -keepclassmembers class fqcn.of.javascript.interface.for.Webview {
