@@ -1,7 +1,7 @@
 # Mr.Gank
 提供IT技术分享及妹子图分享
 
-<center>![](http://7xplt3.com1.z0.glb.clouddn.com/20180119151635014238448.png)</center>
+![](http://7xplt3.com1.z0.glb.clouddn.com/20180119151635014238448.png)
 
 #### 功能：
 1. 查看技术分享文章
