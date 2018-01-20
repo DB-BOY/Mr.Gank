@@ -109,6 +109,10 @@ class MainActivity : BaseActivity() {
                 startActivity(Intent(this@MainActivity, AboutActivity::class.java))
                 return true
             }
+            R.id.menu_search -> {
+
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
