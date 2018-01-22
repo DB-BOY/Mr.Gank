@@ -87,6 +87,7 @@ dependencies {
     implementation dep.XTabLayout
     implementation dep.bugly
     implementation dep.rxpermissions2
+    implementation dep.materialsearchview
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
 }

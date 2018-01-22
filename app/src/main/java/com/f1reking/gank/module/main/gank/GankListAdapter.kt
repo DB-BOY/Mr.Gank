@@ -19,6 +19,6 @@ class GankListAdapter(var context: Context,
                          entity: GankEntity?) {
         holder.setText(R.id.tv_title, entity?.desc)
         holder.setText(R.id.tv_time, entity?.publishedAt?.let { DateUtil.toDate(it) })
-        holder.setText(R.id.tv_author, "@" + entity?.who)
+        holder.setText(R.id.tv_author, """@${entity?.who}""")
     }
 }

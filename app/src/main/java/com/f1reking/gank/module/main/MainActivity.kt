@@ -14,7 +14,9 @@ import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.AppUtil
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_main.bottomNavigation
+import kotlinx.android.synthetic.main.activity_main.search_view
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
 class MainActivity : BaseActivity() {
@@ -100,6 +102,23 @@ class MainActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        val searchItem = menu.findItem(R.id.menu_search)
+        search_view.run {
+            setMenuItem(searchItem)
+            setHint("输入搜索内容")
+            setSuggestions(resources.getStringArray(R.array.query_suggestions))
+            setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+
+                    closeSearch()
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -117,11 +136,30 @@ class MainActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onMenuOpened(featureId: Int,
+                              menu: Menu?): Boolean {
+        if (menu != null) {
+            if (menu.javaClass.simpleName.endsWith("MenuBuilder", true)) {
+                try {
+                    val method = menu.javaClass.getDeclaredMethod("setOptionalIconsVisible",
+                        java.lang.Boolean.TYPE)
+                    method.isAccessible = true
+                    method.invoke(menu, true)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu)
+    }
+
     override fun onKeyDown(keyCode: Int,
                            event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                toast("再次点击退出 " + AppUtil.getAppName(this))
+            if (search_view.isSearchOpen) {
+                search_view.closeSearch()
+            } else if ((System.currentTimeMillis() - exitTime) > 2000) {
+                toast("""再次点击退出 ${AppUtil.getAppName(this)}""")
                 exitTime = System.currentTimeMillis()
             } else {
                 finish()
