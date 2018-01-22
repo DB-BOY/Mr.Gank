@@ -12,6 +12,7 @@ import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
 import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
+import com.f1reking.gank.module.search.SearchActivity
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.AppUtil
 import com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -109,7 +110,7 @@ class MainActivity : BaseActivity() {
             setSuggestions(resources.getStringArray(R.array.query_suggestions))
             setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-
+                    SearchActivity.newIntent(this@MainActivity, query!!)
                     closeSearch()
                     return true
                 }
