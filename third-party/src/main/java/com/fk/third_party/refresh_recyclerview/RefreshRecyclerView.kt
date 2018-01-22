@@ -20,7 +20,6 @@ import com.fk.third_party.R
  */
 class RefreshRecyclerView : LinearLayout {
     var recyclerView: RecyclerView? = null
-        private set
     private var swipeRefreshLayout: VpSwipeRefreshLayout? = null
     private var pullLoadMoreListener: PullLoadMoreListener? = null
     var isHasMore = true
@@ -46,7 +45,7 @@ class RefreshRecyclerView : LinearLayout {
      */
     var loadMoreEnable = true
     private var footerView: View? = null
-    private var mContext:Context?= null
+    private var mContext: Context? = null
     private var loadMoreText: TextView? = null
 
     val layoutManager: RecyclerView.LayoutManager

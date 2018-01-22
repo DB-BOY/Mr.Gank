@@ -15,6 +15,7 @@ import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
+import com.f1reking.gank.widget.GankItemDecoration
 import com.fk.third_party.refresh_recyclerview.RefreshRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
@@ -52,6 +53,9 @@ class GankRecommendFragment:LazyFragment(), PullLoadMoreListener {
             rv_gank.setLinearLayout()
             rv_gank.setOnPullLoadMoreListener(this@GankRecommendFragment)
             rv_gank.setAdapter(mGankAdapter)
+        }
+        rv_gank.recyclerView.run {
+            this!!.addItemDecoration(GankItemDecoration(activity!!))
         }
         mGankAdapter.run {
             mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {

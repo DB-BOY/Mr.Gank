@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="2dp"
     >
 
     <LinearLayout
@@ -12,41 +14,53 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        android:padding="10dp"
         >
 
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_pic"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--tools:src="@mipmap/ic_launcher"-->
-            <!--/>-->
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
             android:maxLines="2"
             android:text="被父亲责骂“不争气” 男子负气流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生"
             android:textColor="@color/title"
             android:textSize="16sp"
+            android:textStyle="bold"
             />
 
-        <TextView
-            android:id="@+id/tv_time"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="right"
-            android:text="2018-01-08 00:00"
-            android:textColor="@color/text"
-            android:textSize="14sp"
-            />
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                tools:text="2018-01-08 00:00"
+                android:textColor="@color/text"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentRight="true"
+                tools:text="2018-01-08 00:00"
+                android:textColor="@color/text"
+                android:textSize="14sp"
+                />
+
+
+        </RelativeLayout>
+
+
 
     </LinearLayout>
 
