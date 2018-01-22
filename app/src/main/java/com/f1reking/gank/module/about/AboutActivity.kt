@@ -5,8 +5,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
-import com.f1reking.gank.util.AppUtil
-import com.f1reking.gank.util.ShareUtil
+import com.f1reking.gank.util.AppUtils
+import com.f1reking.gank.util.ShareUtils
 import kotlinx.android.synthetic.main.activity_about.tv_version
 
 /**
@@ -26,7 +26,7 @@ class AboutActivity : BaseActivity() {
         setToolbarTitle("")
         tv_version.run {
             tv_version.text = String.format(getString(R.string.app_version),
-                AppUtil.getVersionName(this@AboutActivity))
+                AppUtils.getVersionName(this@AboutActivity))
         }
     }
 
@@ -38,7 +38,7 @@ class AboutActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_share -> {
-                ShareUtil.shareText(this, getString(R.string.share_app), "推荐给好友")
+                ShareUtils.shareText(this, getString(R.string.share_app), "推荐给好友")
                 return true
             }
         }

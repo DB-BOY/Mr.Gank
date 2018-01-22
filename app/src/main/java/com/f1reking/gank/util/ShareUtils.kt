@@ -9,7 +9,7 @@ import com.f1reking.gank.Constant
  * @date: 2018/1/18 16:05
  * @desc:
  */
-class ShareUtil {
+class ShareUtils {
 
     companion object {
 

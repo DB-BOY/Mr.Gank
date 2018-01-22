@@ -10,7 +10,7 @@ object Constant {
     /**
      * baseUrl
      */
-    const val BASE_URL = "http://gank.io/api/data/"
+    const val BASE_URL = "http://gank.io/api/"
 
     const val CONTENT_SHARE_TYPE = "text/plain"
 

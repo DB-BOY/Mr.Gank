@@ -3,16 +3,30 @@ package com.f1reking.gank.module.search
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.entity.ApiErrorModel
+import com.f1reking.gank.entity.GankEntity
+import com.f1reking.gank.entity.HttpEntity
+import com.f1reking.gank.module.main.gank.GankListAdapter
+import com.f1reking.gank.module.web.WebActivity
+import com.f1reking.gank.net.ApiClient
+import com.f1reking.gank.net.ApiResponse
+import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
+import com.f1reking.gank.widget.GankItemDecoration
+import com.fk.third_party.refresh_recyclerview.RefreshRecyclerView.PullLoadMoreListener
+import kotlinx.android.synthetic.main.activity_search.rv_search
+import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: huangyh
  * @date: 2018/1/22 17:29
  * @desc:
  */
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity(), PullLoadMoreListener {
 
     companion object {
         const val EXTRA_QUERY = "query"
@@ -26,6 +40,12 @@ class SearchActivity : BaseActivity() {
     }
 
     private lateinit var query: String
+    private val datas = mutableListOf<GankEntity>()
+    private var page: Int = 1
+
+    private val mGankAdapter: GankListAdapter by lazy {
+        GankListAdapter(this, datas)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +55,68 @@ class SearchActivity : BaseActivity() {
 
     private fun initView() {
         setToolbarTitle("搜索结果")
-        toast(intent.getStringExtra(EXTRA_QUERY))
+        query = intent.getStringExtra(EXTRA_QUERY)
+        rv_search.run {
+            setColorSchemeResources(R.color.colorPrimary)
+            setLinearLayout()
+            setOnPullLoadMoreListener(this@SearchActivity)
+            setAdapter(mGankAdapter)
+        }
+        rv_search.recyclerView.run {
+            this!!.addItemDecoration(GankItemDecoration(this@SearchActivity))
+        }
+        mGankAdapter.run {
+            mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
+                override fun onItemLongClick(p0: ViewGroup?,
+                                             p1: View?,
+                                             p2: GankEntity?,
+                                             p3: Int): Boolean {
+                    return true
+                }
+
+                override fun onItemClick(p0: ViewGroup?,
+                                         p1: View?,
+                                         p2: GankEntity?,
+                                         p3: Int) {
+                    WebActivity.newIntent(this@SearchActivity, p2!!.url, p2.desc)
+                    finish()
+                }
+            })
+        }
+        queryGankList()
+    }
+
+    private fun queryGankList() {
+        ApiClient.instance.mService.queryGankList(query, 10, page).compose(
+            RxScheduler.compose()).doOnSubscribe {
+            rv_search.setRefreshing(true)
+        }.doAfterTerminate { rv_search.setPullLoadMoreCompleted() }.subscribe(object :
+            ApiResponse<HttpEntity>(this@SearchActivity) {
+            override fun success(data: HttpEntity) {
+                if (page == 1) {
+                    mGankAdapter.clear()
+                }
+                mGankAdapter.addAll(data.results)
+            }
+
+            override fun failure(statusCode: Int,
+                                 apiErrorModel: ApiErrorModel) {
+                toast(apiErrorModel.msg)
+            }
+        })
+    }
+
+    override fun onRefresh() {
+        page = 1
+        queryGankList()
+    }
+
+    override fun onBackTop() {
+    }
+
+    override fun onLoadMore() {
+        rv_search.setFooterViewGone()
+        ++page
+        queryGankList()
     }
 }

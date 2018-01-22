@@ -6,4 +6,10 @@
 
     <include layout="@layout/toolbar"/>
 
+    <com.fk.third_party.refresh_recyclerview.RefreshRecyclerView
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
 </LinearLayout>

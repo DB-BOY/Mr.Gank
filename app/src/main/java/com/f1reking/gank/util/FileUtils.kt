@@ -25,7 +25,7 @@ import java.io.IOException
  * @date: 2018/1/17 13:39
  * @desc:
  */
-class FileUtil {
+class FileUtils {
 
     companion object {
 

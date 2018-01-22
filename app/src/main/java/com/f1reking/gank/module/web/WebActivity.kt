@@ -19,7 +19,7 @@ import android.webkit.WebViewClient
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.toast
-import com.f1reking.gank.util.ShareUtil
+import com.f1reking.gank.util.ShareUtils
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_web.sr_gank
 import kotlinx.android.synthetic.main.activity_web.wv_gank
@@ -129,7 +129,7 @@ class WebActivity : BaseActivity() {
                 return true
             }
             R.id.menu_share -> {
-                ShareUtil.shareText(this,getString(R.string.share_article_url, getString(R.string.app_name),
+                ShareUtils.shareText(this,getString(R.string.share_article_url, getString(R.string.app_name),
                     toolbar_title.text, webUrl),getString(R.string.share_title))
                 return true
             }

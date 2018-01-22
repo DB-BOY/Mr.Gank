@@ -14,7 +14,7 @@ import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
 import com.f1reking.gank.module.search.SearchActivity
 import com.f1reking.gank.toast
-import com.f1reking.gank.util.AppUtil
+import com.f1reking.gank.util.AppUtils
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_main.bottomNavigation
 import kotlinx.android.synthetic.main.activity_main.search_view
@@ -160,7 +160,7 @@ class MainActivity : BaseActivity() {
             if (search_view.isSearchOpen) {
                 search_view.closeSearch()
             } else if ((System.currentTimeMillis() - exitTime) > 2000) {
-                toast("""再次点击退出 ${AppUtil.getAppName(this)}""")
+                toast("""再次点击退出 ${AppUtils.getAppName(this)}""")
                 exitTime = System.currentTimeMillis()
             } else {
                 finish()

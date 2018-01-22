@@ -2,10 +2,8 @@ package com.f1reking.gank.net
 
 import com.f1reking.gank.entity.HttpEntity
 import io.reactivex.Observable
-import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Url
 
 /**
  * @author: huangyh
@@ -14,10 +12,11 @@ import retrofit2.http.Url
  */
 interface ApiService {
 
-    @GET("{type}/{num}/{page}")
+    @GET("data/{type}/{num}/{page}")
     fun getGankList(@Path("type") type: String, @Path("num") num: Int, @Path("page")
     page: Int): Observable<HttpEntity>
 
-    @GET
-    fun downloadPic(@Url fileUrl: String): Observable<ResponseBody>
+    @GET("search/query/{query}/category/all/count/{num}/page/{page}")
+    fun queryGankList(@Path("query") query: String, @Path("num") num: Int, @Path("page")
+    page: Int): Observable<HttpEntity>
 }

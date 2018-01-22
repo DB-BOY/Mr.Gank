@@ -8,7 +8,7 @@ import android.content.pm.PackageManager
  * @date: 2018/1/18 11:36
  * @desc:
  */
-class AppUtil {
+class AppUtils {
 
     companion object {
         fun getVersionName(context: Context): String? = try {

@@ -15,7 +15,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.f1reking.gank.R
 import com.f1reking.gank.R.string
 import com.f1reking.gank.base.BaseActivity
-import com.f1reking.gank.util.FileUtil
+import com.f1reking.gank.util.FileUtils
 import com.f1reking.gank.util.GlideApp
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_big_meizi.iv_pic
@@ -85,7 +85,7 @@ class BigMeiziActivity : BaseActivity() {
                 return true
             }
             R.id.menu_share -> {
-                FileUtil.shareImage(this, bitmap)
+                FileUtils.shareImage(this, bitmap)
                 return true
             }
         }
@@ -96,7 +96,7 @@ class BigMeiziActivity : BaseActivity() {
         val permissions = RxPermissions(this)
         permissions.request(*PERMISSIONS).subscribe { aBoolean ->
             if (aBoolean!!) {
-                FileUtil.saveImageToGallery(this, iv_pic, bitmap, title)
+                FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
             } else {
                 showPermissionDialog()
             }
