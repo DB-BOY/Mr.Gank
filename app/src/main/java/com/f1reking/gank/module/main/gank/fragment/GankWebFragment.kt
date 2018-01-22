@@ -49,10 +49,10 @@ class GankWebFragment : LazyFragment(), PullLoadMoreListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         rv_gank.run {
-            rv_gank.setColorSchemeResources(R.color.colorPrimary)
-            rv_gank.setLinearLayout()
-            rv_gank.setOnPullLoadMoreListener(this@GankWebFragment)
-            rv_gank.setAdapter(mGankAdapter)
+            setColorSchemeResources(R.color.colorPrimary)
+            setLinearLayout()
+            setOnPullLoadMoreListener(this@GankWebFragment)
+            setAdapter(mGankAdapter)
         }
         rv_gank.recyclerView.run {
             this!!.addItemDecoration(GankItemDecoration(activity!!))
