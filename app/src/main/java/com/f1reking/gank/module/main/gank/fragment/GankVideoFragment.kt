@@ -61,17 +61,17 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
             mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
                 override fun onItemLongClick(p0: ViewGroup?,
                                              p1: View?,
-                                             p2: GankEntity?,
+                                             p2: GankEntity,
                                              p3: Int): Boolean {
                     return true
                 }
 
                 override fun onItemClick(p0: ViewGroup?,
                                          p1: View?,
-                                         p2: GankEntity?,
+                                         p2: GankEntity,
                                          p3: Int) {
 
-                    WebActivity.newIntent(activity!!, p2!!.url, p2.desc)
+                    WebActivity.newIntent(activity!!, p2)
                 }
             })
         }
@@ -86,20 +86,20 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
         ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
             RxScheduler.compose()).doOnSubscribe {
             rv_gank.setRefreshing(true)
-        }.doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(
-            object : ApiResponse<HttpEntity>(activity!!) {
-                override fun success(data: HttpEntity) {
-                    if (page == 1) {
-                        mGankAdapter.clear()
-                    }
-                    mGankAdapter.addAll(data.results)
+        }.doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(object :
+            ApiResponse<HttpEntity>(activity!!) {
+            override fun success(data: HttpEntity) {
+                if (page == 1) {
+                    mGankAdapter.clear()
                 }
+                mGankAdapter.addAll(data.results)
+            }
 
-                override fun failure(statusCode: Int,
-                                     apiErrorModel: ApiErrorModel) {
-                    activity!!.toast(apiErrorModel.msg)
-                }
-            })
+            override fun failure(statusCode: Int,
+                                 apiErrorModel: ApiErrorModel) {
+                activity!!.toast(apiErrorModel.msg)
+            }
+        })
     }
 
     override fun onRefresh() {

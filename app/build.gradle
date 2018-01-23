@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+
 def dep = rootProject.ext.dependencies
 def an = rootProject.ext.android
 
@@ -26,6 +27,13 @@ android {
         multiDexEnabled true
         ndk {
             abiFilters 'armeabi', 'x86'
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                 "$projectDir/schemas".toString()]
+            }
         }
     }
 
@@ -59,6 +67,14 @@ android {
             }
         }
     }
+
+    kapt {
+        generateStubs = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
@@ -90,4 +106,6 @@ dependencies {
     implementation dep.materialsearchview
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
+    implementation dep.room
+    kapt dep.roomCompiler
 }

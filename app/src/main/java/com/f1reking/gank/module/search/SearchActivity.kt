@@ -77,9 +77,9 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
 
                 override fun onItemClick(p0: ViewGroup?,
                                          p1: View?,
-                                         p2: GankEntity?,
+                                         p2: GankEntity,
                                          p3: Int) {
-                    WebActivity.newIntent(this@SearchActivity, p2!!.url, p2.desc)
+                    WebActivity.newIntent(this@SearchActivity, p2)
                 }
             })
         }

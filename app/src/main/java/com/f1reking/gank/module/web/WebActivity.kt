@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +19,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.entity.CollectionEntity
+import com.f1reking.gank.entity.GankEntity
+import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.ShareUtils
 import com.tencent.bugly.crashreport.CrashReport
@@ -33,20 +37,18 @@ import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
 class WebActivity : BaseActivity() {
 
     companion object {
-        val EXTRA_URL = "webUrl"
-        val EXTRA_TITLE = "title"
+        val EXTRA_GANK = "gank"
 
         fun newIntent(context: Context,
-                      url: String,
-                      title: String) {
+                      gankEntity: GankEntity) {
             val intent = Intent(context, WebActivity::class.java)
-            intent.putExtra(WebActivity.EXTRA_URL, url)
-            intent.putExtra(WebActivity.EXTRA_TITLE, title)
+            intent.putExtra(WebActivity.EXTRA_GANK, gankEntity)
             context.startActivity(intent)
         }
     }
 
     private var webUrl: String? = null
+    private lateinit var gankEntity: GankEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +67,9 @@ class WebActivity : BaseActivity() {
 
     private fun initView() {
         setToolbarTitle("")
-        webUrl = intent.getStringExtra(EXTRA_URL)
-        toolbar_title.text = intent.getStringExtra(EXTRA_TITLE)
+        gankEntity = intent.getParcelableExtra(EXTRA_GANK)
+        webUrl = gankEntity.url
+        toolbar_title.text = gankEntity.desc
         sr_gank.run {
             sr_gank.isRefreshing = true
             sr_gank.setColorSchemeResources(R.color.colorPrimary)
@@ -82,7 +85,8 @@ class WebActivity : BaseActivity() {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled") private fun initWebSettings() {
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun initWebSettings() {
         val webSettings: WebSettings = wv_gank.settings
         webSettings.javaScriptEnabled = true
     }
@@ -115,6 +119,10 @@ class WebActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_web, menu)
+        if (AppDatabaseHelper.getInstance(this).queryCollectionById(
+                gankEntity._id!!).isNotEmpty()) {
+            menu.findItem(R.id.menu_collection).setIcon(R.drawable.ic_menu_star)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -129,8 +137,9 @@ class WebActivity : BaseActivity() {
                 return true
             }
             R.id.menu_share -> {
-                ShareUtils.shareText(this,getString(R.string.share_article_url, getString(R.string.app_name),
-                    toolbar_title.text, webUrl),getString(R.string.share_title))
+                ShareUtils.shareText(this,
+                    getString(R.string.share_article_url, getString(R.string.app_name),
+                        toolbar_title.text, webUrl), getString(R.string.share_title))
                 return true
             }
             R.id.menu_copy -> {
@@ -139,6 +148,25 @@ class WebActivity : BaseActivity() {
                 cm.primaryClip = clipData
                 toast("复制成功，可以发给好友")
                 return true
+            }
+            R.id.menu_collection -> {
+                if (AppDatabaseHelper.getInstance(this).queryCollectionById(
+                        gankEntity._id!!).isNotEmpty()) {
+                    AppDatabaseHelper.getInstance(this).delectCollection(
+                        AppDatabaseHelper.getInstance(this).queryCollectionById(
+                            gankEntity._id!!)[0])
+                    item.icon = ContextCompat.getDrawable(this, R.drawable.ic_munu_star_block)
+                    toast("取消收藏")
+                } else {
+                    val collectionEntity = CollectionEntity()
+                    collectionEntity._id = gankEntity._id!!
+                    collectionEntity.createdAt = gankEntity.createdAt!!
+                    collectionEntity.desc = gankEntity.desc!!
+                    collectionEntity.publishedAt = gankEntity.publishedAt!!
+                    AppDatabaseHelper.getInstance(this).insertColletion(collectionEntity)
+                    item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
+                    toast("已收藏")
+                }
             }
         }
         return super.onOptionsItemSelected(item)

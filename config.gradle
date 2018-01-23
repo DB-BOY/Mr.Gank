@@ -6,6 +6,7 @@ ext {
     leakcanaryVersion = '1.5.4'
     daggerVersion = '2.12'
     glideVersion = '4.5.0'
+    roomVersion = '1.0.0'
 
     android = [compileSdkVersion: 27,
                buildToolsVersion: '27.0.3',
@@ -73,5 +74,7 @@ ext {
                     dagger                   : "com.google.dagger:dagger:${daggerVersion}",
                     daggerCompiler           : "com.google.dagger:dagger-compiler:${daggerVersion}",
                     tiny                     : 'com.zxy.android:tiny:0.1.0',
-                    materialsearchview       : 'com.miguelcatalan:materialsearchview:1.4.0']
+                    materialsearchview       : 'com.miguelcatalan:materialsearchview:1.4.0',
+                    room                     : "android.arch.persistence.room:runtime:${roomVersion}",
+                    roomCompiler             : "android.arch.persistence.room:compiler:${roomVersion}"]
 }
