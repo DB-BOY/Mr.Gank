@@ -69,8 +69,9 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
             mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
                 override fun onItemLongClick(p0: ViewGroup?,
                                              p1: View?,
-                                             p2: GankEntity?,
+                                             p2: GankEntity,
                                              p3: Int): Boolean {
+                    //收藏
                     return true
                 }
 

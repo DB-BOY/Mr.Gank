@@ -6,6 +6,7 @@ package com.f1reking.gank.entity
  * @desc:
  */
 data class GankEntity(var _id: String,
+                      var ganhuo_id:String,
                       var createdAt: String,
                       var desc: String,
                       var publishedAt: String,
