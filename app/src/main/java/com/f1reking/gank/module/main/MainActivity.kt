@@ -137,23 +137,6 @@ class MainActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onMenuOpened(featureId: Int,
-                              menu: Menu?): Boolean {
-        if (menu != null) {
-            if (menu.javaClass.simpleName.endsWith("MenuBuilder", true)) {
-                try {
-                    val method = menu.javaClass.getDeclaredMethod("setOptionalIconsVisible",
-                        java.lang.Boolean.TYPE)
-                    method.isAccessible = true
-                    method.invoke(menu, true)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        return super.onMenuOpened(featureId, menu)
-    }
-
     override fun onKeyDown(keyCode: Int,
                            event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {

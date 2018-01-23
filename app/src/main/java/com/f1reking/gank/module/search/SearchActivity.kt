@@ -54,8 +54,8 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
     }
 
     private fun initView() {
-        setToolbarTitle("搜索结果")
         query = intent.getStringExtra(EXTRA_QUERY)
+        setToolbarTitle("搜索：" + query)
         rv_search.run {
             setColorSchemeResources(R.color.colorPrimary)
             setLinearLayout()
@@ -66,12 +66,11 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
             this!!.addItemDecoration(GankItemDecoration(this@SearchActivity))
         }
         mGankAdapter.run {
-            mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
+            setOnItemClickListener(object : OnItemClickListener<GankEntity> {
                 override fun onItemLongClick(p0: ViewGroup?,
                                              p1: View?,
                                              p2: GankEntity,
-                                             p3: Int): Boolean {
-                    //收藏
+                                             p3: Int): Boolean { //收藏
                     return true
                 }
 

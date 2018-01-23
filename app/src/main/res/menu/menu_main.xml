@@ -10,11 +10,21 @@
         />
 
     <item
+        android:id="@+id/menu_collection"
+        android:title="我的收藏"
+        android:orderInCategory="60"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_menu_collection"
+        />
+
+    <item
         android:id="@+id/menu_about"
-        android:orderInCategory="100"
+        android:orderInCategory="60"
         android:title="@string/about"
         app:showAsAction="never"
         android:icon="@mipmap/ic_launcher"
         />
+
+
 
 </menu>

@@ -36,18 +36,30 @@ class AppDatabaseHelper constructor(context: Context) {
         appDatabase.collectionDao().insert(collectionEntity)
     }
 
+    /**
+     * 删除
+     */
     fun delectCollection(collectionEntity: CollectionEntity) {
         appDatabase.collectionDao().delete(collectionEntity)
     }
 
+    /**
+     * 更新
+     */
     fun updateCollection(collectionEntity: CollectionEntity) {
         appDatabase.collectionDao().update(collectionEntity)
     }
 
+    /**
+     * 获取列表
+     */
     fun getCollectionList(): List<CollectionEntity> {
         return appDatabase.collectionDao().getCollectionList()
     }
 
+    /**
+     * 获取数据
+     */
     fun queryCollectionById(id:String):List<CollectionEntity>{
         return appDatabase.collectionDao().queryCollectionById(id)
     }

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/nav_new"
-        android:icon="@drawable/ic_menu_news"
+        android:icon="@drawable/ic_menu_gank"
         android:title="干货"/>
     <item
         android:id="@+id/nav_haha"

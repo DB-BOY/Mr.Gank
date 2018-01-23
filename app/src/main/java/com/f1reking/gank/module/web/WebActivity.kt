@@ -174,12 +174,12 @@ class WebActivity : BaseActivity() {
 
     override fun onKeyDown(keyCode: Int,
                            event: KeyEvent?): Boolean {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && wv_gank.canGoBack()) {
+        return if ((keyCode == KeyEvent.KEYCODE_BACK) && wv_gank.canGoBack()) {
             wv_gank.goBack()
-            return true
+            true
         } else {
             finish()
-            return false
+            false
         }
     }
 }
