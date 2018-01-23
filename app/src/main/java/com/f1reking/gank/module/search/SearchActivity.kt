@@ -79,7 +79,6 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
                                          p2: GankEntity?,
                                          p3: Int) {
                     WebActivity.newIntent(this@SearchActivity, p2!!.url, p2.desc)
-                    finish()
                 }
             })
         }

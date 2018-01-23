@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="10dp"
         >
 
 
@@ -22,6 +21,9 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:maxLines="2"
             android:text="被父亲责骂“不争气” 男子负气流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生"
             android:textColor="@color/title"
@@ -34,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
             >
 
             <TextView
@@ -42,9 +45,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/text"
-                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
                 tools:text="android"
+                android:background="@android:color/darker_gray"
+                android:padding="3dp"
                 />
 
             <TextView
@@ -55,6 +60,7 @@
                 android:textColor="@color/text"
                 android:textSize="14sp"
                 tools:text="F1ReKing"
+                android:layout_marginRight="10dp"
                 />
 
             <TextView
@@ -66,6 +72,7 @@
                 android:textColor="@color/text"
                 android:textSize="12sp"
                 tools:text="2018-01-08 00:00"
+                android:layout_marginRight="10dp"
                 />
 
 
