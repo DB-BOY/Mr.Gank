@@ -11,13 +11,8 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator") @Parcelize data class GankEntity(var _id: String?,
                                                                 var ganhuo_id: String?,
-                                                                var createdAt: String?,
                                                                 var desc: String?,
                                                                 var publishedAt: String?,
-                                                                var source: String?,
                                                                 var type: String?,
                                                                 var url: String?,
-                                                                var user: Boolean?,
-                                                                var who: String?,
-                                                                var images: MutableList<String>?) :
-    Parcelable {}
+                                                                var who: String?) : Parcelable

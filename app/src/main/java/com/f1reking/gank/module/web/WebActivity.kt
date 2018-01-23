@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -49,6 +50,7 @@ class WebActivity : BaseActivity() {
 
     private var webUrl: String? = null
     private lateinit var gankEntity: GankEntity
+    private var id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +70,11 @@ class WebActivity : BaseActivity() {
     private fun initView() {
         setToolbarTitle("")
         gankEntity = intent.getParcelableExtra(EXTRA_GANK)
+        id = if (!TextUtils.isEmpty(gankEntity._id)) {
+            gankEntity._id
+        } else {
+            gankEntity.ganhuo_id
+        }
         webUrl = gankEntity.url
         toolbar_title.text = gankEntity.desc
         sr_gank.run {
@@ -119,8 +126,7 @@ class WebActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_web, menu)
-        if (AppDatabaseHelper.getInstance(this).queryCollectionById(
-                gankEntity._id!!).isNotEmpty()) {
+        if (AppDatabaseHelper.getInstance(this).queryCollectionById(id!!).isNotEmpty()) {
             menu.findItem(R.id.menu_collection).setIcon(R.drawable.ic_menu_star)
         }
         return super.onCreateOptionsMenu(menu)
@@ -150,19 +156,19 @@ class WebActivity : BaseActivity() {
                 return true
             }
             R.id.menu_collection -> {
-                if (AppDatabaseHelper.getInstance(this).queryCollectionById(
-                        gankEntity._id!!).isNotEmpty()) {
+                if (AppDatabaseHelper.getInstance(this).queryCollectionById(id!!).isNotEmpty()) {
                     AppDatabaseHelper.getInstance(this).delectCollection(
-                        AppDatabaseHelper.getInstance(this).queryCollectionById(
-                            gankEntity._id!!)[0])
+                        AppDatabaseHelper.getInstance(this).queryCollectionById(id!!)[0])
                     item.icon = ContextCompat.getDrawable(this, R.drawable.ic_munu_star_block)
                     toast("取消收藏")
                 } else {
                     val collectionEntity = CollectionEntity()
-                    collectionEntity._id = gankEntity._id!!
-                    collectionEntity.createdAt = gankEntity.createdAt!!
+                    collectionEntity._id = id
                     collectionEntity.desc = gankEntity.desc!!
                     collectionEntity.publishedAt = gankEntity.publishedAt!!
+                    collectionEntity.type = gankEntity.type!!
+                    collectionEntity.url = gankEntity.url!!
+                    collectionEntity.who = gankEntity.who!!
                     AppDatabaseHelper.getInstance(this).insertColletion(collectionEntity)
                     item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
                     toast("已收藏")

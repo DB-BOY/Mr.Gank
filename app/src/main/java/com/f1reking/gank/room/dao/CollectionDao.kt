@@ -23,7 +23,7 @@ import com.f1reking.gank.entity.CollectionEntity
     @Update
     fun update(vararg collectionEntity: CollectionEntity): Int
 
-    @Query("SELECT * FROM collection")
+    @Query("SELECT * FROM collection ORDER BY id DESC")
     fun getCollectionList(): List<CollectionEntity>
 
     @Query("SELECT * FROM collection where _id=:id")

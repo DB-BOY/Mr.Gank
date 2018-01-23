@@ -60,7 +60,7 @@ class AppDatabaseHelper constructor(context: Context) {
     /**
      * 获取数据
      */
-    fun queryCollectionById(id:String):List<CollectionEntity>{
+    fun queryCollectionById(id: String): List<CollectionEntity> {
         return appDatabase.collectionDao().queryCollectionById(id)
     }
 }

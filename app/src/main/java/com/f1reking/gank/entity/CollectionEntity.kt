@@ -12,25 +12,24 @@ import com.f1reking.gank.room.converter.Converters
  * @desc:
  */
 @Entity(tableName = "collection") @TypeConverters(Converters::class)
-data class CollectionEntity constructor(@PrimaryKey var _id: String) {
+data class CollectionEntity constructor(@PrimaryKey(autoGenerate = true) var id: Int) {
 
-    constructor() : this("")
+    constructor() : this(0)
 
-    @ColumnInfo(name = "createdAt") var createdAt: String? = null
+    @ColumnInfo(name = "_id") var _id: String? = null
 
     @ColumnInfo(name = "desc") var desc: String? = null
 
     @ColumnInfo(name = "publishedAt") var publishedAt: String? = null
-
-    @ColumnInfo(name = "source") var source: String? = null
 
     @ColumnInfo(name = "type") var type: String? = null
 
     @ColumnInfo(name = "url") var url: String? = null
 
     @ColumnInfo(name = "who") var who: String? = null
+
     override fun toString(): String {
-        return "CollectionEntity(_id='$_id', createdAt=$createdAt, desc=$desc, publishedAt=$publishedAt, source=$source, type=$type, url=$url, who=$who)"
+        return "CollectionEntity(id=$id, _id=$_id, desc=$desc, publishedAt=$publishedAt, type=$type, url=$url, who=$who)"
     }
 }
 

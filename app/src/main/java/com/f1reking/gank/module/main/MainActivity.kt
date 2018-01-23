@@ -10,6 +10,7 @@ import android.view.MenuItem
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
+import com.f1reking.gank.module.collection.MyCollectionActivity
 import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
 import com.f1reking.gank.module.search.SearchActivity
@@ -130,8 +131,10 @@ class MainActivity : BaseActivity() {
                 return true
             }
             R.id.menu_search -> {
-
                 return true
+            }
+            R.id.menu_collection->{
+                startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
