@@ -10,7 +10,15 @@
 4. 收藏好文
 
 #### 截图：
-![20180124151675895151245.png](http://7xplt3.com1.z0.glb.clouddn.com/20180124151675895151245.png)
+![20180124151675954080568.png](http://7xplt3.com1.z0.glb.clouddn.com/20180124151675954080568.png)
+
+![2018012415167595694418.png](http://7xplt3.com1.z0.glb.clouddn.com/2018012415167595694418.png)
+
+![20180124151675968184803.png](http://7xplt3.com1.z0.glb.clouddn.com/20180124151675968184803.png)
+
+![20180124151675963286332.png](http://7xplt3.com1.z0.glb.clouddn.com/20180124151675963286332.png)
+
+![20180124151675965516616.png](http://7xplt3.com1.z0.glb.clouddn.com/20180124151675965516616.png)
 
 #### 下载：
 [https://www.pgyer.com/DuSY](https://www.pgyer.com/DuSY)   
