@@ -13,7 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.fk.third_party.R
+import com.f1reking.gank.R
 
 /**
  * Created by HuangYH on 2016/5/3.
