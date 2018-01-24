@@ -16,7 +16,7 @@ import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.GankItemDecoration
-import com.fk.third_party.refresh_recyclerview.RefreshRecyclerView.PullLoadMoreListener
+import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 

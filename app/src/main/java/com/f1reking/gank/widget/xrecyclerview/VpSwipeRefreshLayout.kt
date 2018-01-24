@@ -1,4 +1,4 @@
-package com.fk.third_party.refresh_recyclerview
+package com.f1reking.gank.widget.xrecyclerview
 
 import android.content.Context
 import android.support.v4.widget.SwipeRefreshLayout

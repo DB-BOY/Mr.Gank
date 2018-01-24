@@ -6,7 +6,7 @@
 
     <include layout="@layout/toolbar"/>
 
-    <com.fk.third_party.refresh_recyclerview.RefreshRecyclerView
+    <com.f1reking.gank.widget.xrecyclerview.XRecyclerView
         android:id="@+id/rv_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

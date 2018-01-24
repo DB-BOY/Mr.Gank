@@ -1,4 +1,4 @@
-package com.fk.third_party.refresh_recyclerview
+package com.f1reking.gank.widget.xrecyclerview
 
 import android.content.Context
 import android.support.v4.widget.SwipeRefreshLayout
@@ -18,7 +18,7 @@ import com.fk.third_party.R
 /**
  * Created by HuangYH on 2016/5/3.
  */
-class RefreshRecyclerView : LinearLayout {
+class XRecyclerView : LinearLayout {
     var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: VpSwipeRefreshLayout? = null
     private var pullLoadMoreListener: PullLoadMoreListener? = null

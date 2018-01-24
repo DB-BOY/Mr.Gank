@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.fk.third_party.refresh_recyclerview.RefreshRecyclerView
+    <com.f1reking.gank.widget.xrecyclerview.XRecyclerView
         android:id="@+id/rv_meizi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

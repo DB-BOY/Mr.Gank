@@ -1,4 +1,4 @@
-package com.fk.third_party.refresh_recyclerview
+package com.f1reking.gank.widget.xrecyclerview
 
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -8,7 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 /**
  * Created by HuangYH on 2016/5/3.
  */
-class RecyclerViewOnScroll(private val mRefreshRecyclerView: RefreshRecyclerView) :
+class RecyclerViewOnScroll(private val mXRecyclerView: XRecyclerView) :
     RecyclerView.OnScrollListener() {
     var isTop: Boolean = false
 
@@ -33,17 +33,17 @@ class RecyclerViewOnScroll(private val mRefreshRecyclerView: RefreshRecyclerView
             firstVisibleItem = layoutManager.findFirstVisibleItemPositions(lastPositions)[0]
         }
         if (firstVisibleItem == 0) {
-            if (mRefreshRecyclerView.pullRefreshEnable) {
-                mRefreshRecyclerView.swipeRefreshEnable = true
+            if (mXRecyclerView.pullRefreshEnable) {
+                mXRecyclerView.swipeRefreshEnable = true
             }
-            mRefreshRecyclerView.isTop = true
+            mXRecyclerView.isTop = true
         } else {
-            mRefreshRecyclerView.isTop = false
-            mRefreshRecyclerView.swipeRefreshEnable = false
+            mXRecyclerView.isTop = false
+            mXRecyclerView.swipeRefreshEnable = false
         }
-        if (mRefreshRecyclerView.loadMoreEnable && !mRefreshRecyclerView.isRefresh && mRefreshRecyclerView.isHasMore && lastCompletelyVisibleItem == totalItemCount - 1 && !mRefreshRecyclerView.isLoadMore && (dx > 0 || dy > 0)) {
-            mRefreshRecyclerView.isLoadMore = true
-            mRefreshRecyclerView.loadMore()
+        if (mXRecyclerView.loadMoreEnable && !mXRecyclerView.isRefresh && mXRecyclerView.isHasMore && lastCompletelyVisibleItem == totalItemCount - 1 && !mXRecyclerView.isLoadMore && (dx > 0 || dy > 0)) {
+            mXRecyclerView.isLoadMore = true
+            mXRecyclerView.loadMore()
         }
     }
 

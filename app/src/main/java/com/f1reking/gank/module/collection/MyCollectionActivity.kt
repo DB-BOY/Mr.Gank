@@ -10,7 +10,7 @@ import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.widget.GankItemDecoration
-import com.fk.third_party.refresh_recyclerview.RefreshRecyclerView.PullLoadMoreListener
+import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.activity_my_collection.rv_collection
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 

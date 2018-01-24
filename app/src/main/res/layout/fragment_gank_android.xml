@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fk.third_party.refresh_recyclerview.RefreshRecyclerView
+<com.f1reking.gank.widget.xrecyclerview.XRecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rv_gank"
     android:layout_width="match_parent"
