@@ -45,10 +45,10 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         rv_meizi.run {
-            rv_meizi.setColorSchemeResources(R.color.colorPrimary)
-            rv_meizi.setStaggeredGridLayout(2)
-            rv_meizi.setOnPullLoadMoreListener(this@MeiziFragment)
-            rv_meizi.setAdapter(mMeiziAdapter)
+            setColorSchemeResources(R.color.colorPrimary)
+            setStaggeredGridLayout(2)
+            setOnPullLoadMoreListener(this@MeiziFragment)
+            setAdapter(mMeiziAdapter)
         }
         mMeiziAdapter.run {
             mMeiziAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {

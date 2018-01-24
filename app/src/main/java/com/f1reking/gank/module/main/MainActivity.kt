@@ -47,6 +47,14 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun onAttachFragment(fragment: android.support.v4.app.Fragment?) {
+        super.onAttachFragment(fragment)
+        when (fragment) {
+            is GankFragment -> mGankFrament ?: let { mGankFrament = fragment }
+            is MeiziFragment -> mMeiziFragment ?: let { mMeiziFragment = fragment }
+        }
+    }
+
     private fun setFragment(index: Int) {
         fragmentManager.beginTransaction().apply {
             mGankFrament ?: let {
@@ -133,7 +141,7 @@ class MainActivity : BaseActivity() {
             R.id.menu_search -> {
                 return true
             }
-            R.id.menu_collection->{
+            R.id.menu_collection -> {
                 startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
             }
         }

@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.view.Menu
 import android.view.MenuItem
@@ -55,7 +56,7 @@ class BigMeiziActivity : BaseActivity() {
         setToolbarTitle("")
         title = intent.getStringExtra(EXTRA_TITLE)
         toolbar.run {
-            toolbar.alpha = 0.7f
+            alpha = 0.7f
         }
         iv_pic.run {
             mImageUrl = intent.getStringExtra(EXTRA_URL)
@@ -113,8 +114,9 @@ class BigMeiziActivity : BaseActivity() {
     }
 
     private fun showPermissionDialog() {
-        Snackbar.make(iv_pic, getString(string.permission_help), Snackbar.LENGTH_LONG).setAction(getString(
-                    string.snake_open)) {
+        Snackbar.make(iv_pic, getString(string.permission_help),
+            Snackbar.LENGTH_LONG).setActionTextColor(
+            ContextCompat.getColor(this, R.color.white)).setAction(getString(string.snake_open)) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             intent.data = Uri.parse("package:" + packageName)
             startActivityForResult(intent, CODE_PERMISSIONS)
