@@ -62,30 +62,6 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
         rv_collection.recyclerView.run {
             this!!.addItemDecoration(GankItemDecoration(this@MyCollectionActivity))
         }
-//        mGankAdapter.run {
-//            setOnItemClickListener(object : OnItemClickListener<CollectionEntity> {
-//                override fun onItemLongClick(p0: ViewGroup?,
-//                                             p1: View?,
-//                                             p2: CollectionEntity?,
-//                                             p3: Int): Boolean {
-//                    return true
-//                }
-//
-//                override fun onItemClick(p0: ViewGroup?,
-//                                         p1: View?,
-//                                         p2: CollectionEntity,
-//                                         p3: Int) {
-//                    val gankEntity = GankEntity("", "", "", "", "", "", "")
-//                    gankEntity._id = p2._id
-//                    gankEntity.desc = p2.desc
-//                    gankEntity.type = p2.type
-//                    gankEntity.url = p2.url
-//                    gankEntity.who = p2.who
-//                    gankEntity.publishedAt = p2.publishedAt
-//                    WebActivity.newIntent(this@MyCollectionActivity, gankEntity)
-//                }
-//            })
-//        }
     }
 
     private fun getCollectionList() {
