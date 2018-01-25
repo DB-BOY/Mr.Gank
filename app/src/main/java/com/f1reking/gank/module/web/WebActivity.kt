@@ -92,7 +92,7 @@ class WebActivity : BaseActivity() {
             gankEntity.ganhuo_id
         }
         webUrl = gankEntity.url
-        toolbar_title.text = gankEntity.desc
+        toolbar_title.text = "加载中..."
         sr_gank.run {
             sr_gank.isRefreshing = true
             sr_gank.setColorSchemeResources(R.color.colorPrimary)
@@ -121,6 +121,12 @@ class WebActivity : BaseActivity() {
                 super.onProgressChanged(view, newProgress)
                 CrashReport.setJavascriptMonitor(view, true)
                 sr_gank.isRefreshing = newProgress != 100
+            }
+
+            override fun onReceivedTitle(view: WebView?,
+                                         title: String?) {
+                super.onReceivedTitle(view, title)
+                toolbar_title.text = title
             }
         }
     }
