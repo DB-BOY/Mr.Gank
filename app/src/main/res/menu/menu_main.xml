@@ -4,27 +4,25 @@
 
     <item
         android:id="@+id/menu_search"
-        android:title="搜索"
-        app:showAsAction="always"
         android:icon="@drawable/ic_menu_search"
+        android:title="搜索"
+        app:showAsAction="ifRoom"
         />
 
     <item
         android:id="@+id/menu_collection"
+        android:icon="@drawable/ic_bookmark"
         android:title="我的收藏"
-        android:orderInCategory="60"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_menu_collection"
+        app:showAsAction="ifRoom"
         />
 
     <item
         android:id="@+id/menu_about"
+        android:icon="@mipmap/ic_launcher"
         android:orderInCategory="60"
         android:title="@string/about"
         app:showAsAction="never"
-        android:icon="@mipmap/ic_launcher"
         />
-
 
 
 </menu>

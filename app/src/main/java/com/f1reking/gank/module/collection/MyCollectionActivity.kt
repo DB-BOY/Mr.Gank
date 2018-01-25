@@ -17,18 +17,13 @@
 package com.f1reking.gank.module.collection
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.entity.CollectionEntity
-import com.f1reking.gank.entity.GankEntity
-import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.activity_my_collection.rv_collection
-import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: F1ReKing
@@ -67,30 +62,30 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
         rv_collection.recyclerView.run {
             this!!.addItemDecoration(GankItemDecoration(this@MyCollectionActivity))
         }
-        mGankAdapter.run {
-            setOnItemClickListener(object : OnItemClickListener<CollectionEntity> {
-                override fun onItemLongClick(p0: ViewGroup?,
-                                             p1: View?,
-                                             p2: CollectionEntity?,
-                                             p3: Int): Boolean {
-                    return true
-                }
-
-                override fun onItemClick(p0: ViewGroup?,
-                                         p1: View?,
-                                         p2: CollectionEntity,
-                                         p3: Int) {
-                    val gankEntity = GankEntity("", "", "", "", "", "", "")
-                    gankEntity._id = p2._id
-                    gankEntity.desc = p2.desc
-                    gankEntity.type = p2.type
-                    gankEntity.url = p2.url
-                    gankEntity.who = p2.who
-                    gankEntity.publishedAt = p2.publishedAt
-                    WebActivity.newIntent(this@MyCollectionActivity, gankEntity)
-                }
-            })
-        }
+//        mGankAdapter.run {
+//            setOnItemClickListener(object : OnItemClickListener<CollectionEntity> {
+//                override fun onItemLongClick(p0: ViewGroup?,
+//                                             p1: View?,
+//                                             p2: CollectionEntity?,
+//                                             p3: Int): Boolean {
+//                    return true
+//                }
+//
+//                override fun onItemClick(p0: ViewGroup?,
+//                                         p1: View?,
+//                                         p2: CollectionEntity,
+//                                         p3: Int) {
+//                    val gankEntity = GankEntity("", "", "", "", "", "", "")
+//                    gankEntity._id = p2._id
+//                    gankEntity.desc = p2.desc
+//                    gankEntity.type = p2.type
+//                    gankEntity.url = p2.url
+//                    gankEntity.who = p2.who
+//                    gankEntity.publishedAt = p2.publishedAt
+//                    WebActivity.newIntent(this@MyCollectionActivity, gankEntity)
+//                }
+//            })
+//        }
     }
 
     private fun getCollectionList() {
