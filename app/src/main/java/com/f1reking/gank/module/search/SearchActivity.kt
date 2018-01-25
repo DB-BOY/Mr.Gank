@@ -19,15 +19,12 @@ package com.f1reking.gank.module.search
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
 import com.f1reking.gank.module.main.gank.GankListAdapter
-import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
@@ -35,7 +32,6 @@ import com.f1reking.gank.toast
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.activity_search.rv_search
-import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: F1ReKing
@@ -56,7 +52,7 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
     }
 
     private lateinit var query: String
-    private val datas = mutableListOf<GankEntity>()
+    private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
 
     private val mGankAdapter: GankListAdapter by lazy {
@@ -80,23 +76,6 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
         }
         rv_search.recyclerView.run {
             this!!.addItemDecoration(GankItemDecoration(this@SearchActivity))
-        }
-        mGankAdapter.run {
-            setOnItemClickListener(object : OnItemClickListener<GankEntity> {
-                override fun onItemLongClick(p0: ViewGroup?,
-                                             p1: View?,
-                                             p2: GankEntity,
-                                             p3: Int): Boolean { //收藏
-                    return true
-                }
-
-                override fun onItemClick(p0: ViewGroup?,
-                                         p1: View?,
-                                         p2: GankEntity,
-                                         p3: Int) {
-                    WebActivity.newIntent(this@SearchActivity, p2)
-                }
-            })
         }
         queryGankList()
     }

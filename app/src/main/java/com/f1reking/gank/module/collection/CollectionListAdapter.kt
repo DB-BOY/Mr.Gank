@@ -44,7 +44,7 @@ class CollectionListAdapter(var context: Context,
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
-        val EMPTY_VIEW = 1
+        const val EMPTY_VIEW = 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?,
@@ -88,7 +88,7 @@ class CollectionListAdapter(var context: Context,
         }
     }
 
-    open fun clear() {
+    fun clear() {
         data.clear()
         notifyDataSetChanged()
     }
@@ -98,7 +98,7 @@ class CollectionListAdapter(var context: Context,
         notifyDataSetChanged()
     }
 
-    class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
+    class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     inner class GankViewHolder(view: View) : RecyclerView.ViewHolder(view), OnClickListener {
 

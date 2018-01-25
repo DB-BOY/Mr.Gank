@@ -26,7 +26,6 @@ import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
 import com.f1reking.gank.module.main.gank.GankListAdapter
-import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
@@ -34,7 +33,6 @@ import com.f1reking.gank.toast
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
-import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: F1ReKing
@@ -48,7 +46,7 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
     }
 
     private var layout: View? = null
-    private val datas = mutableListOf<GankEntity>()
+    private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
 
     private val mGankAdapter: GankListAdapter by lazy {
@@ -72,24 +70,6 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
         }
         rv_gank.recyclerView.run {
             this!!.addItemDecoration(GankItemDecoration(activity!!))
-        }
-        mGankAdapter.run {
-            mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
-                override fun onItemLongClick(p0: ViewGroup?,
-                                             p1: View?,
-                                             p2: GankEntity,
-                                             p3: Int): Boolean {
-                    return true
-                }
-
-                override fun onItemClick(p0: ViewGroup?,
-                                         p1: View?,
-                                         p2: GankEntity,
-                                         p3: Int) {
-
-                    WebActivity.newIntent(activity!!, p2)
-                }
-            })
         }
     }
 

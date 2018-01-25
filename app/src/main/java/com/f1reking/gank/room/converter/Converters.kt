@@ -28,7 +28,7 @@ class Converters {
 
     @TypeConverter
     fun arrayToString(array: Array<String>): String {
-        if (array == null || array.size === 0) {
+        if (0 === array.size) {
             return ""
         }
 
