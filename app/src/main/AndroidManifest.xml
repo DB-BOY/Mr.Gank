@@ -40,6 +40,7 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".module.search.SearchActivity"/>
         <activity android:name=".module.collection.MyCollectionActivity"/>
+        <activity android:name=".module.LaunchActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
