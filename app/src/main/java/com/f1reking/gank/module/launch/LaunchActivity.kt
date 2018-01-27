@@ -19,12 +19,18 @@ package com.f1reking.gank.module.launch
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
+import android.view.animation.AnimationSet
+import android.view.animation.ScaleAnimation
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.main.MainActivity
-import com.f1reking.gank.net.RxScheduler
-import io.reactivex.Observable
-import java.util.concurrent.TimeUnit.SECONDS
+import kotlinx.android.synthetic.main.activity_launch.iv_launch
+
+
+
+
 
 /**
  * @author: F1ReKing
@@ -42,9 +48,26 @@ class LaunchActivity : BaseActivity() {
     }
 
     private fun initView() {
-        Observable.timer(2, SECONDS).compose(RxScheduler.compose()).subscribe({
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+        val scaleAnimation = ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f)
+        scaleAnimation.duration = 2000
+        scaleAnimation.fillAfter = true
+        val animationSet = AnimationSet(true)
+        animationSet.addAnimation(scaleAnimation)
+        iv_launch.startAnimation(animationSet)
+        animationSet.setAnimationListener(object :AnimationListener{
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                startActivity(Intent(this@LaunchActivity, MainActivity::class.java))
+                finish()
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
         })
+
     }
 }
