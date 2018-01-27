@@ -16,12 +16,18 @@
 
 package com.f1reking.gank.module.launch
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.module.main.MainActivity
+import com.f1reking.gank.net.RxScheduler
+import io.reactivex.Observable
+import java.util.concurrent.TimeUnit.SECONDS
 
 /**
- * @author: huangyh
+ * @author: F1ReKing
  * @date: 2018/1/26 17:36
  * @desc: 启动界面
  */
@@ -29,6 +35,16 @@ class LaunchActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_launch)
+        initView()
+    }
+
+    private fun initView() {
+        Observable.timer(2, SECONDS).compose(RxScheduler.compose()).subscribe({
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        })
     }
 }
