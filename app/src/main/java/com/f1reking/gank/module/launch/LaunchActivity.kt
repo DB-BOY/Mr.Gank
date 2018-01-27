@@ -18,6 +18,7 @@ package com.f1reking.gank.module.launch
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -43,6 +44,7 @@ class LaunchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_launch)
         initView()
     }

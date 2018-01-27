@@ -102,7 +102,7 @@ class BigMeiziActivity : BaseActivity() {
                 return true
             }
             R.id.menu_share -> {
-                FileUtils.shareImage(this, bitmap)
+                shareImage()
                 return true
             }
         }
@@ -120,12 +120,22 @@ class BigMeiziActivity : BaseActivity() {
         }
     }
 
+    private fun shareImage(){
+        val permissions = RxPermissions(this)
+        permissions.request(*PERMISSIONS).subscribe { aBoolean ->
+            if (aBoolean!!) {
+                FileUtils.shareImage(this, bitmap)
+            } else {
+                showPermissionDialog()
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int,
                                   resultCode: Int,
                                   data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CODE_PERMISSIONS) {
-            saveImage()
         }
     }
 
