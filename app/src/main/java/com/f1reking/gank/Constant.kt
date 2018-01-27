@@ -23,12 +23,8 @@ package com.f1reking.gank
  */
 object Constant {
 
-    /**
-     * baseUrl
-     */
     const val BASE_URL = "http://gank.io/api/"
 
     const val CONTENT_SHARE_TYPE = "text/plain"
 
-    const val BUGLY_ID = "144d502f1b"
 }

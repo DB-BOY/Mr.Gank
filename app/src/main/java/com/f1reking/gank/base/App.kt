@@ -32,7 +32,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         ApiClient.instance.init()
-        BuglyConfig.init(applicationContext)
         LeakCanary.install(this)
     }
 

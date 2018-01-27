@@ -16,14 +16,14 @@
 
 package com.f1reking.gank.base
 
-import android.support.v4.app.Fragment
+import com.trello.rxlifecycle2.components.support.RxFragment
 
 /**
  * @author: F1ReKing
  * @date: 2018/1/4 15:58
  * @desc:
  */
-open class BaseFragment : Fragment() {
+open class BaseFragment : RxFragment() {
 
 
 }

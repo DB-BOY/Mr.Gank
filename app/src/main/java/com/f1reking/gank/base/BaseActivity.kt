@@ -18,16 +18,16 @@ package com.f1reking.gank.base
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import com.f1reking.gank.R
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 
 /**
  * @author: F1ReKing
  * @date: 2018/1/4 15:58
  * @desc:
  */
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : RxAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

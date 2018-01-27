@@ -41,7 +41,6 @@ import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.ShareUtils
-import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_web.sr_gank
 import kotlinx.android.synthetic.main.activity_web.wv_gank
 import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
@@ -119,7 +118,6 @@ class WebActivity : BaseActivity() {
             override fun onProgressChanged(view: WebView,
                                            newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
-                CrashReport.setJavascriptMonitor(view, true)
                 sr_gank.isRefreshing = newProgress != 100
             }
 
@@ -158,7 +156,7 @@ class WebActivity : BaseActivity() {
         when (item.itemId) {
             R.id.menu_browser -> {
                 Intent().run {
-                    action = "android.intent.action.VIEW"
+                    action = Intent.ACTION_VIEW
                     data = Uri.parse(webUrl)
                     startActivity(this)
                 }
@@ -174,7 +172,7 @@ class WebActivity : BaseActivity() {
                 val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newRawUri("Mr.gank", Uri.parse(wv_gank.url))
                 cm.primaryClip = clipData
-                toast("复制成功，可以发给好友")
+                toast(getString(R.string.share_copy))
                 return true
             }
             R.id.menu_collection -> {
@@ -182,7 +180,7 @@ class WebActivity : BaseActivity() {
                     AppDatabaseHelper.getInstance(this).delectCollection(
                         AppDatabaseHelper.getInstance(this).queryCollectionById(id!!)[0])
                     item.icon = ContextCompat.getDrawable(this, R.drawable.ic_munu_star_block)
-                    toast("取消收藏")
+                    toast(getString(R.string.fav_cancel))
                 } else {
                     val collectionEntity = CollectionEntity()
                     collectionEntity._id = id
@@ -193,7 +191,7 @@ class WebActivity : BaseActivity() {
                     collectionEntity.who = gankEntity.who!!
                     AppDatabaseHelper.getInstance(this).insertColletion(collectionEntity)
                     item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
-                    toast("已收藏")
+                    toast(getString(R.string.fav_submit))
                 }
             }
         }

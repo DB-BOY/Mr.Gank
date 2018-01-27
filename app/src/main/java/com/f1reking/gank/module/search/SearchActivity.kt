@@ -31,6 +31,7 @@ import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_search.rv_search
 
 /**
@@ -82,7 +83,7 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
 
     private fun queryGankList() {
         ApiClient.instance.mService.queryGankList(query, 10, page).compose(
-            RxScheduler.compose()).doOnSubscribe {
+            RxScheduler.compose()).bindToLifecycle(this).doOnSubscribe {
             rv_search.setRefreshing(true)
         }.doAfterTerminate { rv_search.setPullLoadMoreCompleted() }.subscribe(object :
             ApiResponse<HttpEntity>(this@SearchActivity) {

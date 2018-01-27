@@ -32,6 +32,7 @@ import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
 
 /**
@@ -78,7 +79,8 @@ class GankAppFragment : LazyFragment(), PullLoadMoreListener {
 
     private fun loadGankList() {
         ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
-            RxScheduler.compose()).doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(object :
+            RxScheduler.compose()).bindToLifecycle(
+            this).doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(object :
             ApiResponse<HttpEntity>(activity!!) {
             override fun success(data: HttpEntity) {
                 if (page == 1) {

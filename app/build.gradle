@@ -31,8 +31,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation":
-                                 "$projectDir/schemas".toString()]
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
     }
@@ -94,15 +93,15 @@ dependencies {
     implementation dep.gson
     implementation dep.okhttp3
     implementation dep.okhttp3Logging
-    implementation dep.bugly
     implementation dep.multidex
     implementation dep.superAdapter
     implementation dep.PhotoView
     implementation dep.cardView
     implementation dep.XTabLayout
-    implementation dep.bugly
     implementation dep.rxpermissions2
     implementation dep.materialsearchview
+    implementation dep.rxlifecycleKotlin
+    implementation dep.rxlifecycleComponents
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
     implementation dep.room

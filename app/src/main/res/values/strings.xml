@@ -25,5 +25,8 @@
     <string name="permission_help">需要给予权限才能正常使用，去打开权限吧</string>
     <string name="snake_open">打开</string>
     <string name="load_more_text">正在加载…</string>
+    <string name="fav_cancel">取消收藏</string>
+    <string name="fav_submit">已收藏</string>
+    <string name="share_copy">复制成功，可以发给好友</string>
 
 </resources>

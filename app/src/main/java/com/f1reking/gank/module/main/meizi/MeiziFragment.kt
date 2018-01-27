@@ -36,6 +36,7 @@ import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_meizi.rv_meizi
 
 /**
@@ -98,7 +99,8 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
     private fun loadMeiziList() {
         ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
-            RxScheduler.compose()).doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(object :
+            RxScheduler.compose()).bindToLifecycle(
+            this).doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(object :
             ApiResponse<HttpEntity>(activity!!) {
             override fun success(data: HttpEntity) {
                 if (page == 1) {
