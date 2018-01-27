@@ -34,7 +34,6 @@ import com.f1reking.gank.module.main.gank.fragment.GankVideoFragment
 import com.f1reking.gank.module.main.gank.fragment.GankWebFragment
 import com.f1reking.gank.module.main.gank.fragment.GankiOSFragment
 import kotlinx.android.synthetic.main.fragment_gank.tab_gank
-import kotlinx.android.synthetic.main.fragment_gank.view.tab_gank
 import kotlinx.android.synthetic.main.fragment_gank.vp_gank
 
 /**
@@ -73,9 +72,9 @@ class GankFragment : BaseFragment() {
         val pagerAdapter = TabPagerAdapter(childFragmentManager, fragmentList,
             resources.getStringArray(R.array.tab_gank))
         vp_gank.run {
-            vp_gank.adapter = pagerAdapter
-            vp_gank.offscreenPageLimit = 7
-            vp_gank.addOnPageChangeListener(object : OnPageChangeListener {
+            adapter = pagerAdapter
+            offscreenPageLimit = 7
+            addOnPageChangeListener(object : OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {
                 }
 
@@ -89,8 +88,8 @@ class GankFragment : BaseFragment() {
             })
         }
         tab_gank.run {
-            tab_gank.setupWithViewPager(vp_gank)
-            tab_gank.setOnTabSelectedListener(object : OnTabSelectedListener {
+            setupWithViewPager(vp_gank)
+            setOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabReselected(tab: XTabLayout.Tab?) {
 
                 }
