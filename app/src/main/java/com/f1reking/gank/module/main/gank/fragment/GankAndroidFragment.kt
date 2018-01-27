@@ -41,9 +41,7 @@ import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
  */
 class GankAndroidFragment : LazyFragment(), PullLoadMoreListener {
 
-    companion object {
-        val TYPE = "Android"
-    }
+    private val TYPE = "Android"
 
     private var layout: View? = null
     private val datas = ArrayList<GankEntity>()
@@ -80,9 +78,7 @@ class GankAndroidFragment : LazyFragment(), PullLoadMoreListener {
 
     private fun loadGankList() {
         ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
-            RxScheduler.compose()).doOnSubscribe {
-            rv_gank.setRefreshing(true)
-        }.doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(object :
+            RxScheduler.compose()).doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(object :
             ApiResponse<HttpEntity>(activity!!) {
             override fun success(data: HttpEntity) {
                 if (page == 1) {
@@ -107,7 +103,6 @@ class GankAndroidFragment : LazyFragment(), PullLoadMoreListener {
     }
 
     override fun onLoadMore() {
-        rv_gank.setFooterViewGone()
         ++page
         loadGankList()
     }

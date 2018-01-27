@@ -41,9 +41,7 @@ import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
  */
 class GankAppFragment : LazyFragment(), PullLoadMoreListener {
 
-    companion object {
-        val TYPE = "App"
-    }
+    private val TYPE = "App"
 
     private var layout: View? = null
     private val datas = ArrayList<GankEntity>()
@@ -80,22 +78,20 @@ class GankAppFragment : LazyFragment(), PullLoadMoreListener {
 
     private fun loadGankList() {
         ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
-            RxScheduler.compose()).doOnSubscribe {
-            rv_gank.setRefreshing(true)
-        }.doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(
-            object : ApiResponse<HttpEntity>(activity!!) {
-                override fun success(data: HttpEntity) {
-                    if (page == 1) {
-                        mGankAdapter.clear()
-                    }
-                    mGankAdapter.addAll(data.results)
+            RxScheduler.compose()).doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(object :
+            ApiResponse<HttpEntity>(activity!!) {
+            override fun success(data: HttpEntity) {
+                if (page == 1) {
+                    mGankAdapter.clear()
                 }
+                mGankAdapter.addAll(data.results)
+            }
 
-                override fun failure(statusCode: Int,
-                                     apiErrorModel: ApiErrorModel) {
-                    activity!!.toast(apiErrorModel.msg)
-                }
-            })
+            override fun failure(statusCode: Int,
+                                 apiErrorModel: ApiErrorModel) {
+                activity!!.toast(apiErrorModel.msg)
+            }
+        })
     }
 
     override fun onRefresh() {
@@ -107,7 +103,6 @@ class GankAppFragment : LazyFragment(), PullLoadMoreListener {
     }
 
     override fun onLoadMore() {
-        rv_gank.setFooterViewGone()
         ++page
         loadGankList()
     }

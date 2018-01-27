@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:background="#7f000000"
+    android:background="#b3888888"
     >
 
     <ProgressBar
@@ -23,6 +23,7 @@
         android:paddingTop="10dp"
         android:textColor="#fff"
         android:text="@string/load_more_text"
+        android:textSize="14sp"
         />
 
 </LinearLayout>

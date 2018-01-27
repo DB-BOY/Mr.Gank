@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.f1reking.gank.module
+package com.f1reking.gank.module.launch
 
 import android.os.Bundle
 import com.f1reking.gank.R

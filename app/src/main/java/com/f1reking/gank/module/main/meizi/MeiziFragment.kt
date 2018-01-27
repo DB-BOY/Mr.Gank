@@ -20,21 +20,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.f1reking.gank.R
+import com.f1reking.gank.R.color
 import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
+import com.f1reking.gank.module.main.meizi.MeiziListAdapter.OnIntentListener
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_meizi.rv_meizi
-import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: F1ReKing
@@ -43,8 +45,9 @@ import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
  */
 class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
+    val TYPE = "福利"
     private var layout: View? = null
-    private val datas = mutableListOf<GankEntity>()
+    private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
 
     private val mMeiziAdapter: MeiziListAdapter by lazy {
@@ -60,30 +63,28 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initView()
+        loadMeiziList()
+    }
+
+    private fun initView() {
         rv_meizi.run {
-            setColorSchemeResources(R.color.colorPrimary)
-            setStaggeredGridLayout(2)
+            setColorSchemeResources(color.colorPrimary)
+            val layoutManager = GridLayoutManager(activity, 2)
+            recyclerView!!.layoutManager = layoutManager
+            mMeiziAdapter.setLayoutManage(layoutManager)
             setOnPullLoadMoreListener(this@MeiziFragment)
             setAdapter(mMeiziAdapter)
         }
         mMeiziAdapter.run {
-            mMeiziAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
-                override fun onItemLongClick(p0: ViewGroup?,
-                                             p1: View?,
-                                             p2: GankEntity?,
-                                             p3: Int): Boolean {
-                    return true
-                }
-
-                override fun onItemClick(p0: ViewGroup?,
-                                         p1: View?,
-                                         p2: GankEntity?,
-                                         p3: Int) {
+            setOnIntentListener(object : OnIntentListener {
+                override fun onClick(view: View,
+                                     gankEntity: GankEntity) {
                     val intent = Intent(activity!!, BigMeiziActivity::class.java)
-                    intent.putExtra(BigMeiziActivity.EXTRA_URL, p2?.url)
-                    intent.putExtra(BigMeiziActivity.EXTRA_TITLE, p2?._id)
+                    intent.putExtra(BigMeiziActivity.EXTRA_URL, gankEntity.url)
+                    intent.putExtra(BigMeiziActivity.EXTRA_TITLE, gankEntity._id)
                     val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity!!, p1!!, BigMeiziActivity.TRANSIT_PIC)
+                        activity!!, view, BigMeiziActivity.TRANSIT_PIC)
                     try {
                         ActivityCompat.startActivity(activity!!, intent, optionsCompat.toBundle())
                     } catch (e: IllegalArgumentException) {
@@ -93,28 +94,25 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                 }
             })
         }
-
-        loadMeiziList()
     }
 
     private fun loadMeiziList() {
-        ApiClient.instance.mService.getGankList("福利", 10, page).compose(
-            RxScheduler.compose()).doOnSubscribe {
-            rv_meizi.setRefreshing(true)
-        }.doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(
-            object : ApiResponse<HttpEntity>(activity!!) {
-                override fun success(data: HttpEntity) {
-                    if (page == 1) {
-                        mMeiziAdapter.clear()
-                    }
-                    mMeiziAdapter.addAll(data.results)
+        ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
+            RxScheduler.compose()).doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(object :
+            ApiResponse<HttpEntity>(activity!!) {
+            override fun success(data: HttpEntity) {
+                if (page == 1) {
+                    mMeiziAdapter.clear()
                 }
+                mMeiziAdapter.addAll(data.results)
+            }
 
-                override fun failure(statusCode: Int,
-                                     apiErrorModel: ApiErrorModel) {
-                    activity!!.toast(apiErrorModel.msg)
-                }
-            })
+            override fun failure(statusCode: Int,
+                                 apiErrorModel: ApiErrorModel) {
+                activity!!.toast(apiErrorModel.msg)
+                rv_meizi.setPullLoadMoreCompleted()
+            }
+        })
     }
 
     override fun onRefresh() {
@@ -126,7 +124,6 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     }
 
     override fun onLoadMore() {
-        rv_meizi.setFooterViewGone()
         ++page
         loadMeiziList()
     }
