@@ -53,7 +53,7 @@ import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
 class WebActivity : BaseActivity() {
 
     companion object {
-        val EXTRA_GANK = "gank"
+        const val EXTRA_GANK = "gank"
 
         fun newIntent(context: Context,
                       gankEntity: GankEntity) {
@@ -93,14 +93,14 @@ class WebActivity : BaseActivity() {
         webUrl = gankEntity.url
         toolbar_title.text = "加载中..."
         sr_gank.run {
-            sr_gank.isRefreshing = true
-            sr_gank.setColorSchemeResources(R.color.colorPrimary)
-            sr_gank.setOnRefreshListener {
+            isRefreshing = true
+            setColorSchemeResources(R.color.colorPrimary)
+            setOnRefreshListener {
                 wv_gank.reload()
             }
         }
         wv_gank.run {
-            wv_gank.loadUrl(webUrl)
+            loadUrl(webUrl)
             initWebSettings()
             initWebChromeClient()
             initWebViewClient()
@@ -110,7 +110,12 @@ class WebActivity : BaseActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebSettings() {
         val webSettings: WebSettings = wv_gank.settings
-        webSettings.javaScriptEnabled = true
+        webSettings.run {
+            javaScriptEnabled = true
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            }
+        }
     }
 
     private fun initWebChromeClient() {

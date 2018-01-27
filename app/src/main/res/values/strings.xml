@@ -28,5 +28,6 @@
     <string name="fav_cancel">取消收藏</string>
     <string name="fav_submit">已收藏</string>
     <string name="share_copy">复制成功，可以发给好友</string>
+    <string name="share_to_friend">推荐给好友</string>
 
 </resources>

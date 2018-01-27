@@ -54,7 +54,7 @@ class AboutActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_share -> {
-                ShareUtils.shareText(this, getString(R.string.share_app), "推荐给好友")
+                ShareUtils.shareText(this, getString(R.string.share_app), getString(R.string.share_to_friend))
                 return true
             }
         }
