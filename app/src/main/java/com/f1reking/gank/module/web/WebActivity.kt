@@ -96,7 +96,7 @@ class WebActivity : BaseActivity() {
             sr_gank.isRefreshing = true
             sr_gank.setColorSchemeResources(R.color.colorPrimary)
             sr_gank.setOnRefreshListener {
-                wv_gank.loadUrl(webUrl)
+                wv_gank.reload()
             }
         }
         wv_gank.run {
