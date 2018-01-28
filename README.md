@@ -9,6 +9,15 @@
 3. 搜索技术文章
 4. 收藏好文
 
+## 下载
+*已上架到Google Play：*
+[下载地址](https://play.google.com/store/apps/details?id=com.f1reking.gank)
+
+测试版下载：
+[https://www.pgyer.com/DuSY](https://www.pgyer.com/DuSY)
+
+![](http://7xplt3.com1.z0.glb.clouddn.com/2018011915163513742965.png)
+
 ## app截图
 ![2018012415167601559603.jpg](http://7xplt3.com1.z0.glb.clouddn.com/2018012415167601559603.jpg)
 
@@ -19,11 +28,6 @@
 ![2018012415167602594459.jpg](http://7xplt3.com1.z0.glb.clouddn.com/2018012415167602594459.jpg)
 
 ![20180124151676027750605.jpg](http://7xplt3.com1.z0.glb.clouddn.com/20180124151676027750605.jpg)
-
-## 下载
-[https://www.pgyer.com/DuSY](https://www.pgyer.com/DuSY)   
-
-![](http://7xplt3.com1.z0.glb.clouddn.com/2018011915163513742965.png)
 
 ## 版本
 
