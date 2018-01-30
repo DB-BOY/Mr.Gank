@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.ViewHolder
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -51,10 +52,12 @@ class GankListAdapter(var context: Context,
                                     viewType: Int): ViewHolder {
         val view: View
         return if (viewType == CollectionListAdapter.EMPTY_VIEW) {
-            view = LayoutInflater.from(context).inflate(R.layout.layout_no_data, parent, false)
+            view = LayoutInflater.from(context)
+                .inflate(R.layout.layout_no_data, parent, false)
             EmptyViewHolder(view)
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_list_gank, parent, false)
+            view = LayoutInflater.from(context)
+                .inflate(R.layout.item_list_gank, parent, false)
             GankViewHolder(view)
         }
     }
@@ -70,20 +73,24 @@ class GankListAdapter(var context: Context,
         return super.getItemViewType(position)
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: ViewHolder,
-                                  position: Int) {
+    @SuppressLint("SetTextI18n") override fun onBindViewHolder(holder: ViewHolder,
+                                                               position: Int) {
         when (getItemViewType(position)) {
             EMPTY_VIEW -> {
 
             }
-            else -> {
+            else       -> {
                 holder.itemView.tv_title.text = data[position].desc
                 holder.itemView.tv_time.text = data[position].publishedAt?.let {
                     DateUtils.dateFormat(it)
                 }
                 holder.itemView.tv_author.text = """@${data[position].who}"""
-                holder.itemView.tv_type.text = data[position].type
+                if (!TextUtils.isEmpty(data[position].type)) {
+                    holder.itemView.tv_type.visibility = View.VISIBLE
+                    holder.itemView.tv_type.text = data[position].type
+                } else {
+                    holder.itemView.tv_type.visibility = View.GONE
+                }
             }
         }
     }

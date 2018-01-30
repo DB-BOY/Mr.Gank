@@ -189,11 +189,11 @@ class WebActivity : BaseActivity() {
                 } else {
                     val collectionEntity = CollectionEntity()
                     collectionEntity._id = id
-                    collectionEntity.desc = gankEntity.desc!!
-                    collectionEntity.publishedAt = gankEntity.publishedAt!!
-                    collectionEntity.type = gankEntity.type!!
-                    collectionEntity.url = gankEntity.url!!
-                    collectionEntity.who = gankEntity.who!!
+                    collectionEntity.desc = gankEntity.desc
+                    collectionEntity.publishedAt = gankEntity.publishedAt
+                    collectionEntity.type = gankEntity.type
+                    collectionEntity.url = gankEntity.url
+                    collectionEntity.who = gankEntity.who
                     AppDatabaseHelper.getInstance(this).insertColletion(collectionEntity)
                     item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
                     toast(getString(R.string.fav_submit))
