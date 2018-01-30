@@ -102,7 +102,7 @@ dependencies {
     implementation dep.materialsearchview
     implementation dep.rxlifecycleKotlin
     implementation dep.rxlifecycleComponents
-    implementation 'com.github.F1ReKing:StatusLayout:1.0.0'
+    implementation dep.StatusLayout
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
     implementation dep.room
