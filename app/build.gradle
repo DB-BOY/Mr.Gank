@@ -22,17 +22,11 @@ android {
         applicationId "com.f1reking.gank"
         minSdkVersion an.minSdkVersion
         targetSdkVersion an.targetSdkVersion
-        versionCode 15
-        versionName "1.5"
+        versionCode 160
+        versionName "1.6.0"
         multiDexEnabled true
         ndk {
             abiFilters 'armeabi', 'x86'
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
         }
     }
 
@@ -84,7 +78,6 @@ dependencies {
     implementation dep.design
     implementation dep.recyclerview
     implementation dep.glide
-    kapt dep.glideCompiler
     implementation dep.retrofit
     implementation dep.converterGson
     implementation dep.adapterRxjava2
@@ -109,4 +102,5 @@ dependencies {
     releaseImplementation dep.leakcanaryRelease
     implementation dep.room
     kapt dep.roomCompiler
+    kapt dep.glideCompiler
 }
