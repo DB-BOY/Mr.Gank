@@ -104,6 +104,7 @@ dependencies {
     implementation dep.rxlifecycleComponents
     implementation dep.StatusLayout
     implementation dep.swipeback
+    implementation dep.eventbus
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
     implementation dep.room

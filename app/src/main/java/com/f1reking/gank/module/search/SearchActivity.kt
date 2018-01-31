@@ -68,8 +68,8 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(rv_search)
             .setLoadingText("搜索中...")
-            .setEmptyText("搜索数据为空\n请重新搜索")
-            .setErrorText("搜索出错了\n请重新搜索")
+            .setEmptyText("没有搜索的内容哦╮(╯▽╰)╭\n要不换个词搜索看看")
+            .setErrorText("搜索出错了哦 ﾉ)ﾟДﾟ( \n重新搜索看看")
             .setStatusClickListener(object : StatusClickListener {
                 override fun onEmptyClick(view: View) {
                     page = 1

@@ -51,11 +51,30 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     private var layout: View? = null
     private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
-    private var mStatusLayout: StatusLayout? = null
     private var isMore: Boolean = false
 
     private val mMeiziAdapter: MeiziListAdapter by lazy {
         MeiziListAdapter(activity!!, datas)
+    }
+
+    private val mStatusLayout: StatusLayout by lazy {
+        StatusLayout.Builder(rv_meizi)
+            .setEmptyText("咦，妹子都不见了╮(╯▽╰)╭\n\n 重新找看看吧")
+            .setErrorText("出错啦 ﾉ)ﾟДﾟ( ")
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    page = 1
+                    loadMeiziList()
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    page = 1
+                    loadMeiziList()
+                }
+            })
+            .build()
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -105,22 +124,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                 }
             })
         }
-        mStatusLayout = StatusLayout.Builder(rv_meizi)
-            .setStatusClickListener(object : StatusClickListener {
-                override fun onEmptyClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    page = 1
-                    loadMeiziList()
-                }
-
-                override fun onErrorClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    page = 1
-                    loadMeiziList()
-                }
-            })
-            .build()
-        mStatusLayout!!.showLoadingLayout()
+        mStatusLayout.showLoadingLayout()
     }
 
     private fun loadMeiziList() {

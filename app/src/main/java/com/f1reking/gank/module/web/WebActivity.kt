@@ -30,6 +30,8 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -40,6 +42,7 @@ import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.entity.CollectionEntity
 import com.f1reking.gank.entity.GankEntity
+import com.f1reking.gank.entity.MessageEvent
 import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.ShareUtils
@@ -49,6 +52,7 @@ import com.gw.swipeback.WxSwipeBackLayout
 import kotlinx.android.synthetic.main.activity_web.sr_gank
 import kotlinx.android.synthetic.main.activity_web.wv_gank
 import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
+import org.greenrobot.eventbus.EventBus
 
 /**
  * @author: F1ReKing
@@ -99,9 +103,23 @@ class WebActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if (wv_gank != null) {
+            val parent = wv_gank.parent as ViewParent
+            if (parent != null) {
+                (parent as ViewGroup).removeView(wv_gank)
+            }
+
+            wv_gank.stopLoading()
+            // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
+            wv_gank.settings.javaScriptEnabled = false
+            wv_gank.clearHistory()
+            wv_gank.clearView()
             wv_gank.removeAllViews()
-            wv_gank.destroy()
-            null === wv_gank
+
+            try {
+                wv_gank.destroy()
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+            }
         }
     }
 
@@ -234,6 +252,8 @@ class WebActivity : BaseActivity() {
                     item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
                     toast(getString(R.string.fav_submit))
                 }
+                EventBus.getDefault()
+                    .post(MessageEvent("refresh"))
             }
         }
         return super.onOptionsItemSelected(item)

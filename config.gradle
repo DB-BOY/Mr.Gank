@@ -31,7 +31,7 @@ ext {
                     leakcanaryRelease        : "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}",
                     stickylistheaders        : 'se.emilsjolander:stickylistheaders:2.7.0',
                     stickyheadersrecyclerview: 'com.timehop.stickyheadersrecyclerview:library:[0.4.3]@aar',
-                    eventbus                 : 'org.greenrobot:eventbus:3.0.0',
+                    eventbus                 : 'org.greenrobot:eventbus:3.1.1',
                     superAdapter             : 'com.github.F1ReKing:SuperAdapter:v1.2.1',
                     retrofit                 : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
                     converterGson            : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",

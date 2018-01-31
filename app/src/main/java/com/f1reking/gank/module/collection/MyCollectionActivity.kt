@@ -23,6 +23,7 @@ import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.entity.CollectionEntity
 import com.f1reking.gank.entity.GankEntity
+import com.f1reking.gank.entity.MessageEvent
 import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.room.AppDatabaseHelper
@@ -34,7 +35,10 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_my_collection.rv_collection
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
-import java.util.concurrent.TimeUnit
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode.MAIN
+import java.util.concurrent.TimeUnit.SECONDS
 
 /**
  * @author: F1ReKing
@@ -56,15 +60,22 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
         initView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        mStatusLayout!!.showLoadingLayout()
-        Observable.timer(2, TimeUnit.SECONDS)
-            .compose(RxScheduler.compose())
-            .bindToLifecycle(this@MyCollectionActivity)
-            .subscribe({
-                getCollectionList()
-            })
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault()
+            .register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault()
+            .unregister(this)
+    }
+
+    @Subscribe(threadMode = MAIN) fun onMessageEvent(event: MessageEvent) {
+        if (event.flag == "refresh") {
+            getCollectionList()
+        }
     }
 
     private fun initView() {
@@ -102,29 +113,30 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
             }
         })
         mStatusLayout = StatusLayout.Builder(rv_collection)
-            .setEmptyText("没有收藏数据哦\n去添加喜欢的文章吧")
+            .setEmptyText("这里没有文章了哦╮(╯▽╰)╭\n去添加喜欢的文章吧")
             .setStatusClickListener(object : StatusClickListener {
                 override fun onEmptyClick(view: View) {
                     mStatusLayout!!.showLoadingLayout()
-                    Observable.timer(2, TimeUnit.SECONDS)
-                        .compose(RxScheduler.compose())
-                        .bindToLifecycle(this@MyCollectionActivity)
-                        .subscribe({
-                            getCollectionList()
-                        })
+                    getCollectionListByLazy()
                 }
 
                 override fun onErrorClick(view: View) {
                     mStatusLayout!!.showLoadingLayout()
-                    Observable.timer(2, TimeUnit.SECONDS)
-                        .compose(RxScheduler.compose())
-                        .bindToLifecycle(this@MyCollectionActivity)
-                        .subscribe({
-                            getCollectionList()
-                        })
+                    getCollectionListByLazy()
                 }
             })
             .build()
+        mStatusLayout!!.showLoadingLayout()
+        getCollectionListByLazy()
+    }
+
+    private fun getCollectionListByLazy() {
+        Observable.timer(1, SECONDS)
+            .compose(RxScheduler.compose())
+            .bindToLifecycle(this@MyCollectionActivity)
+            .subscribe({
+                getCollectionList()
+            })
     }
 
     private fun getCollectionList() {
