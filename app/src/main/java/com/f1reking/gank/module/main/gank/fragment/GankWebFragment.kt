@@ -51,10 +51,26 @@ class GankWebFragment : LazyFragment(), PullLoadMoreListener {
     private var layout: View? = null
     private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
-    private var mStatusLayout: StatusLayout? = null
 
     private val mGankAdapter: GankListAdapter by lazy {
         GankListAdapter(activity!!, datas)
+    }
+    private val mStatusLayout: StatusLayout by lazy {
+        StatusLayout.Builder(rv_gank)
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    page = 1
+                    loadGankList()
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    page = 1
+                    loadGankList()
+                }
+            })
+            .build()
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -92,25 +108,10 @@ class GankWebFragment : LazyFragment(), PullLoadMoreListener {
                 }
             })
         }
-        mStatusLayout = StatusLayout.Builder(rv_gank)
-            .setStatusClickListener(object : StatusClickListener {
-                override fun onEmptyClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    page = 1
-                    loadGankList()
-                }
-
-                override fun onErrorClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    page = 1
-                    loadGankList()
-                }
-            })
-            .build()
     }
 
     override fun onFirstUserVisible() {
-        mStatusLayout!!.showLoadingLayout()
+        mStatusLayout.showLoadingLayout()
         loadGankList()
     }
 
@@ -126,16 +127,16 @@ class GankWebFragment : LazyFragment(), PullLoadMoreListener {
                     }
                     mGankAdapter.addAll(data.results)
                     if (mGankAdapter.data.size > 0) {
-                        mStatusLayout!!.showContentLayout()
+                        mStatusLayout.showContentLayout()
                     } else {
-                        mStatusLayout!!.showEmptyLayout()
+                        mStatusLayout.showEmptyLayout()
                     }
                 }
 
                 override fun failure(statusCode: Int,
                                      apiErrorModel: ApiErrorModel) {
                     activity!!.toast(apiErrorModel.msg)
-                    mStatusLayout!!.showErrorLayout()
+                    mStatusLayout.showErrorLayout()
                 }
             })
     }

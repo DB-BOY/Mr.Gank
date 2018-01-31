@@ -12,7 +12,7 @@
 
 ## 下载
 
-![](http://7xplt3.com1.z0.glb.clouddn.com/2018011915163513742965.png)
+![20180131151740958061981.png](http://7xplt3.com1.z0.glb.clouddn.com/20180131151740958061981.png)
 
 [Google Play下载](https://play.google.com/store/apps/details?id=com.f1reking.gank)
 

@@ -19,20 +19,26 @@ package com.f1reking.gank.module.search
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
 import com.f1reking.gank.module.main.gank.GankListAdapter
+import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
+import com.f1reking.statuslayout.library.StatusClickListener
+import com.f1reking.statuslayout.library.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.activity_search.rv_search
+import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: F1ReKing
@@ -55,9 +61,29 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
     private lateinit var query: String
     private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
-
     private val mGankAdapter: GankListAdapter by lazy {
         GankListAdapter(this, datas)
+    }
+
+    private val mStatusLayout: StatusLayout by lazy {
+        StatusLayout.Builder(rv_search)
+            .setLoadingText("搜索中...")
+            .setEmptyText("搜索数据为空\n请重新搜索")
+            .setErrorText("搜索出错了\n请重新搜索")
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    page = 1
+                    mStatusLayout.showLoadingLayout()
+                    queryGankList()
+                }
+
+                override fun onErrorClick(view: View) {
+                    page = 1
+                    mStatusLayout.showLoadingLayout()
+                    queryGankList()
+                }
+            })
+            .build()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +104,22 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
             .recyclerView.apply {
             this!!.addItemDecoration(GankItemDecoration(this@SearchActivity))
         }
+        mGankAdapter.setOnItemClickListener(object : OnItemClickListener<GankEntity> {
+            override fun onItemLongClick(p0: ViewGroup?,
+                                         p1: View?,
+                                         p2: GankEntity?,
+                                         p3: Int): Boolean {
+                return true
+            }
+
+            override fun onItemClick(p0: ViewGroup?,
+                                     p1: View?,
+                                     p2: GankEntity,
+                                     p3: Int) {
+                WebActivity.newIntent(this@SearchActivity, p2)
+            }
+        })
+        mStatusLayout.showLoadingLayout()
         queryGankList()
     }
 
@@ -85,9 +127,6 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
         ApiClient.instance.mService.queryGankList(query, 10, page)
             .compose(RxScheduler.compose())
             .bindToLifecycle(this)
-            .doOnSubscribe {
-                rv_search.setRefreshing(true)
-            }
             .doAfterTerminate { rv_search.setPullLoadMoreCompleted() }
             .subscribe(object : ApiResponse<HttpEntity>(this@SearchActivity) {
                 override fun success(data: HttpEntity) {
@@ -95,11 +134,17 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
                         mGankAdapter.clear()
                     }
                     mGankAdapter.addAll(data.results)
+                    if (mGankAdapter.data.size > 0) {
+                        mStatusLayout.showContentLayout()
+                    } else {
+                        mStatusLayout.showEmptyLayout()
+                    }
                 }
 
                 override fun failure(statusCode: Int,
                                      apiErrorModel: ApiErrorModel) {
                     toast(apiErrorModel.msg)
+                    mStatusLayout.showErrorLayout()
                 }
             })
     }
@@ -113,7 +158,6 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
     }
 
     override fun onLoadMore() {
-        rv_search.setFooterViewGone()
         ++page
         queryGankList()
     }

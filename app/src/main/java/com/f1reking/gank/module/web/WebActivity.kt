@@ -72,7 +72,21 @@ class WebActivity : BaseActivity() {
     private lateinit var gankEntity: GankEntity
     private var id: String? = null
     private var mSwipeBackLayout: WxSwipeBackLayout? = null
-    private var mStatusLayout: StatusLayout? = null
+
+    private val mStatusLayout: StatusLayout by lazy {
+        StatusLayout.Builder(sr_gank)
+            .setErrorText("加载出错了\n请重试")
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout.showContentLayout()
+                    wv_gank.reload()
+                }
+            })
+            .build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,18 +128,6 @@ class WebActivity : BaseActivity() {
             initWebChromeClient()
             initWebViewClient()
         }
-
-        mStatusLayout = StatusLayout.Builder(sr_gank)
-            .setStatusClickListener(object : StatusClickListener {
-                override fun onEmptyClick(view: View) {
-                }
-
-                override fun onErrorClick(view: View) {
-                    mStatusLayout!!.showContentLayout()
-                    wv_gank.reload()
-                }
-            })
-            .build()
     }
 
     @SuppressLint("SetJavaScriptEnabled") private fun initWebSettings() {
@@ -152,7 +154,7 @@ class WebActivity : BaseActivity() {
                 toolbar_title.text = title
                 val pnotfound = "404"
                 if (title.contains(pnotfound)) {
-                    mStatusLayout!!.showErrorLayout()
+                    mStatusLayout.showErrorLayout()
                 }
             }
         }
@@ -175,7 +177,7 @@ class WebActivity : BaseActivity() {
                                          request: WebResourceRequest?,
                                          error: WebResourceError?) {
                 super.onReceivedError(view, request, error)
-                mStatusLayout!!.showErrorLayout()
+                mStatusLayout.showErrorLayout()
             }
         }
     }

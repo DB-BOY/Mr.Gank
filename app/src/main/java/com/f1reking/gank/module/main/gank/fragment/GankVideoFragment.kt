@@ -56,7 +56,23 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
         GankListAdapter(activity!!, datas)
     }
 
-    private var mStatusLayout: StatusLayout? = null
+    private val mStatusLayout: StatusLayout by lazy {
+        StatusLayout.Builder(rv_gank)
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    page = 1
+                    loadGankList()
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    page = 1
+                    loadGankList()
+                }
+            })
+            .build()
+    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -96,22 +112,7 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
     }
 
     override fun onFirstUserVisible() {
-        mStatusLayout = StatusLayout.Builder(rv_gank)
-            .setStatusClickListener(object : StatusClickListener {
-                override fun onEmptyClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    page = 1
-                    loadGankList()
-                }
-
-                override fun onErrorClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    page = 1
-                    loadGankList()
-                }
-            })
-            .build()
-        mStatusLayout!!.showLoadingLayout()
+        mStatusLayout.showLoadingLayout()
         loadGankList()
     }
 
@@ -129,16 +130,16 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
                     }
                     mGankAdapter.addAll(data.results)
                     if (mGankAdapter.data.size > 0) {
-                        mStatusLayout!!.showContentLayout()
+                        mStatusLayout.showContentLayout()
                     } else {
-                        mStatusLayout!!.showEmptyLayout()
+                        mStatusLayout.showEmptyLayout()
                     }
                 }
 
                 override fun failure(statusCode: Int,
                                      apiErrorModel: ApiErrorModel) {
                     activity!!.toast(apiErrorModel.msg)
-                    mStatusLayout!!.showErrorLayout()
+                    mStatusLayout.showErrorLayout()
                 }
             })
     }
