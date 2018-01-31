@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+
     <com.f1reking.gank.widget.xrecyclerview.XRecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rv_gank"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
 </LinearLayout>

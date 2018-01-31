@@ -26,14 +26,18 @@ import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
 import com.f1reking.gank.module.main.gank.GankListAdapter
+import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
+import com.f1reking.statuslayout.library.StatusClickListener
+import com.f1reking.statuslayout.library.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
+import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: F1ReKing
@@ -47,6 +51,7 @@ class GankiOSFragment : LazyFragment(), PullLoadMoreListener {
     private var layout: View? = null
     private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
+    private var mStatusLayout: StatusLayout? = null
 
     private val mGankAdapter: GankListAdapter by lazy {
         GankListAdapter(activity!!, datas)
@@ -61,39 +66,78 @@ class GankiOSFragment : LazyFragment(), PullLoadMoreListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rv_gank.run {
+        rv_gank.apply {
             setColorSchemeResources(R.color.colorPrimary)
             setLinearLayout()
             setOnPullLoadMoreListener(this@GankiOSFragment)
             setAdapter(mGankAdapter)
         }
-        rv_gank.recyclerView.run {
+            .recyclerView.apply {
             this!!.addItemDecoration(GankItemDecoration(activity!!))
         }
+        mGankAdapter.apply {
+            setOnItemClickListener(object : OnItemClickListener<GankEntity> {
+                override fun onItemLongClick(p0: ViewGroup?,
+                                             p1: View?,
+                                             p2: GankEntity?,
+                                             p3: Int): Boolean {
+                    return true
+                }
+
+                override fun onItemClick(p0: ViewGroup?,
+                                         p1: View?,
+                                         p2: GankEntity,
+                                         p3: Int) {
+                    WebActivity.newIntent(activity!!, p2)
+                }
+            })
+        }
+        mStatusLayout = StatusLayout.Builder(rv_gank)
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    mStatusLayout!!.showLoadingLayout()
+                    page = 1
+                    loadGankList()
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout!!.showLoadingLayout()
+                    page = 1
+                    loadGankList()
+                }
+            })
+            .build()
     }
 
     override fun onFirstUserVisible() {
-        rv_gank.setRefreshing(true)
+        mStatusLayout!!.showLoadingLayout()
         loadGankList()
     }
 
     private fun loadGankList() {
-        ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
-            RxScheduler.compose()).bindToLifecycle(
-            this).doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }.subscribe(object :
-            ApiResponse<HttpEntity>(activity!!) {
-            override fun success(data: HttpEntity) {
-                if (page == 1) {
-                    mGankAdapter.clear()
+        ApiClient.instance.mService.getGankList(TYPE, 10, page)
+            .compose(RxScheduler.compose())
+            .bindToLifecycle(this)
+            .doAfterTerminate { rv_gank.setPullLoadMoreCompleted() }
+            .subscribe(object : ApiResponse<HttpEntity>(activity!!) {
+                override fun success(data: HttpEntity) {
+                    if (page == 1) {
+                        mGankAdapter.clear()
+                    }
+                    mGankAdapter.addAll(data.results)
+                    if (mGankAdapter.data.size > 0) {
+                        mStatusLayout!!.showContentLayout()
+                    } else {
+                        mStatusLayout!!.showEmptyLayout()
+                    }
                 }
-                mGankAdapter.addAll(data.results)
-            }
 
-            override fun failure(statusCode: Int,
-                                 apiErrorModel: ApiErrorModel) {
-                activity!!.toast(apiErrorModel.msg)
-            }
-        })
+                override fun failure(statusCode: Int,
+                                     apiErrorModel: ApiErrorModel) {
+                    activity!!.toast(apiErrorModel.msg)
+                    mStatusLayout!!.showErrorLayout()
+                }
+            })
     }
 
     override fun onRefresh() {

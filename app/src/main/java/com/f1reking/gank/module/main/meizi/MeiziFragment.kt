@@ -20,24 +20,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.f1reking.gank.R
-import com.f1reking.gank.R.color
 import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
-import com.f1reking.gank.module.main.meizi.MeiziListAdapter.OnIntentListener
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
+import com.f1reking.statuslayout.library.StatusClickListener
+import com.f1reking.statuslayout.library.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_meizi.rv_meizi
+import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
  * @author: F1ReKing
@@ -46,10 +46,13 @@ import kotlinx.android.synthetic.main.fragment_meizi.rv_meizi
  */
 class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
-    val TYPE = "福利"
+    private val TYPE = "福利"
+
     private var layout: View? = null
     private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
+    private var mStatusLayout: StatusLayout? = null
+    private var isMore: Boolean = false
 
     private val mMeiziAdapter: MeiziListAdapter by lazy {
         MeiziListAdapter(activity!!, datas)
@@ -70,17 +73,24 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
     private fun initView() {
         rv_meizi.run {
-            setColorSchemeResources(color.colorPrimary)
-            val layoutManager = GridLayoutManager(activity, 2)
-            recyclerView!!.layoutManager = layoutManager
-            mMeiziAdapter.setLayoutManage(layoutManager)
+            setColorSchemeResources(R.color.colorPrimary)
+            setGridLayout(2)
             setOnPullLoadMoreListener(this@MeiziFragment)
             setAdapter(mMeiziAdapter)
         }
         mMeiziAdapter.run {
-            setOnIntentListener(object : OnIntentListener {
-                override fun onClick(view: View,
-                                     gankEntity: GankEntity) {
+            setOnItemClickListener(object : OnItemClickListener<GankEntity> {
+                override fun onItemLongClick(p0: ViewGroup?,
+                                             p1: View?,
+                                             p2: GankEntity?,
+                                             p3: Int): Boolean {
+                    return true
+                }
+
+                override fun onItemClick(p0: ViewGroup?,
+                                         view: View,
+                                         gankEntity: GankEntity,
+                                         p3: Int) {
                     val intent = Intent(activity!!, BigMeiziActivity::class.java)
                     intent.putExtra(BigMeiziActivity.EXTRA_URL, gankEntity.url)
                     intent.putExtra(BigMeiziActivity.EXTRA_TITLE, gankEntity._id)
@@ -95,29 +105,62 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                 }
             })
         }
+        mStatusLayout = StatusLayout.Builder(rv_meizi)
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    mStatusLayout!!.showLoadingLayout()
+                    page = 1
+                    loadMeiziList()
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout!!.showLoadingLayout()
+                    page = 1
+                    loadMeiziList()
+                }
+            })
+            .build()
+        mStatusLayout!!.showLoadingLayout()
     }
 
     private fun loadMeiziList() {
-        ApiClient.instance.mService.getGankList(TYPE, 10, page).compose(
-            RxScheduler.compose()).bindToLifecycle(
-            this).doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }.subscribe(object :
-            ApiResponse<HttpEntity>(activity!!) {
-            override fun success(data: HttpEntity) {
-                if (page == 1) {
-                    mMeiziAdapter.clear()
+        ApiClient.instance.mService.getGankList(TYPE, 10, page)
+            .compose(RxScheduler.compose())
+            .bindToLifecycle(this)
+            .doAfterTerminate { rv_meizi.setPullLoadMoreCompleted() }
+            .subscribe(object : ApiResponse<HttpEntity>(activity!!) {
+                override fun success(data: HttpEntity) {
+                    if (page == 1) {
+                        mMeiziAdapter.clear()
+                    }
+                    mMeiziAdapter.addAll(data.results)
+                    if (mMeiziAdapter.data.size > 0) {
+                        mStatusLayout!!.showContentLayout()
+                    } else {
+                        mStatusLayout!!.showEmptyLayout()
+                    }
+                    if (isMore) {
+                        if (data.results.size == 0) {
+                            --page
+                        }
+                    }
                 }
-                mMeiziAdapter.addAll(data.results)
-            }
 
-            override fun failure(statusCode: Int,
-                                 apiErrorModel: ApiErrorModel) {
-                activity!!.toast(apiErrorModel.msg)
-                rv_meizi.setPullLoadMoreCompleted()
-            }
-        })
+                override fun failure(statusCode: Int,
+                                     apiErrorModel: ApiErrorModel) {
+                    activity!!.toast(apiErrorModel.msg)
+                    if (mMeiziAdapter.data.size == 0) {
+                        mStatusLayout!!.showErrorLayout()
+                    }
+                    if (isMore) {
+                        --page
+                    }
+                }
+            })
     }
 
     override fun onRefresh() {
+        isMore = false
         page = 1
         loadMeiziList()
     }
@@ -126,6 +169,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     }
 
     override fun onLoadMore() {
+        isMore = true
         ++page
         loadMeiziList()
     }

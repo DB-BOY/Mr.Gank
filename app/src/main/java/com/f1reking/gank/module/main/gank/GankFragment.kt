@@ -18,7 +18,6 @@ package com.f1reking.gank.module.main.gank
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager.OnPageChangeListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,24 +73,11 @@ class GankFragment : BaseFragment() {
         vp_gank.run {
             adapter = pagerAdapter
             offscreenPageLimit = 7
-            addOnPageChangeListener(object : OnPageChangeListener {
-                override fun onPageScrollStateChanged(state: Int) {
-                }
-
-                override fun onPageScrolled(position: Int,
-                                            positionOffset: Float,
-                                            positionOffsetPixels: Int) {
-                }
-
-                override fun onPageSelected(position: Int) {
-                }
-            })
         }
         tab_gank.run {
             setupWithViewPager(vp_gank)
             setOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabReselected(tab: XTabLayout.Tab?) {
-
                 }
 
                 override fun onTabUnselected(tab: XTabLayout.Tab?) {

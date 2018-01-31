@@ -69,36 +69,39 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
     private fun initView() {
         query = intent.getStringExtra(EXTRA_QUERY)
         setToolbarTitle("搜索：" + query)
-        rv_search.run {
+        rv_search.apply {
             setColorSchemeResources(R.color.colorPrimary)
             setLinearLayout()
             setOnPullLoadMoreListener(this@SearchActivity)
             setAdapter(mGankAdapter)
         }
-        rv_search.recyclerView.run {
+            .recyclerView.apply {
             this!!.addItemDecoration(GankItemDecoration(this@SearchActivity))
         }
         queryGankList()
     }
 
     private fun queryGankList() {
-        ApiClient.instance.mService.queryGankList(query, 10, page).compose(
-            RxScheduler.compose()).bindToLifecycle(this).doOnSubscribe {
-            rv_search.setRefreshing(true)
-        }.doAfterTerminate { rv_search.setPullLoadMoreCompleted() }.subscribe(object :
-            ApiResponse<HttpEntity>(this@SearchActivity) {
-            override fun success(data: HttpEntity) {
-                if (page == 1) {
-                    mGankAdapter.clear()
+        ApiClient.instance.mService.queryGankList(query, 10, page)
+            .compose(RxScheduler.compose())
+            .bindToLifecycle(this)
+            .doOnSubscribe {
+                rv_search.setRefreshing(true)
+            }
+            .doAfterTerminate { rv_search.setPullLoadMoreCompleted() }
+            .subscribe(object : ApiResponse<HttpEntity>(this@SearchActivity) {
+                override fun success(data: HttpEntity) {
+                    if (page == 1) {
+                        mGankAdapter.clear()
+                    }
+                    mGankAdapter.addAll(data.results)
                 }
-                mGankAdapter.addAll(data.results)
-            }
 
-            override fun failure(statusCode: Int,
-                                 apiErrorModel: ApiErrorModel) {
-                toast(apiErrorModel.msg)
-            }
-        })
+                override fun failure(statusCode: Int,
+                                     apiErrorModel: ApiErrorModel) {
+                    toast(apiErrorModel.msg)
+                }
+            })
     }
 
     override fun onRefresh() {

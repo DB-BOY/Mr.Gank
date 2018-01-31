@@ -20,6 +20,7 @@ import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
 import com.f1reking.gank.net.ApiClient
+import com.gw.swipeback.tools.WxSwipeBackActivityManager
 import com.squareup.leakcanary.LeakCanary
 
 /**
@@ -32,6 +33,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         ApiClient.instance.init()
+        WxSwipeBackActivityManager.getInstance().init(this);
         LeakCanary.install(this)
     }
 

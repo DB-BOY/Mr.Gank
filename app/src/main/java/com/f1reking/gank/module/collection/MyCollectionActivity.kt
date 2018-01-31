@@ -17,13 +17,24 @@
 package com.f1reking.gank.module.collection
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.entity.CollectionEntity
+import com.f1reking.gank.entity.GankEntity
+import com.f1reking.gank.module.web.WebActivity
+import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
+import com.f1reking.statuslayout.library.StatusClickListener
+import com.f1reking.statuslayout.library.StatusLayout
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_my_collection.rv_collection
+import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
+import java.util.concurrent.TimeUnit
 
 /**
  * @author: F1ReKing
@@ -33,7 +44,7 @@ import kotlinx.android.synthetic.main.activity_my_collection.rv_collection
 class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
 
     private val datas = ArrayList<CollectionEntity>()
-    private var page: Int = 1
+    private var mStatusLayout: StatusLayout? = null
 
     private val mGankAdapter: CollectionListAdapter by lazy {
         CollectionListAdapter(this, datas)
@@ -47,39 +58,93 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
 
     override fun onResume() {
         super.onResume()
-        getCollectionList()
+        mStatusLayout!!.showLoadingLayout()
+        Observable.timer(2, TimeUnit.SECONDS)
+            .compose(RxScheduler.compose())
+            .bindToLifecycle(this@MyCollectionActivity)
+            .subscribe({
+                getCollectionList()
+            })
     }
 
     private fun initView() {
         setToolbarTitle("我的收藏")
-        rv_collection.run {
+        rv_collection.apply {
             setColorSchemeResources(R.color.colorPrimary)
             setLinearLayout()
             setOnPullLoadMoreListener(this@MyCollectionActivity)
             setAdapter(mGankAdapter)
             loadMoreEnable = false
         }
-        rv_collection.recyclerView.run {
+            .recyclerView.apply {
             this!!.addItemDecoration(GankItemDecoration(this@MyCollectionActivity))
         }
+        mGankAdapter.setOnItemClickListener(object : OnItemClickListener<CollectionEntity> {
+            override fun onItemLongClick(p0: ViewGroup?,
+                                         p1: View?,
+                                         p2: CollectionEntity?,
+                                         p3: Int): Boolean {
+                return true
+            }
+
+            override fun onItemClick(p0: ViewGroup?,
+                                     p1: View?,
+                                     p2: CollectionEntity,
+                                     p3: Int) {
+                val gankEntity = GankEntity("", "", "", "", "", "", "")
+                gankEntity._id = p2._id
+                gankEntity.desc = p2.desc
+                gankEntity.type = p2.type
+                gankEntity.url = p2.url
+                gankEntity.who = p2.who
+                gankEntity.publishedAt = p2.publishedAt
+                WebActivity.newIntent(this@MyCollectionActivity, gankEntity)
+            }
+        })
+        mStatusLayout = StatusLayout.Builder(rv_collection)
+            .setEmptyText("没有收藏数据哦\n去添加喜欢的文章吧")
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    mStatusLayout!!.showLoadingLayout()
+                    Observable.timer(2, TimeUnit.SECONDS)
+                        .compose(RxScheduler.compose())
+                        .bindToLifecycle(this@MyCollectionActivity)
+                        .subscribe({
+                            getCollectionList()
+                        })
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout!!.showLoadingLayout()
+                    Observable.timer(2, TimeUnit.SECONDS)
+                        .compose(RxScheduler.compose())
+                        .bindToLifecycle(this@MyCollectionActivity)
+                        .subscribe({
+                            getCollectionList()
+                        })
+                }
+            })
+            .build()
     }
 
     private fun getCollectionList() {
         mGankAdapter.clear()
         if (AppDatabaseHelper.getInstance(this).getCollectionList().isNotEmpty()) {
+            mStatusLayout!!.showContentLayout()
             mGankAdapter.addAll(AppDatabaseHelper.getInstance(this).getCollectionList())
+        } else {
+            mStatusLayout!!.showEmptyLayout()
         }
         rv_collection.setPullLoadMoreCompleted()
     }
 
     override fun onRefresh() {
-       getCollectionList()
+        getCollectionList()
     }
 
     override fun onBackTop() {
     }
 
     override fun onLoadMore() {
-
     }
 }

@@ -103,6 +103,7 @@ dependencies {
     implementation dep.rxlifecycleKotlin
     implementation dep.rxlifecycleComponents
     implementation dep.StatusLayout
+    implementation dep.swipeback
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
     implementation dep.room

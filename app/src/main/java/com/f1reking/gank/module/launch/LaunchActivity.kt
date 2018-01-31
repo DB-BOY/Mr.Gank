@@ -29,10 +29,6 @@ import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.main.MainActivity
 import kotlinx.android.synthetic.main.activity_launch.iv_launch
 
-
-
-
-
 /**
  * @author: F1ReKing
  * @date: 2018/1/26 17:36
