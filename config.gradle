@@ -78,6 +78,6 @@ ext {
                     roomCompiler             : "android.arch.persistence.room:compiler:${roomVersion}",
                     rxlifecycleKotlin        : "com.trello.rxlifecycle2:rxlifecycle-kotlin:${rxlifecycleVersion}",
                     rxlifecycleComponents    : "com.trello.rxlifecycle2:rxlifecycle-components:${rxlifecycleVersion}",
-                    StatusLayout             : 'com.github.F1ReKing:StatusLayout:1.0.1',
+                    StatusLayout             : 'com.github.F1ReKing:StatusLayout:1.1.0',
                     swipeback                : 'com.gongwen:swipeback:1.0.2']
 }
