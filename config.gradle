@@ -79,5 +79,5 @@ ext {
                     rxlifecycleKotlin        : "com.trello.rxlifecycle2:rxlifecycle-kotlin:${rxlifecycleVersion}",
                     rxlifecycleComponents    : "com.trello.rxlifecycle2:rxlifecycle-components:${rxlifecycleVersion}",
                     StatusLayout             : 'com.github.F1ReKing:StatusLayout:1.1.0',
-                    swipeback                : 'com.gongwen:swipeback:1.0.2']
+                    swipebacklayout          : 'me.imid.swipebacklayout.lib:library:1.1.0']
 }

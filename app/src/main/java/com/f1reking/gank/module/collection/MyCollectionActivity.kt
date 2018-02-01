@@ -48,10 +48,26 @@ import java.util.concurrent.TimeUnit.SECONDS
 class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
 
     private val datas = ArrayList<CollectionEntity>()
-    private var mStatusLayout: StatusLayout? = null
 
     private val mGankAdapter: CollectionListAdapter by lazy {
         CollectionListAdapter(this, datas)
+    }
+
+    private val mStatusLayout: StatusLayout by lazy {
+        StatusLayout.Builder(rv_collection)
+            .setEmptyText("这里没有文章了哦╮(╯▽╰)╭\n去添加喜欢的文章吧")
+            .setStatusClickListener(object : StatusClickListener {
+                override fun onEmptyClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    getCollectionListByLazy()
+                }
+
+                override fun onErrorClick(view: View) {
+                    mStatusLayout.showLoadingLayout()
+                    getCollectionListByLazy()
+                }
+            })
+            .build()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,21 +128,7 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
                 WebActivity.newIntent(this@MyCollectionActivity, gankEntity)
             }
         })
-        mStatusLayout = StatusLayout.Builder(rv_collection)
-            .setEmptyText("这里没有文章了哦╮(╯▽╰)╭\n去添加喜欢的文章吧")
-            .setStatusClickListener(object : StatusClickListener {
-                override fun onEmptyClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    getCollectionListByLazy()
-                }
-
-                override fun onErrorClick(view: View) {
-                    mStatusLayout!!.showLoadingLayout()
-                    getCollectionListByLazy()
-                }
-            })
-            .build()
-        mStatusLayout!!.showLoadingLayout()
+        mStatusLayout.showLoadingLayout()
         getCollectionListByLazy()
     }
 
@@ -142,10 +144,10 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
     private fun getCollectionList() {
         mGankAdapter.clear()
         if (AppDatabaseHelper.getInstance(this).getCollectionList().isNotEmpty()) {
-            mStatusLayout!!.showContentLayout()
+            mStatusLayout.showContentLayout()
             mGankAdapter.addAll(AppDatabaseHelper.getInstance(this).getCollectionList())
         } else {
-            mStatusLayout!!.showEmptyLayout()
+            mStatusLayout.showEmptyLayout()
         }
         rv_collection.setPullLoadMoreCompleted()
     }

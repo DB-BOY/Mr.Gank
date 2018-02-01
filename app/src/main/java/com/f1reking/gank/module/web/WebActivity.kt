@@ -39,7 +39,6 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.f1reking.gank.R
-import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.entity.CollectionEntity
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.MessageEvent
@@ -48,10 +47,12 @@ import com.f1reking.gank.toast
 import com.f1reking.gank.util.ShareUtils
 import com.f1reking.statuslayout.library.StatusClickListener
 import com.f1reking.statuslayout.library.StatusLayout
-import com.gw.swipeback.WxSwipeBackLayout
 import kotlinx.android.synthetic.main.activity_web.sr_gank
 import kotlinx.android.synthetic.main.activity_web.wv_gank
+import kotlinx.android.synthetic.main.toolbar_custom.toolbar
 import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
+import me.imid.swipebacklayout.lib.SwipeBackLayout
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -59,7 +60,7 @@ import org.greenrobot.eventbus.EventBus
  * @date: 2018/1/8 21:37
  * @desc:
  */
-class WebActivity : BaseActivity() {
+class WebActivity : SwipeBackActivity() {
 
     companion object {
         const val EXTRA_GANK = "gank"
@@ -75,7 +76,9 @@ class WebActivity : BaseActivity() {
     private var webUrl: String? = null
     private lateinit var gankEntity: GankEntity
     private var id: String? = null
-    private var mSwipeBackLayout: WxSwipeBackLayout? = null
+    private val mSwipeBackLayout: SwipeBackLayout by lazy {
+        swipeBackLayout
+    }
 
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(sr_gank)
@@ -95,8 +98,6 @@ class WebActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
-        mSwipeBackLayout = WxSwipeBackLayout(this)
-        mSwipeBackLayout?.attachToActivity(this)
         initView()
     }
 
@@ -133,19 +134,29 @@ class WebActivity : BaseActivity() {
         }
         webUrl = gankEntity.url
         toolbar_title.text = "加载中..."
-        sr_gank.run {
+        sr_gank.apply {
             isRefreshing = true
             setColorSchemeResources(R.color.colorPrimary)
             setOnRefreshListener {
                 wv_gank.reload()
             }
         }
-        wv_gank.run {
+        wv_gank.apply {
             loadUrl(webUrl)
             initWebSettings()
             initWebChromeClient()
             initWebViewClient()
         }
+        mSwipeBackLayout.apply {
+            this!!.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
+        }
+    }
+
+    private fun setToolbarTitle(title: String) {
+        toolbar.title = title
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
     @SuppressLint("SetJavaScriptEnabled") private fun initWebSettings() {
