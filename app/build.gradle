@@ -56,19 +56,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             applicationVariants.all { variant ->
+                packageApplication.outputDirectory = file("../apk/")
                 variant.outputs.all { output ->
                     def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileNames = "${appName()}_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${releaseTime()}.apk"
                         outputFileName = fileNames
+                        print(outputFileName)
                     }
                 }
             }
         }
-    }
-
-    kapt {
-        generateStubs = true
     }
 
     androidExtensions {
