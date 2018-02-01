@@ -109,6 +109,8 @@ class BigMeiziActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
+
     private fun saveImage() {
         val permissions = RxPermissions(this)
         permissions.request(*PERMISSIONS).subscribe { aBoolean ->

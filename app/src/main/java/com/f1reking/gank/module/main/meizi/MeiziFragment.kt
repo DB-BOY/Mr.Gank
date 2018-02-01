@@ -28,6 +28,7 @@ import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
+import com.f1reking.gank.inflate
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
@@ -80,7 +81,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        layout = inflater.inflate(R.layout.fragment_meizi, container, false)
+        layout = container!!.inflate(R.layout.fragment_meizi)
         return layout
     }
 

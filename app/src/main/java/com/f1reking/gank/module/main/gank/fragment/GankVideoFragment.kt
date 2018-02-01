@@ -77,6 +77,7 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         layout = inflater.inflate(R.layout.fragment_gank_video, container, false)
         return layout
     }

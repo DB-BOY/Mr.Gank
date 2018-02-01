@@ -25,6 +25,7 @@ import com.f1reking.gank.base.LazyFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
+import com.f1reking.gank.inflate
 import com.f1reking.gank.module.main.gank.GankListAdapter
 import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
@@ -77,7 +78,7 @@ class GankRecommendFragment : LazyFragment(), PullLoadMoreListener {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        layout = inflater.inflate(R.layout.fragment_gank_recommend, container, false)
+        layout = container!!.inflate(R.layout.fragment_gank_recommend)
         return layout
     }
 

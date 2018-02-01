@@ -25,6 +25,7 @@ import com.androidkun.xtablayout.XTabLayout
 import com.androidkun.xtablayout.XTabLayout.OnTabSelectedListener
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseFragment
+import com.f1reking.gank.inflate
 import com.f1reking.gank.module.main.gank.fragment.GankAndroidFragment
 import com.f1reking.gank.module.main.gank.fragment.GankAppFragment
 import com.f1reking.gank.module.main.gank.fragment.GankRecommendFragment
@@ -48,7 +49,7 @@ class GankFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        layout = inflater.inflate(R.layout.fragment_gank, container, false)
+        layout = container!!.inflate(R.layout.fragment_gank)
         return layout
     }
 
@@ -70,11 +71,11 @@ class GankFragment : BaseFragment() {
         fragmentList.add(mGankAppFragment)
         val pagerAdapter = TabPagerAdapter(childFragmentManager, fragmentList,
             resources.getStringArray(R.array.tab_gank))
-        vp_gank.run {
+        vp_gank.apply {
             adapter = pagerAdapter
             offscreenPageLimit = 7
         }
-        tab_gank.run {
+        tab_gank.apply {
             setupWithViewPager(vp_gank)
             setOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabReselected(tab: XTabLayout.Tab?) {
@@ -86,10 +87,8 @@ class GankFragment : BaseFragment() {
                 override fun onTabSelected(tab: XTabLayout.Tab?) {
                     vp_gank.currentItem = tab!!.position
                 }
-
             })
         }
-
     }
 }
 
