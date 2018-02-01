@@ -19,6 +19,7 @@ package com.f1reking.gank.module.about
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.util.AppUtils
@@ -40,8 +41,8 @@ class AboutActivity : BaseActivity() {
 
     private fun initView() {
         setToolbarTitle("")
-        tv_version.run {
-            tv_version.text = String.format(getString(R.string.app_version),
+        tv_version.apply {
+            text = String.format(getString(R.string.app_version),
                 AppUtils.getVersionName(this@AboutActivity))
         }
     }
@@ -51,13 +52,11 @@ class AboutActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_share -> {
-                ShareUtils.shareText(this, getString(R.string.share_app), getString(R.string.share_to_friend))
-                return true
-            }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.menu_share -> OOIS {
+            ShareUtils.shareText(this, getString(R.string.share_app),
+                getString(R.string.share_to_friend))
         }
-        return super.onOptionsItemSelected(item)
+        else            -> super.onOptionsItemSelected(item)
     }
 }

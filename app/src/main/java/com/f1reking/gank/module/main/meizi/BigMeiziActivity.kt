@@ -29,6 +29,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
 import com.f1reking.gank.R.string
 import com.f1reking.gank.base.BaseActivity
@@ -71,10 +72,10 @@ class BigMeiziActivity : BaseActivity() {
     private fun initView() {
         setToolbarTitle("")
         title = intent.getStringExtra(EXTRA_TITLE)
-        toolbar.run {
+        toolbar.apply {
             alpha = 0.7f
         }
-        iv_pic.run {
+        iv_pic.apply {
             mImageUrl = intent.getStringExtra(EXTRA_URL)
             val simpleTarget = object : SimpleTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap,
@@ -85,7 +86,10 @@ class BigMeiziActivity : BaseActivity() {
                     iv_pic.setImageBitmap(resource)
                 }
             }
-            GlideApp.with(this).asBitmap().load(mImageUrl).into(simpleTarget)
+            GlideApp.with(this)
+                .asBitmap()
+                .load(mImageUrl)
+                .into(simpleTarget)
             setOnClickListener { onBackPressed() }
         }
     }
@@ -95,42 +99,38 @@ class BigMeiziActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_save -> {
-                saveImage()
-                return true
-            }
-            R.id.menu_share -> {
-                shareImage()
-                return true
-            }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.menu_save  -> OOIS {
+            saveImage()
         }
-        return super.onOptionsItemSelected(item)
+        R.id.menu_share -> OOIS {
+            shareImage()
+        }
+        else            -> super.onOptionsItemSelected(item)
     }
-
-
 
     private fun saveImage() {
         val permissions = RxPermissions(this)
-        permissions.request(*PERMISSIONS).subscribe { aBoolean ->
-            if (aBoolean!!) {
-                FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
-            } else {
-                showPermissionDialog()
+        permissions.request(*PERMISSIONS)
+            .subscribe { aBoolean ->
+                if (aBoolean!!) {
+                    FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
+                } else {
+                    showPermissionDialog()
+                }
             }
-        }
     }
 
-    private fun shareImage(){
+    private fun shareImage() {
         val permissions = RxPermissions(this)
-        permissions.request(*PERMISSIONS).subscribe { aBoolean ->
-            if (aBoolean!!) {
-                FileUtils.shareImage(this, bitmap)
-            } else {
-                showPermissionDialog()
+        permissions.request(*PERMISSIONS)
+            .subscribe { aBoolean ->
+                if (aBoolean!!) {
+                    FileUtils.shareImage(this, bitmap)
+                } else {
+                    showPermissionDialog()
+                }
             }
-        }
     }
 
     override fun onActivityResult(requestCode: Int,
@@ -142,13 +142,14 @@ class BigMeiziActivity : BaseActivity() {
     }
 
     private fun showPermissionDialog() {
-        Snackbar.make(iv_pic, getString(string.permission_help),
-            Snackbar.LENGTH_LONG).setActionTextColor(
-            ContextCompat.getColor(this, R.color.white)).setAction(getString(string.snake_open)) {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse("package:" + packageName)
-            startActivityForResult(intent, CODE_PERMISSIONS)
-        }.show()
+        Snackbar.make(iv_pic, getString(string.permission_help), Snackbar.LENGTH_LONG)
+            .setActionTextColor(ContextCompat.getColor(this, R.color.white))
+            .setAction(getString(string.snake_open)) {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:" + packageName)
+                startActivityForResult(intent, CODE_PERMISSIONS)
+            }
+            .show()
     }
 }
 

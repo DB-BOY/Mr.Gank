@@ -84,7 +84,8 @@ class XRecyclerView : LinearLayout {
 
     private fun initView(context: Context) {
         mContext = context
-        val view = LayoutInflater.from(context).inflate(R.layout.refresh_layout, null)
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.refresh_layout, null)
         swipeRefreshLayout = view.findViewById<View>(
             R.id.swipeRefreshLayout) as VpSwipeRefreshLayout
         swipeRefreshLayout!!.setColorSchemeResources(android.R.color.holo_red_light)
@@ -147,11 +148,7 @@ class XRecyclerView : LinearLayout {
     }
 
     fun setRefreshing(isRefreshing: Boolean) {
-        swipeRefreshLayout!!.post(object : Runnable {
-            override fun run() {
-                if (pullRefreshEnable) swipeRefreshLayout!!.isRefreshing = isRefreshing
-            }
-        })
+        swipeRefreshLayout!!.post { if (pullRefreshEnable) swipeRefreshLayout!!.isRefreshing = isRefreshing }
     }
 
     fun setFooterViewGone() {

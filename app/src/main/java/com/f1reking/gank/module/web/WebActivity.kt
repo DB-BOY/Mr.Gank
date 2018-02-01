@@ -38,6 +38,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
 import com.f1reking.gank.entity.CollectionEntity
 import com.f1reking.gank.entity.GankEntity
@@ -45,8 +46,8 @@ import com.f1reking.gank.entity.MessageEvent
 import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.ShareUtils
-import com.f1reking.statuslayout.library.StatusClickListener
-import com.f1reking.statuslayout.library.StatusLayout
+import com.f1reking.library.statuslayout.StatusClickListener
+import com.f1reking.library.statuslayout.StatusLayout
 import kotlinx.android.synthetic.main.activity_web.sr_gank
 import kotlinx.android.synthetic.main.activity_web.wv_gank
 import kotlinx.android.synthetic.main.toolbar_custom.toolbar
@@ -105,10 +106,7 @@ class WebActivity : SwipeBackActivity() {
         super.onDestroy()
         if (wv_gank != null) {
             val parent = wv_gank.parent as ViewParent
-            if (parent != null) {
-                (parent as ViewGroup).removeView(wv_gank)
-            }
-
+            (parent as ViewGroup).removeView(wv_gank)
             wv_gank.stopLoading()
             // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
             wv_gank.settings.javaScriptEnabled = false
@@ -148,7 +146,7 @@ class WebActivity : SwipeBackActivity() {
             initWebViewClient()
         }
         mSwipeBackLayout.apply {
-            this!!.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
+            this.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
         }
     }
 
@@ -161,7 +159,7 @@ class WebActivity : SwipeBackActivity() {
 
     @SuppressLint("SetJavaScriptEnabled") private fun initWebSettings() {
         val webSettings: WebSettings = wv_gank.settings
-        webSettings.run {
+        webSettings.apply {
             javaScriptEnabled = true
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
@@ -220,54 +218,49 @@ class WebActivity : SwipeBackActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_browser    -> {
-                Intent().run {
-                    action = Intent.ACTION_VIEW
-                    data = Uri.parse(webUrl)
-                    startActivity(this)
-                }
-                return true
-            }
-            R.id.menu_share      -> {
-                ShareUtils.shareText(this,
-                    getString(R.string.share_article_url, getString(R.string.app_name),
-                        toolbar_title.text, webUrl), getString(R.string.share_title))
-                return true
-            }
-            R.id.menu_copy       -> {
-                val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newRawUri("Mr.gank", Uri.parse(wv_gank.url))
-                cm.primaryClip = clipData
-                toast(getString(R.string.share_copy))
-                return true
-            }
-            R.id.menu_collection -> {
-                if (AppDatabaseHelper.getInstance(this).queryCollectionById(id!!).isNotEmpty()) {
-                    AppDatabaseHelper.getInstance(this)
-                        .delectCollection(
-                            AppDatabaseHelper.getInstance(this).queryCollectionById(id!!)[0])
-                    item.icon = ContextCompat.getDrawable(this, R.drawable.ic_munu_star_block)
-                    toast(getString(R.string.fav_cancel))
-                } else {
-                    val collectionEntity = CollectionEntity()
-                    collectionEntity._id = id
-                    collectionEntity.desc = gankEntity.desc
-                    collectionEntity.publishedAt = gankEntity.publishedAt
-                    collectionEntity.type = gankEntity.type
-                    collectionEntity.url = gankEntity.url
-                    collectionEntity.who = gankEntity.who
-                    AppDatabaseHelper.getInstance(this)
-                        .insertColletion(collectionEntity)
-                    item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
-                    toast(getString(R.string.fav_submit))
-                }
-                EventBus.getDefault()
-                    .post(MessageEvent("refresh"))
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.menu_browser    -> OOIS {
+            Intent().apply {
+                action = Intent.ACTION_VIEW
+                data = Uri.parse(webUrl)
+                startActivity(this)
             }
         }
-        return super.onOptionsItemSelected(item)
+        R.id.menu_share      -> OOIS {
+            ShareUtils.shareText(this,
+                getString(R.string.share_article_url, getString(R.string.app_name),
+                    toolbar_title.text, webUrl), getString(R.string.share_title))
+        }
+        R.id.menu_copy       -> OOIS {
+            val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newRawUri("Mr.gank", Uri.parse(wv_gank.url))
+            cm.primaryClip = clipData
+            toast(getString(R.string.share_copy))
+        }
+        R.id.menu_collection -> OOIS {
+            if (AppDatabaseHelper.getInstance(this).queryCollectionById(id!!).isNotEmpty()) {
+                AppDatabaseHelper.getInstance(this)
+                    .delectCollection(
+                        AppDatabaseHelper.getInstance(this).queryCollectionById(id!!)[0])
+                item.icon = ContextCompat.getDrawable(this, R.drawable.ic_munu_star_block)
+                toast(getString(R.string.fav_cancel))
+            } else {
+                val collectionEntity = CollectionEntity()
+                collectionEntity._id = id
+                collectionEntity.desc = gankEntity.desc
+                collectionEntity.publishedAt = gankEntity.publishedAt
+                collectionEntity.type = gankEntity.type
+                collectionEntity.url = gankEntity.url
+                collectionEntity.who = gankEntity.who
+                AppDatabaseHelper.getInstance(this)
+                    .insertColletion(collectionEntity)
+                item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
+                toast(getString(R.string.fav_submit))
+            }
+            EventBus.getDefault()
+                .post(MessageEvent("refresh"))
+        }
+        else                 -> super.onOptionsItemSelected(item)
     }
 
     override fun onKeyDown(keyCode: Int,

@@ -29,8 +29,8 @@ import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
-import com.f1reking.statuslayout.library.StatusClickListener
-import com.f1reking.statuslayout.library.StatusLayout
+import com.f1reking.library.statuslayout.StatusClickListener
+import com.f1reking.library.statuslayout.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_my_collection.rv_collection

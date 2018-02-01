@@ -34,8 +34,8 @@ import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
 import com.f1reking.gank.toast
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
-import com.f1reking.statuslayout.library.StatusClickListener
-import com.f1reking.statuslayout.library.StatusLayout
+import com.f1reking.library.statuslayout.StatusClickListener
+import com.f1reking.library.statuslayout.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_meizi.rv_meizi
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
@@ -92,13 +92,13 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
     }
 
     private fun initView() {
-        rv_meizi.run {
+        rv_meizi.apply {
             setColorSchemeResources(R.color.colorPrimary)
             setGridLayout(2)
             setOnPullLoadMoreListener(this@MeiziFragment)
             setAdapter(mMeiziAdapter)
         }
-        mMeiziAdapter.run {
+        mMeiziAdapter.apply {
             setOnItemClickListener(object : OnItemClickListener<GankEntity> {
                 override fun onItemLongClick(p0: ViewGroup?,
                                              p1: View?,
@@ -140,9 +140,9 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                     }
                     mMeiziAdapter.addAll(data.results)
                     if (mMeiziAdapter.data.size > 0) {
-                        mStatusLayout!!.showContentLayout()
+                        mStatusLayout.showContentLayout()
                     } else {
-                        mStatusLayout!!.showEmptyLayout()
+                        mStatusLayout.showEmptyLayout()
                     }
                     if (isMore) {
                         if (data.results.size == 0) {
@@ -155,7 +155,7 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
                                      apiErrorModel: ApiErrorModel) {
                     activity!!.toast(apiErrorModel.msg)
                     if (mMeiziAdapter.data.size == 0) {
-                        mStatusLayout!!.showErrorLayout()
+                        mStatusLayout.showErrorLayout()
                     }
                     if (isMore) {
                         --page

@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentTransaction
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
@@ -53,11 +54,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initView() {
-        toolbar.run {
-            toolbar.title = getString(R.string.app_name)
+        toolbar.apply {
+            title = getString(R.string.app_name)
             setSupportActionBar(this)
         }
-        bottomNavigation.run {
+        bottomNavigation.apply {
             setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
             selectedItemId = R.id.nav_new
         }
@@ -66,39 +67,41 @@ class MainActivity : BaseActivity() {
     override fun onAttachFragment(fragment: android.support.v4.app.Fragment?) {
         super.onAttachFragment(fragment)
         when (fragment) {
-            is GankFragment -> mGankFrament ?: let { mGankFrament = fragment }
+            is GankFragment  -> mGankFrament ?: let { mGankFrament = fragment }
             is MeiziFragment -> mMeiziFragment ?: let { mMeiziFragment = fragment }
         }
     }
 
     private fun setFragment(index: Int) {
-        fragmentManager.beginTransaction().apply {
-            mGankFrament ?: let {
-                GankFragment().let {
-                    mGankFrament = it
-                    add(R.id.ll_container, it)
-                }
-            }
-            mMeiziFragment ?: let {
-                MeiziFragment().let {
-                    mMeiziFragment = it
-                    add(R.id.ll_container, it)
-                }
-            }
-            hideFragment(this)
-            when (index) {
-                R.id.nav_new -> {
-                    mGankFrament?.let {
-                        this.show(it)
+        fragmentManager.beginTransaction()
+            .apply {
+                mGankFrament ?: let {
+                    GankFragment().let {
+                        mGankFrament = it
+                        add(R.id.ll_container, it)
                     }
                 }
-                R.id.nav_haha -> {
-                    mMeiziFragment?.let {
-                        this.show(it)
+                mMeiziFragment ?: let {
+                    MeiziFragment().let {
+                        mMeiziFragment = it
+                        add(R.id.ll_container, it)
+                    }
+                }
+                hideFragment(this)
+                when (index) {
+                    R.id.nav_new  -> {
+                        mGankFrament?.let {
+                            this.show(it)
+                        }
+                    }
+                    R.id.nav_haha -> {
+                        mMeiziFragment?.let {
+                            this.show(it)
+                        }
                     }
                 }
             }
-        }.commit()
+            .commit()
     }
 
     private fun hideFragment(transaction: FragmentTransaction) {
@@ -112,7 +115,7 @@ class MainActivity : BaseActivity() {
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         return@OnNavigationItemSelectedListener when (item.itemId) {
-            R.id.nav_new -> {
+            R.id.nav_new  -> {
                 setFragment(item.itemId)
                 true
             }
@@ -120,7 +123,7 @@ class MainActivity : BaseActivity() {
                 setFragment(item.itemId)
                 true
             }
-            else -> {
+            else          -> {
                 false
             }
         }
@@ -129,7 +132,7 @@ class MainActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         val searchItem = menu.findItem(R.id.menu_search)
-        search_view.run {
+        search_view.apply {
             setMenuItem(searchItem)
             setHint("输入搜索内容")
             setSuggestions(resources.getStringArray(R.array.query_suggestions))
@@ -148,20 +151,16 @@ class MainActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_about -> {
-                startActivity(Intent(this@MainActivity, AboutActivity::class.java))
-                return true
-            }
-            R.id.menu_search -> {
-                return true
-            }
-            R.id.menu_collection -> {
-                startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
-            }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.menu_about      -> OOIS {
+            startActivity(Intent(this@MainActivity, AboutActivity::class.java))
         }
-        return super.onOptionsItemSelected(item)
+        R.id.menu_search     -> OOIS {}
+        R.id.menu_collection -> OOIS {
+            startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
+        }
+        else                 -> super.onOptionsItemSelected(item)
+
     }
 
     override fun onKeyDown(keyCode: Int,

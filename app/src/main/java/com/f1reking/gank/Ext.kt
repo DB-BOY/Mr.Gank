@@ -45,3 +45,8 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
         .inflate(layoutRes, this, attachToRoot)
 }
 
+inline fun OOIS(f: () -> Unit): Boolean {
+    f()
+    return true
+}
+
