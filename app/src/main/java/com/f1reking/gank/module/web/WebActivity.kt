@@ -49,6 +49,7 @@ import com.f1reking.gank.util.ShareUtils
 import com.f1reking.library.statuslayout.StatusClickListener
 import com.f1reking.library.statuslayout.StatusLayout
 import kotlinx.android.synthetic.main.activity_web.sr_gank
+import kotlinx.android.synthetic.main.activity_web.view.wv_gank
 import kotlinx.android.synthetic.main.activity_web.wv_gank
 import kotlinx.android.synthetic.main.toolbar_custom.toolbar
 import kotlinx.android.synthetic.main.toolbar_custom.toolbar_title
@@ -222,18 +223,18 @@ class WebActivity : SwipeBackActivity() {
         R.id.menu_browser    -> OOIS {
             Intent().apply {
                 action = Intent.ACTION_VIEW
-                data = Uri.parse(webUrl)
+                data = Uri.parse(wv_gank.url)
                 startActivity(this)
             }
         }
         R.id.menu_share      -> OOIS {
             ShareUtils.shareText(this,
                 getString(R.string.share_article_url, getString(R.string.app_name),
-                    toolbar_title.text, webUrl), getString(R.string.share_title))
+                    toolbar_title.text, wv_gank.url), getString(R.string.share_title))
         }
         R.id.menu_copy       -> OOIS {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newRawUri("Mr.gank", Uri.parse(wv_gank.url))
+            val clipData = ClipData.newRawUri("Mr.gank", Uri.parse(wv_gank.wv_gank.url))
             cm.primaryClip = clipData
             toast(getString(R.string.share_copy))
         }
