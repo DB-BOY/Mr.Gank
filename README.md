@@ -18,8 +18,6 @@
 
 [酷安下载](https://www.coolapk.com/apk/175887)
 
-[蒲公英内测下载](https://www.pgyer.com/DuSY)
-
 ## Screenshots
 
 <a href="raw/gank01.jpeg"><img src="raw/gank01.jpeg" width="30%"/></a>
