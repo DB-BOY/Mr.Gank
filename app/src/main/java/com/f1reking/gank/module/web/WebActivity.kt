@@ -40,10 +40,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
-import com.f1reking.gank.entity.CollectionEntity
+import com.f1reking.gank.db.Collection
+import com.f1reking.gank.db.CollectionDaoOp
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.MessageEvent
-import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.ShareUtils
 import com.f1reking.library.statuslayout.StatusClickListener
@@ -211,7 +211,7 @@ class WebActivity : SwipeBackActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_web, menu)
-        if (AppDatabaseHelper.getInstance(this).queryCollectionById(id!!).isNotEmpty()) {
+        if (CollectionDaoOp.getInstance().queryById(this, id!!)!!.isNotEmpty()) {
             menu.findItem(R.id.menu_collection)
                 .setIcon(R.drawable.ic_menu_star)
         }
@@ -238,22 +238,20 @@ class WebActivity : SwipeBackActivity() {
             toast(getString(R.string.share_copy))
         }
         R.id.menu_collection -> OOIS {
-            if (AppDatabaseHelper.getInstance(this).queryCollectionById(id!!).isNotEmpty()) {
-                AppDatabaseHelper.getInstance(this)
-                    .delectCollection(
-                        AppDatabaseHelper.getInstance(this).queryCollectionById(id!!)[0])
+            if (CollectionDaoOp.getInstance().queryById(this, id!!)!!.isNotEmpty()) {
+                CollectionDaoOp.getInstance().deleteById(this, id!!)
                 item.icon = ContextCompat.getDrawable(this, R.drawable.ic_munu_star_block)
                 toast(getString(R.string.fav_cancel))
             } else {
-                val collectionEntity = CollectionEntity()
-                collectionEntity._id = id
-                collectionEntity.desc = gankEntity.desc
-                collectionEntity.publishedAt = gankEntity.publishedAt
-                collectionEntity.type = gankEntity.type
-                collectionEntity.url = gankEntity.url
-                collectionEntity.who = gankEntity.who
-                AppDatabaseHelper.getInstance(this)
-                    .insertColletion(collectionEntity)
+                val collection = Collection()
+                collection.id = id
+                collection.desc = gankEntity.desc
+                collection.publishedAt = gankEntity.publishedAt
+                collection.type = gankEntity.type
+                collection.url = gankEntity.url
+                collection.who = gankEntity.who
+                CollectionDaoOp.getInstance()
+                    .insertData(this, collection)
                 item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
                 toast(getString(R.string.fav_submit))
             }

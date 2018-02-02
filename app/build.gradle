@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'org.greenrobot.greendao'
 
 def dep = rootProject.ext.dependencies
 def an = rootProject.ext.android
@@ -71,6 +71,15 @@ android {
     androidExtensions {
         experimental = true
     }
+
+    greendao {
+        //数据库的schema版本，也可以理解为数据库版本号
+        schemaVersion 1
+        //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
+        daoPackage 'com.f1reking.gank.db.dao'
+        //设置DaoMaster、DaoSession、Dao目录
+        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
@@ -101,9 +110,8 @@ dependencies {
     implementation dep.StatusLayout
     implementation dep.swipebacklayout
     implementation dep.eventbus
+    implementation dep.greenDao
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
-    implementation dep.room
-    kapt dep.roomCompiler
     kapt dep.glideCompiler
 }

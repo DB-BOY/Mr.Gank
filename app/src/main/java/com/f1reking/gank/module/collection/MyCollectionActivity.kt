@@ -21,12 +21,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
-import com.f1reking.gank.entity.CollectionEntity
+import com.f1reking.gank.db.Collection
+import com.f1reking.gank.db.CollectionDaoOp
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.MessageEvent
 import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.RxScheduler
-import com.f1reking.gank.room.AppDatabaseHelper
 import com.f1reking.gank.widget.GankItemDecoration
 import com.f1reking.gank.widget.xrecyclerview.XRecyclerView.PullLoadMoreListener
 import com.f1reking.library.statuslayout.StatusClickListener
@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit.SECONDS
  */
 class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
 
-    private val datas = ArrayList<CollectionEntity>()
+    private val datas = ArrayList<Collection>()
 
     private val mGankAdapter: CollectionListAdapter by lazy {
         CollectionListAdapter(this, datas)
@@ -106,20 +106,20 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
             .recyclerView.apply {
             this!!.addItemDecoration(GankItemDecoration(this@MyCollectionActivity))
         }
-        mGankAdapter.setOnItemClickListener(object : OnItemClickListener<CollectionEntity> {
+        mGankAdapter.setOnItemClickListener(object : OnItemClickListener<Collection> {
             override fun onItemLongClick(p0: ViewGroup?,
                                          p1: View?,
-                                         p2: CollectionEntity?,
+                                         p2: Collection?,
                                          p3: Int): Boolean {
                 return true
             }
 
             override fun onItemClick(p0: ViewGroup?,
                                      p1: View?,
-                                     p2: CollectionEntity,
+                                     p2: Collection,
                                      p3: Int) {
                 val gankEntity = GankEntity("", "", "", "", "", "", "")
-                gankEntity._id = p2._id
+                gankEntity._id = p2.id
                 gankEntity.desc = p2.desc
                 gankEntity.type = p2.type
                 gankEntity.url = p2.url
@@ -143,9 +143,9 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
 
     private fun getCollectionList() {
         mGankAdapter.clear()
-        if (AppDatabaseHelper.getInstance(this).getCollectionList().isNotEmpty()) {
+        if (CollectionDaoOp.getInstance().queryAll(this)!!.isNotEmpty()) {
             mStatusLayout.showContentLayout()
-            mGankAdapter.addAll(AppDatabaseHelper.getInstance(this).getCollectionList())
+            mGankAdapter.addAll(CollectionDaoOp.getInstance().queryAll(this))
         } else {
             mStatusLayout.showEmptyLayout()
         }
