@@ -30,23 +30,24 @@ import android.widget.Toast
  * @desc:
  */
 fun Context.toast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT)
-        .show()
+  Toast.makeText(this, message, Toast.LENGTH_SHORT)
+      .show()
 }
 
 fun Context.toast(@StringRes id: Int) {
-    toast(getString(id))
+  toast(getString(id))
 }
 
 fun Context.inflater(@LayoutRes res: Int): View = LayoutInflater.from(this).inflate(res, null)
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
-    return LayoutInflater.from(context)
-        .inflate(layoutRes, this, attachToRoot)
+  return LayoutInflater.from(context)
+      .inflate(layoutRes, this, attachToRoot)
 }
 
 inline fun OOIS(f: () -> Unit): Boolean {
-    f()
-    return true
+  f()
+  return true
 }
+
 
