@@ -59,7 +59,7 @@ class GankResourcesFragment : LazyFragment(), PullLoadMoreListener {
 
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(rv_gank)
-            .setStatusClickListener(object : StatusClickListener {
+            .setOnStatusClickListener(object : StatusClickListener {
                 override fun onEmptyClick(view: View) {
                     mStatusLayout.showLoadingLayout()
                     page = 1

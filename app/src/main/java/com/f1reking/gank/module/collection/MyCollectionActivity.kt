@@ -55,8 +55,8 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
 
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(rv_collection)
-            .setEmptyText("这里没有文章了哦╮(╯▽╰)╭\n去添加喜欢的文章吧")
-            .setStatusClickListener(object : StatusClickListener {
+            .setOnEmptyText("这里没有文章了哦╮(╯▽╰)╭\n去添加喜欢的文章吧")
+            .setOnStatusClickListener(object : StatusClickListener {
                 override fun onEmptyClick(view: View) {
                     mStatusLayout.showLoadingLayout()
                     getCollectionListByLazy()

@@ -84,8 +84,8 @@ class WebActivity : SwipeBackActivity() {
 
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(sr_gank)
-            .setErrorText("加载出错了\n请重试")
-            .setStatusClickListener(object : StatusClickListener {
+            .setOnErrorText("加载出错了\n请重试")
+            .setOnStatusClickListener(object : StatusClickListener {
                 override fun onEmptyClick(view: View) {
                 }
 

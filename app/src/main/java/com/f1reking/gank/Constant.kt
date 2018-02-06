@@ -27,4 +27,6 @@ object Constant {
 
     const val CONTENT_SHARE_TYPE = "text/plain"
 
+    const val PAAYCODE = "FKX05689ZL39PEJ8GQIQDA"
+
 }

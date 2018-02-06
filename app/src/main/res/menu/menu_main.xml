@@ -16,6 +16,11 @@
         app:showAsAction="ifRoom"
         />
 
+    <item android:id="@+id/menu_donate"
+        android:title="捐助"
+        app:showAsAction="never"
+        />
+
     <item
         android:id="@+id/menu_about"
         android:icon="@mipmap/ic_launcher"
