@@ -212,7 +212,7 @@ class WebActivity : SwipeBackActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_web, menu)
-        if (CollectionDaoOp.getInstance().queryById(this, id!!)!!.isNotEmpty()) {
+        if (CollectionDaoOp.getInstance().queryById(applicationContext, id!!)!!.isNotEmpty()) {
             menu.findItem(R.id.menu_collection)
                 .setIcon(R.drawable.ic_menu_star)
         }
@@ -239,9 +239,9 @@ class WebActivity : SwipeBackActivity() {
             toast(getString(R.string.share_copy))
         }
         R.id.menu_collection -> OOIS {
-            if (CollectionDaoOp.getInstance().queryById(this, id!!)!!.isNotEmpty()) {
-                CollectionDaoOp.getInstance().deleteById(this, id!!)
-                item.icon = ContextCompat.getDrawable(this, R.drawable.ic_munu_star_block)
+            if (CollectionDaoOp.getInstance().queryById(applicationContext, id!!)!!.isNotEmpty()) {
+                CollectionDaoOp.getInstance().deleteById(applicationContext, id!!)
+                item.icon = ContextCompat.getDrawable(this@WebActivity, R.drawable.ic_munu_star_block)
                 toast(getString(R.string.fav_cancel))
             } else {
                 val collection = Collection()
@@ -252,8 +252,8 @@ class WebActivity : SwipeBackActivity() {
                 collection.url = gankEntity.url
                 collection.who = gankEntity.who
                 CollectionDaoOp.getInstance()
-                    .insertData(this, collection)
-                item.icon = ContextCompat.getDrawable(this, R.drawable.ic_menu_star)
+                    .insertData(applicationContext, collection)
+                item.icon = ContextCompat.getDrawable(this@WebActivity, R.drawable.ic_menu_star)
                 toast(getString(R.string.fav_submit))
             }
             EventBus.getDefault()

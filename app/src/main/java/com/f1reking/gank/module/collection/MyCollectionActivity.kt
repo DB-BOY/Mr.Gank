@@ -143,9 +143,9 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
 
     private fun getCollectionList() {
         mGankAdapter.clear()
-        if (CollectionDaoOp.getInstance().queryAll(this)!!.isNotEmpty()) {
+        if (CollectionDaoOp.getInstance().queryAll(applicationContext)!!.isNotEmpty()) {
             mStatusLayout.showContentLayout()
-            mGankAdapter.addAll(CollectionDaoOp.getInstance().queryAll(this))
+            mGankAdapter.addAll(CollectionDaoOp.getInstance().queryAll(applicationContext))
         } else {
             mStatusLayout.showEmptyLayout()
         }

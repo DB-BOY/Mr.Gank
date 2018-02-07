@@ -17,8 +17,13 @@
 package com.f1reking.gank.widget
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.view.View
+import android.widget.TextView
+import com.f1reking.gank.R
 
 /**
  * @author: F1ReKing
@@ -26,22 +31,41 @@ import android.view.View
  * @desc: 自定义书签view
  */
 
-class BookmarkView : View {
+class BookmarkView : TextView {
 
-    constructor(context: Context) : super(context) {}
+  private var mWidth: Int = 0
+  private var mHeight: Int = 0
 
-    constructor(context: Context,
-                attrs: AttributeSet?) : super(context, attrs) {
-    }
+  constructor(context: Context) : super(context) {}
 
-    constructor(context: Context,
-                attrs: AttributeSet?,
-                defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-    }
+  constructor(context: Context,
+              attrs: AttributeSet?) : super(context, attrs) {
+  }
 
-    override fun onMeasure(widthMeasureSpec: Int,
-                           heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+  constructor(context: Context,
+              attrs: AttributeSet?,
+              defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+  }
 
-    }
+  override fun onMeasure(widthMeasureSpec: Int,
+                         heightMeasureSpec: Int) {
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    mWidth = measuredWidth
+    mHeight = measuredHeight
+  }
+
+  override fun onDraw(canvas: Canvas?) {
+    val mPaint = Paint()
+    val path = Path()
+    mPaint.color = ContextCompat.getColor(context,R.color.darker_gray)
+    mPaint.style = Paint.Style.FILL
+    mPaint.isAntiAlias = true
+    mPaint.isDither = true
+    path.lineTo(mWidth.toFloat(), 0f)
+    path.lineTo((mWidth - 15).toFloat(), (mHeight / 2).toFloat())
+    path.lineTo(mWidth.toFloat(), mHeight.toFloat())
+    path.lineTo(0f, mHeight.toFloat())
+    canvas!!.drawPath(path, mPaint)
+    super.onDraw(canvas)
+  }
 }

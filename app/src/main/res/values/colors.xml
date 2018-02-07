@@ -16,4 +16,6 @@
     <color name="line">#F5F5F5</color>
     <color name="black">#E6000000</color>
 
+    <color name="darker_gray">#aaa</color>
+
 </resources>
