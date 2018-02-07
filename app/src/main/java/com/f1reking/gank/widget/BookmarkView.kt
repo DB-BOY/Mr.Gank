@@ -57,7 +57,7 @@ class BookmarkView : TextView {
   override fun onDraw(canvas: Canvas?) {
     val mPaint = Paint()
     val path = Path()
-    mPaint.color = ContextCompat.getColor(context,R.color.darker_gray)
+    mPaint.color = ContextCompat.getColor(context, R.color.gray)
     mPaint.style = Paint.Style.FILL
     mPaint.isAntiAlias = true
     mPaint.isDither = true

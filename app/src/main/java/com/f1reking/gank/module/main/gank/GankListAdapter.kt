@@ -18,6 +18,8 @@ package com.f1reking.gank.module.main.gank
 
 import android.content.Context
 import android.text.TextUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.f1reking.gank.R
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.util.DateUtils
@@ -32,16 +34,20 @@ import me.f1reking.adapter.RecyclerViewHolder
 class GankListAdapter(var context: Context,
                       var data: ArrayList<GankEntity>) :
     RecyclerAdapter<GankEntity>(context, R.layout.item_list_gank, data) {
-    override fun convert(holder: RecyclerViewHolder,
-                         entity: GankEntity?) {
-        holder.setText(R.id.tv_title, entity?.desc)
-        holder.setText(R.id.tv_time, entity?.publishedAt?.let { DateUtils.dateFormat(it) })
-        holder.setText(R.id.tv_author, """@${entity?.who}""")
-        if (!TextUtils.isEmpty(entity?.type)) {
-            holder.setVisible(R.id.tv_type, true)
-            holder.setText(R.id.tv_type, entity?.type)
-        } else {
-            holder.setVisible(R.id.tv_type, false)
-        }
+  override fun convert(holder: RecyclerViewHolder,
+                       entity: GankEntity?) {
+    Glide.with(context)
+        .load(entity?.images?.get(0))
+        .apply(RequestOptions().error(R.drawable.pic_no).placeholder(R.drawable.pic_loading))
+        .into(holder.getView(R.id.iv_gank_pic))
+    holder.setText(R.id.tv_title, entity?.desc)
+    holder.setText(R.id.tv_time, entity?.publishedAt?.let { DateUtils.dateFormat(it) })
+    holder.setText(R.id.tv_author, """@${entity?.who}""")
+    if (!TextUtils.isEmpty(entity?.type)) {
+      holder.setVisible(R.id.tv_type, true)
+      holder.setText(R.id.tv_type, entity?.type)
+    } else {
+      holder.setVisible(R.id.tv_type, false)
     }
+  }
 }

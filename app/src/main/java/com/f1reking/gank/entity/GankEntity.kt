@@ -31,4 +31,6 @@ import kotlinx.android.parcel.Parcelize
                                                                 var publishedAt: String?,
                                                                 var type: String?,
                                                                 var url: String?,
-                                                                var who: String?) : Parcelable
+                                                                var who: String?,
+                                                                var images: MutableList<String>?) :
+    Parcelable

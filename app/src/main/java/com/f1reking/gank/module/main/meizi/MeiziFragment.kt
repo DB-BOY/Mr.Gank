@@ -60,8 +60,8 @@ class MeiziFragment : BaseFragment(), PullLoadMoreListener {
 
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(rv_meizi)
-            .setOnEmptyText("咦，妹子都不见了╮(╯▽╰)╭\n\n 重新找看看吧")
-            .setOnErrorText("出错啦 ﾉ)ﾟДﾟ( ")
+            .setOnEmptyText("咦，妹子都不见了\n\n 重新找看看吧")
+            .setOnErrorText("出错啦 ")
             .setOnStatusClickListener(object : StatusClickListener {
                 override fun onEmptyClick(view: View) {
                     mStatusLayout.showLoadingLayout()
