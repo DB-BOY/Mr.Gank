@@ -33,7 +33,7 @@ class DateUtils {
                 return "unknown"
             }
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS")
-            val outputFormat = SimpleDateFormat("yyyy - MM - dd")
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd")
 
             try {
                 val date = inputFormat.parse(timestamp)
