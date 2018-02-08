@@ -2,7 +2,8 @@
 <resources>
 
     <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <!--<color name="colorPrimaryDark">#000000</color>-->
+    <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#455A64</color>
 
     <color name="toolbarColor">#99212121</color>
@@ -14,5 +15,7 @@
     <color name="black">#E6000000</color>
 
     <color name="gray">#d7d7d7</color>
+    <color name="bg_list">#EBEBEB</color>
+    <color name="bg_time">#d4d4d4</color>
 
 </resources>

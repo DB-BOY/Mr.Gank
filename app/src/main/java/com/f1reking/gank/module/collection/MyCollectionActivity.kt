@@ -17,6 +17,7 @@
 package com.f1reking.gank.module.collection
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import com.f1reking.gank.R
@@ -56,8 +57,8 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
   private val mStatusLayout: StatusLayout by lazy {
     StatusLayout.Builder(rv_collection)
         .setOnEmptyText("这里没有文章了哦\n去添加喜欢的文章吧")
-        .setOnEmptyTextColor(resources.getColor(R.color.text))
-        .setOnEmptyClickTextColor(resources.getColor(R.color.black))
+        .setOnEmptyTextColor(ContextCompat.getColor(this@MyCollectionActivity, R.color.text))
+        .setOnEmptyClickTextColor(ContextCompat.getColor(this@MyCollectionActivity, R.color.black))
         .setOnStatusClickListener(object : StatusClickListener {
           override fun onEmptyClick(view: View) {
             mStatusLayout.showLoadingLayout()

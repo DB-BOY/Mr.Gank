@@ -1,99 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:focusable="true"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
     >
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:padding="3dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:text="2018-01-08 00:00"
+        android:background="@drawable/shape_bg_time"
+        />
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
         >
 
-        <ImageView
-            android:id="@+id/iv_gank_pic"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/pic_no"
-            android:scaleType="centerCrop"
-            />
-
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:text="被父亲责骂“不争气” 男子负气流生为生为生流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/title"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp"
+            android:orientation="vertical"
             >
 
-            <com.f1reking.gank.widget.BookmarkView
-                android:id="@+id/tv_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                tools:text="android"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"
+            <ImageView
+                android:id="@+id/iv_gank_pic"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pic_no"
                 />
 
             <TextView
-                android:id="@+id/tv_author"
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/text"
-                android:textSize="14sp"
-                tools:text="F1ReKing"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="被父亲责骂“不争气” 男子负气流生为生为生流浪10年拾荒为生为生为生流浪10年拾荒为生为生为生"
+                android:textColor="@color/title"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 />
 
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/tv_author"
-                android:textColor="@color/text"
-                android:textSize="12sp"
-                tools:text="2018-01-08 00:00"
-                android:layout_marginRight="10dp"
-                />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                >
 
+                <com.f1reking.gank.widget.BookmarkView
+                    android:id="@+id/tv_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    tools:text="android"
+                    />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/text"
+                    android:textSize="14sp"
+                    tools:text="F1ReKing"
+                    />
 
+            </RelativeLayout>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
 
-
+</LinearLayout>
