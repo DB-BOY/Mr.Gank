@@ -61,8 +61,8 @@ class SearchActivity : BaseActivity(), PullLoadMoreListener {
     private lateinit var query: String
     private val datas = ArrayList<GankEntity>()
     private var page: Int = 1
-    private val mGankAdapter: GankListAdapter by lazy {
-        GankListAdapter(this, datas)
+    private val mGankAdapter: SearchListAdapter by lazy {
+        SearchListAdapter(this, datas)
     }
 
     private val mStatusLayout: StatusLayout by lazy {
