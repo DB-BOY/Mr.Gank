@@ -22,11 +22,11 @@ android {
         applicationId "com.f1reking.gank"
         minSdkVersion an.minSdkVersion
         targetSdkVersion an.targetSdkVersion
-        versionCode 170
-        versionName "1.7.0"
+        versionCode 180
+        versionName "1.8.0"
         multiDexEnabled true
         ndk {
-            abiFilters 'armeabi', 'x86'
+            abiFilters 'armeabi'
         }
     }
 
@@ -105,7 +105,6 @@ dependencies {
     implementation dep.swipebacklayout
     implementation dep.eventbus
     implementation dep.greenDao
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
     kapt dep.glideCompiler
