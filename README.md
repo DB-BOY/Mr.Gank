@@ -20,13 +20,13 @@
 
 ## Screenshots
 
-<a href="raw/gank01.jpeg"><img src="raw/gank01.jpeg" width="30%"/></a>
-<a href="raw/gank02.jpeg"><img src="raw/gank02.jpeg" width="30%"/></a>
-<a href="raw/gank03.jpeg"><img src="raw/gank03.jpeg" width="30%"/></a>
+<a href="art/gank01.jpeg"><img src="art/gank01.jpeg" width="30%"/></a>
+<a href="art/gank02.jpeg"><img src="art/gank02.jpeg" width="30%"/></a>
+<a href="art/gank03.jpeg"><img src="art/gank03.jpeg" width="30%"/></a>
 
-<a href="raw/gank04.jpeg"><img src="raw/gank04.jpeg" width="30%"/></a>
-<a href="raw/gank05.jpeg"><img src="raw/gank05.jpeg" width="30%"/></a>
-<a href="raw/gank06.jpeg"><img src="raw/gank06.jpeg" width="30%"/></a>
+<a href="art/gank04.jpeg"><img src="art/gank04.jpeg" width="30%"/></a>
+<a href="art/gank05.jpeg"><img src="art/gank05.jpeg" width="30%"/></a>
+<a href="art/gank06.jpeg"><img src="art/gank06.jpeg" width="30%"/></a>
 
 ## 版本开发记录
 #### 2018-2-9          v2.0.0
