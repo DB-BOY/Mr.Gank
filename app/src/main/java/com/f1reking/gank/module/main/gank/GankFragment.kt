@@ -19,6 +19,9 @@ package com.f1reking.gank.module.main.gank
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.androidkun.xtablayout.XTabLayout
@@ -33,6 +36,9 @@ import com.f1reking.gank.module.main.gank.fragment.GankResourcesFragment
 import com.f1reking.gank.module.main.gank.fragment.GankVideoFragment
 import com.f1reking.gank.module.main.gank.fragment.GankWebFragment
 import com.f1reking.gank.module.main.gank.fragment.GankiOSFragment
+import com.f1reking.gank.module.search.SearchActivity
+import com.miguelcatalan.materialsearchview.MaterialSearchView
+import kotlinx.android.synthetic.main.fragment_gank.search_view
 import kotlinx.android.synthetic.main.fragment_gank.tab_gank
 import kotlinx.android.synthetic.main.fragment_gank.vp_gank
 
@@ -43,53 +49,85 @@ import kotlinx.android.synthetic.main.fragment_gank.vp_gank
  */
 class GankFragment : BaseFragment() {
 
-    private var layout: View? = null
-    private var fragmentList = ArrayList<Fragment>()
+  private var layout: View? = null
+  private var fragmentList = ArrayList<Fragment>()
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        layout = container!!.inflate(R.layout.fragment_gank)
-        return layout
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setHasOptionsMenu(true)
+  }
+
+  override fun onCreateView(inflater: LayoutInflater,
+                            container: ViewGroup?,
+                            savedInstanceState: Bundle?): View? {
+    layout = container!!.inflate(R.layout.fragment_gank)
+    return layout
+  }
+
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+    val mGankVideoFragment = GankVideoFragment()
+    val mGankAndroidFragment = GankAndroidFragment()
+    val mGankiOSFragment = GankiOSFragment()
+    val mGankWebFragment = GankWebFragment()
+    val mGankResourcesFragment = GankResourcesFragment()
+    val mGankRecommendFragment = GankRecommendFragment()
+    val mGankAppFragment = GankAppFragment()
+    fragmentList.add(mGankVideoFragment)
+    fragmentList.add(mGankAndroidFragment)
+    fragmentList.add(mGankiOSFragment)
+    fragmentList.add(mGankWebFragment)
+    fragmentList.add(mGankResourcesFragment)
+    fragmentList.add(mGankRecommendFragment)
+    fragmentList.add(mGankAppFragment)
+    val pagerAdapter = TabPagerAdapter(childFragmentManager, fragmentList,
+        resources.getStringArray(R.array.tab_gank))
+    vp_gank.apply {
+      adapter = pagerAdapter
+      offscreenPageLimit = 7
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val mGankVideoFragment = GankVideoFragment()
-        val mGankAndroidFragment = GankAndroidFragment()
-        val mGankiOSFragment = GankiOSFragment()
-        val mGankWebFragment = GankWebFragment()
-        val mGankResourcesFragment = GankResourcesFragment()
-        val mGankRecommendFragment = GankRecommendFragment()
-        val mGankAppFragment = GankAppFragment()
-        fragmentList.add(mGankVideoFragment)
-        fragmentList.add(mGankAndroidFragment)
-        fragmentList.add(mGankiOSFragment)
-        fragmentList.add(mGankWebFragment)
-        fragmentList.add(mGankResourcesFragment)
-        fragmentList.add(mGankRecommendFragment)
-        fragmentList.add(mGankAppFragment)
-        val pagerAdapter = TabPagerAdapter(childFragmentManager, fragmentList,
-            resources.getStringArray(R.array.tab_gank))
-        vp_gank.apply {
-            adapter = pagerAdapter
-            offscreenPageLimit = 7
+    tab_gank.apply {
+      setupWithViewPager(vp_gank)
+      setOnTabSelectedListener(object : OnTabSelectedListener {
+        override fun onTabReselected(tab: XTabLayout.Tab?) {
         }
-        tab_gank.apply {
-            setupWithViewPager(vp_gank)
-            setOnTabSelectedListener(object : OnTabSelectedListener {
-                override fun onTabReselected(tab: XTabLayout.Tab?) {
-                }
 
-                override fun onTabUnselected(tab: XTabLayout.Tab?) {
-                }
-
-                override fun onTabSelected(tab: XTabLayout.Tab?) {
-                    vp_gank.currentItem = tab!!.position
-                }
-            })
+        override fun onTabUnselected(tab: XTabLayout.Tab?) {
         }
+
+        override fun onTabSelected(tab: XTabLayout.Tab?) {
+          vp_gank.currentItem = tab!!.position
+        }
+      })
     }
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu,
+                                   inflater: MenuInflater?) {
+    inflater!!.inflate(R.menu.menu_main, menu)
+    val searchItem = menu.findItem(R.id.menu_search)
+    search_view.apply {
+      setMenuItem(searchItem)
+      setHint("输入搜索内容")
+      setSuggestions(resources.getStringArray(R.array.query_suggestions))
+      setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+          SearchActivity.newIntent(activity!!, query!!)
+          closeSearch()
+          return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+          return false
+        }
+      })
+    }
+    return super.onCreateOptionsMenu(menu, inflater)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    return super.onOptionsItemSelected(item)
+  }
 }
 
 

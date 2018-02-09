@@ -16,34 +16,31 @@
 
 package com.f1reking.gank.module.main
 
-import android.content.DialogInterface.BUTTON_NEGATIVE
-import android.content.DialogInterface.BUTTON_POSITIVE
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
-import android.view.KeyEvent
-import android.view.Menu
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.f1reking.gank.Constant
-import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
-import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
 import com.f1reking.gank.module.collection.MyCollectionActivity
 import com.f1reking.gank.module.main.gank.GankFragment
 import com.f1reking.gank.module.main.meizi.MeiziFragment
-import com.f1reking.gank.module.search.SearchActivity
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.AlipayDonateUtils
 import com.f1reking.gank.util.AppUtils
-import com.miguelcatalan.materialsearchview.MaterialSearchView
-import kotlinx.android.synthetic.main.activity_main.bottomNavigation
-import kotlinx.android.synthetic.main.activity_main.search_view
+import kotlinx.android.synthetic.main.activity_main.drawer_layout
+import kotlinx.android.synthetic.main.activity_main.nav_view
+import kotlinx.android.synthetic.main.fragment_gank.search_view
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
   private var mGankFrament: GankFragment? = null
   private var mMeiziFragment: MeiziFragment? = null
@@ -55,18 +52,19 @@ class MainActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    initView()
-  }
-
-  private fun initView() {
     toolbar.apply {
       title = getString(R.string.app_name)
       setSupportActionBar(this)
     }
-    bottomNavigation.apply {
-      setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-      selectedItemId = R.id.nav_new
-    }
+
+    val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar,
+        R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+    drawer_layout.addDrawerListener(toggle)
+    toggle.syncState()
+
+    nav_view.setNavigationItemSelectedListener(this)
+    nav_view.setCheckedItem(R.id.nav_gank)
+    setFragment(R.id.nav_gank)
   }
 
   override fun onAttachFragment(fragment: android.support.v4.app.Fragment?) {
@@ -94,12 +92,12 @@ class MainActivity : BaseActivity() {
           }
           hideFragment(this)
           when (index) {
-            R.id.nav_new -> {
+            R.id.nav_gank -> {
               mGankFrament?.let {
                 this.show(it)
               }
             }
-            R.id.nav_haha -> {
+            R.id.nav_meizi -> {
               mMeiziFragment?.let {
                 this.show(it)
               }
@@ -118,68 +116,52 @@ class MainActivity : BaseActivity() {
     }
   }
 
-  private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-    return@OnNavigationItemSelectedListener when (item.itemId) {
-      R.id.nav_new -> {
-        setFragment(item.itemId)
-        true
-      }
-      R.id.nav_haha -> {
-        setFragment(item.itemId)
-        true
+  override fun onBackPressed() {
+    when {
+      drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(
+          GravityCompat.START)
+      search_view.isSearchOpen -> search_view.closeSearch()
+      (System.currentTimeMillis() - exitTime) > 2000 -> {
+        toast("""再次点击退出 ${AppUtils.getAppName(this)}""")
+        exitTime = System.currentTimeMillis()
       }
       else -> {
-        false
+        finish()
+        System.exit(0)
       }
     }
   }
 
-  override fun onCreateOptionsMenu(menu: Menu): Boolean {
-    menuInflater.inflate(R.menu.menu_main, menu)
-    val searchItem = menu.findItem(R.id.menu_search)
-    search_view.apply {
-      setMenuItem(searchItem)
-      setHint("输入搜索内容")
-      setSuggestions(resources.getStringArray(R.array.query_suggestions))
-      setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean {
-          SearchActivity.newIntent(this@MainActivity, query!!)
-          closeSearch()
-          return true
-        }
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-          return false
-        }
-      })
-    }
-    return super.onCreateOptionsMenu(menu)
-  }
-
-  override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-    R.id.menu_about -> OOIS {
-      startActivity(Intent(this@MainActivity, AboutActivity::class.java))
-    }
-    R.id.menu_search -> OOIS {}
-    R.id.menu_collection -> OOIS {
-      startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
-    }
-    R.id.menu_donate -> OOIS {
-      val dialog = AlertDialog.Builder(this@MainActivity)
-          .create()
-      dialog.apply {
-        setMessage("如果觉得应用不错，可以请作者喝杯奶茶哦（づ￣3￣）づ╭❤～")
-        setButton(BUTTON_NEGATIVE, "不要") { dialog, which -> dialog!!.dismiss() }
-        setButton(BUTTON_POSITIVE, "支付宝捐助") { dialog, which ->
-          dialog!!.dismiss()
-          donateAlipay(Constant.PAAYCODE)
-        }
+  override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    when (item.itemId) {
+      R.id.nav_gank -> {
+        setFragment(item.itemId)
       }
-      dialog.show()
-
+      R.id.nav_meizi -> {
+        setFragment(item.itemId)
+      }
+      R.id.nav_donate -> {
+        val dialog = AlertDialog.Builder(this@MainActivity)
+            .create()
+        dialog.apply {
+          setMessage("如果觉得应用不错，可以请作者喝杯奶茶哦（づ￣3￣）づ╭❤～")
+          setButton(DialogInterface.BUTTON_NEGATIVE, "不要") { dialog, which -> dialog!!.dismiss() }
+          setButton(DialogInterface.BUTTON_POSITIVE, "支付宝捐助") { dialog, which ->
+            dialog!!.dismiss()
+            donateAlipay(Constant.PAAYCODE)
+          }
+        }
+        dialog.show()
+      }
+      R.id.nav_collection -> {
+        startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
+      }
+      R.id.nav_about -> {
+        startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+      }
     }
-    else -> super.onOptionsItemSelected(item)
-
+    drawer_layout.closeDrawer(GravityCompat.START)
+    return true
   }
 
   /**
@@ -191,25 +173,8 @@ class MainActivity : BaseActivity() {
     if (hasInstalledAlipayClient) {
       AlipayDonateUtils.getInstance()
           .startAlipayClient(this, payCode)
-    }else{
+    } else {
       toast("未安装支付宝哦 ￣□￣｜｜")
     }
-  }
-
-  override fun onKeyDown(keyCode: Int,
-                         event: KeyEvent): Boolean {
-    if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
-      if (search_view.isSearchOpen) {
-        search_view.closeSearch()
-      } else if ((System.currentTimeMillis() - exitTime) > 2000) {
-        toast("""再次点击退出 ${AppUtils.getAppName(this)}""")
-        exitTime = System.currentTimeMillis()
-      } else {
-        finish()
-        System.exit(0)
-      }
-      return true
-    }
-    return super.onKeyDown(keyCode, event)
   }
 }

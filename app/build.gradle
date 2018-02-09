@@ -105,6 +105,7 @@ dependencies {
     implementation dep.swipebacklayout
     implementation dep.eventbus
     implementation dep.greenDao
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
     kapt dep.glideCompiler

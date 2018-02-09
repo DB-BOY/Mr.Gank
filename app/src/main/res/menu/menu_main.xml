@@ -9,25 +9,4 @@
         app:showAsAction="ifRoom"
         />
 
-    <item
-        android:id="@+id/menu_collection"
-        android:icon="@drawable/ic_menu_bookmark"
-        android:title="我的收藏"
-        app:showAsAction="ifRoom"
-        />
-
-    <item android:id="@+id/menu_donate"
-        android:title="捐助"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/menu_about"
-        android:icon="@mipmap/ic_launcher"
-        android:orderInCategory="60"
-        android:title="@string/about"
-        app:showAsAction="never"
-        />
-
-
 </menu>

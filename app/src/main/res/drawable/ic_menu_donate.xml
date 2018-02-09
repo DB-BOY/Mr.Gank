@@ -1,0 +1,34 @@
+<!--
+  ~  Copyright (c) 2018 F1ReKing
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="1024.0"
+        android:viewportHeight="1024.0">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M974.8,527.5C963.7,511.1 940.6,491.2 893.2,491.2L837.9,491.2C838.8,456.1 836.5,433 836.5,433L69.6,433C69.6,433 53.8,580.2 119.4,695.7 160.6,767.7 185.5,788.5 220.9,824.2 280.3,883.9 351.7,883.9 351.7,883.9L553,883.9C553,883.9 624.3,883.9 682.9,825.9 696.3,812.2 708.9,800.8 721.2,787.3 923.1,776.2 974.3,635.2 980.4,616.4 984.2,606.2 998.3,562.6 974.8,527.5L974.8,527.5ZM916.3,592.2 L915.2,595.7C914.9,596.6 889.7,680.5 778.5,709.8 781.2,705.4 783.8,700.7 786.7,695.7 811.6,651.6 824.8,603 831.5,559.7L893.2,559.7C909.6,559.7 916.6,563.5 918.1,565.5 921.3,570.2 919.6,583.7 916.3,592.2L916.3,592.2Z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M856,934.2 L51.8,934.2C3.5,986.6 319.2,1019.9 319.2,1019.9L588.6,1019.9C588.6,1019.9 894.9,987.8 856,934.2"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M524.6,370.4C525.5,373.3 515.8,376.8 512.6,375.7 415.7,314.8 439.1,230 502.3,167.9 550.6,120.8 586.6,97.1 586.9,22.5 586.6,15.8 601.2,14.9 603.6,17.8 722.7,186.7 455.8,195.4 524.6,370.4"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M349.9,370.4C351.1,373.3 341.4,376.8 338.2,375.7 241.4,314.8 264.5,230 328,167.9 376,120.8 411.9,97.1 412.2,22.5 412.2,15.8 426.9,14.9 429.2,17.8 548.3,186.7 281.2,195.4 349.9,370.4"/>
+</vector>
