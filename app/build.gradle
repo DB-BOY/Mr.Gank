@@ -22,8 +22,8 @@ android {
         applicationId "com.f1reking.gank"
         minSdkVersion an.minSdkVersion
         targetSdkVersion an.targetSdkVersion
-        versionCode 180
-        versionName "1.8.0"
+        versionCode 200
+        versionName "2.0.0"
         multiDexEnabled true
         ndk {
             abiFilters 'armeabi'
