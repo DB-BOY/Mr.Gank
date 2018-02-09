@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val dialog = AlertDialog.Builder(this@MainActivity)
             .create()
         dialog.apply {
-          setMessage("如果觉得应用不错，可以请作者喝杯奶茶哦（づ￣3￣）づ╭❤～")
+          setMessage("如果觉得应用不错，可以请作者喝杯奶茶~~")
           setButton(DialogInterface.BUTTON_NEGATIVE, "不要") { dialog, which -> dialog!!.dismiss() }
           setButton(DialogInterface.BUTTON_POSITIVE, "支付宝捐助") { dialog, which ->
             dialog!!.dismiss()
@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
       AlipayDonateUtils.getInstance()
           .startAlipayClient(this, payCode)
     } else {
-      toast("未安装支付宝哦 ￣□￣｜｜")
+      toast("未安装支付宝...")
     }
   }
 }
