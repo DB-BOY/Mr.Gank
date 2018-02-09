@@ -26,7 +26,7 @@ import android.view.animation.AnimationSet
 import android.view.animation.ScaleAnimation
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
-import com.f1reking.gank.module.main.Main3Activity
+import com.f1reking.gank.module.main.MainActivity
 import kotlinx.android.synthetic.main.activity_launch.iv_launch
 
 /**
@@ -58,7 +58,7 @@ class LaunchActivity : BaseActivity() {
             }
 
             override fun onAnimationEnd(animation: Animation?) {
-                startActivity(Intent(this@LaunchActivity, Main3Activity::class.java))
+                startActivity(Intent(this@LaunchActivity, MainActivity::class.java))
                 finish()
             }
 

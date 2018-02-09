@@ -17,12 +17,16 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity android:name=".module.launch.LaunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
-            android:name=".module.main.Main3Activity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
+            android:name=".module.main.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
         <activity android:name=".module.about.AboutActivity"/>
         <activity
             android:name=".module.web.WebActivity"
@@ -41,16 +45,5 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <activity
-            android:name=".module.main.MainActivity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
     </application>
-
 </manifest>
