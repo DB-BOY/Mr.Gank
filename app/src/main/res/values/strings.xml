@@ -10,6 +10,7 @@
     <string name="timeout">网络超时</string>
     <string name="network_wrong">网络连接错误，请检查网络</string>
     <string name="unexpected_error">网络数据错误</string>
+
     <string name="share_article_url">我在[%1$s]发现：【%2$s】：%3$s</string>
     <string name="share_title">分享给好友</string>
 
@@ -25,8 +26,8 @@
     <string name="permission_help">需要给予权限才能正常使用，去打开权限吧</string>
     <string name="snake_open">打开</string>
     <string name="load_more_text">正在加载…</string>
-    <string name="fav_cancel">取消收藏</string>
-    <string name="fav_submit">已收藏</string>
+    <string name="fav_cancel">已取消收藏</string>
+    <string name="fav_submit">已加入收藏</string>
     <string name="share_copy">复制成功，可以发给好友</string>
     <string name="share_to_friend">推荐给好友</string>
     <string name="email">hyh9102@gmail.com</string>
