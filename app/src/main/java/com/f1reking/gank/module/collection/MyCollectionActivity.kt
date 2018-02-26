@@ -76,17 +76,13 @@ class MyCollectionActivity : BaseActivity(), PullLoadMoreListener {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_my_collection)
+    EventBus.getDefault()
+        .register(this)
     initView()
   }
 
-  override fun onStart() {
-    super.onStart()
-    EventBus.getDefault()
-        .register(this)
-  }
-
-  override fun onStop() {
-    super.onStop()
+  override fun onDestroy() {
+    super.onDestroy()
     EventBus.getDefault()
         .unregister(this)
   }
