@@ -136,9 +136,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     when (item.itemId) {
       R.id.nav_gank -> {
         setFragment(item.itemId)
+        drawer_layout.closeDrawer(GravityCompat.START)
       }
       R.id.nav_meizi -> {
         setFragment(item.itemId)
+        drawer_layout.closeDrawer(GravityCompat.START)
       }
       R.id.nav_donate -> {
         val dialog = AlertDialog.Builder(this@MainActivity)
@@ -152,6 +154,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
           }
         }
         dialog.show()
+        drawer_layout.closeDrawer(GravityCompat.START)
       }
       R.id.nav_collection -> {
         startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
@@ -160,7 +163,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(Intent(this@MainActivity, AboutActivity::class.java))
       }
     }
-    drawer_layout.closeDrawer(GravityCompat.START)
     return true
   }
 
