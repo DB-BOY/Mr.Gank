@@ -25,9 +25,9 @@ android {
         versionCode 200
         versionName "2.0.0"
         multiDexEnabled true
-        ndk {
-            abiFilters 'armeabi'
-        }
+//        ndk {
+//            abiFilters 'armeabi'
+//        }
     }
 
     Properties props = new Properties()

@@ -33,13 +33,15 @@
     <item android:title="其他">
         <menu>
             <item
-                android:id="@+id/nav_donate"
-                android:icon="@drawable/ic_menu_donate"
-                android:title="捐助"/>
-            <item
                 android:id="@+id/nav_collection"
                 android:icon="@drawable/ic_menu_bookmark"
                 android:title="我的收藏"/>
+
+            <item
+                android:id="@+id/nav_donate"
+                android:icon="@drawable/ic_menu_donate"
+                android:title="捐助"/>
+
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_menu_about"
