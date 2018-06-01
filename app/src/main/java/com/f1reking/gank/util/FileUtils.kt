@@ -16,6 +16,7 @@
 
 package com.f1reking.gank.util
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -73,18 +74,18 @@ class FileUtils {
                 e.printStackTrace()
             } //通知图库更新
             context.sendBroadcast(
-                Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, parse("file://" + file.path)))
+                    Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, parse("file://" + file.path)))
             if (save) {
                 Snackbar.make(view, context.getString(string.save_image_success),
-                    Snackbar.LENGTH_LONG).setActionTextColor(
-                    ContextCompat.getColor(context, R.color.white)).setAction(
-                    context.getString(string.open)) {
+                        Snackbar.LENGTH_LONG).setActionTextColor(
+                        ContextCompat.getColor(context, R.color.white)).setAction(
+                        context.getString(string.open)) {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.addCategory(Intent.CATEGORY_DEFAULT)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                         val contentUri = FileProvider.getUriForFile(context,
-                            context.packageName + ".fileProvider", file)
+                                context.packageName + ".fileProvider", file)
                         intent.setDataAndType(contentUri, "image/*")
                     } else {
                         intent.setDataAndType(Uri.fromFile(file), "image/*")
@@ -94,7 +95,7 @@ class FileUtils {
                 }.show()
             } else {
                 Toast.makeText(context, context.getString(string.save_image_fail),
-                    Toast.LENGTH_SHORT).show()
+                        Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -108,6 +109,7 @@ class FileUtils {
             shareIntent.action = Intent.ACTION_SEND
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
             shareIntent.type = "image/*"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_pic_text))
             context.startActivity(Intent.createChooser(shareIntent, "分享"))
         }
     }
