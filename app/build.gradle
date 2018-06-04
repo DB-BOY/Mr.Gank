@@ -26,19 +26,19 @@ android {
         versionCode 210
         versionName "2.1.0"
         multiDexEnabled true
-//        ndk {
-//            abiFilters 'armeabi'
-//        }
+        ndk {
+            abiFilters 'armeabi'
+        }
     }
 
     Properties props = new Properties()
-//    props.load(new FileInputStream(file("signing.properties")))
+    props.load(new FileInputStream(file("signing.properties")))
     signingConfigs {
         release {
-//            keyAlias props['KEY_ALIAS']
-//            keyPassword props['KEY_PASSWORD']
-//            storeFile file(props['KEYSTORE_FILE'])
-//            storePassword props['KEYSTORE_PASSWORD']
+            keyAlias props['KEY_ALIAS']
+            keyPassword props['KEY_PASSWORD']
+            storeFile file(props['KEYSTORE_FILE'])
+            storePassword props['KEYSTORE_PASSWORD']
         }
     }
 
