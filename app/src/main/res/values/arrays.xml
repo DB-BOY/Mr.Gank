@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="tab_gank">
-        <item>趣视频</item>
         <item>Android</item>
         <item>iOS</item>
         <item>前端</item>
