@@ -16,6 +16,7 @@
 
 package com.f1reking.gank.module.main.gank.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import com.f1reking.gank.base.LazyFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
+import com.f1reking.gank.module.collection.MyCollectionActivity
 import com.f1reking.gank.module.main.gank.GankListAdapter
 import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
@@ -37,6 +39,7 @@ import com.f1reking.library.statuslayout.StatusClickListener
 import com.f1reking.library.statuslayout.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
+import kotlinx.android.synthetic.main.fragment_gank_video.*
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
@@ -58,20 +61,20 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
 
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(rv_gank)
-            .setOnStatusClickListener(object : StatusClickListener {
-                override fun onEmptyClick(view: View) {
-                    mStatusLayout.showLoadingLayout()
-                    page = 1
-                    loadGankList()
-                }
+                .setOnStatusClickListener(object : StatusClickListener {
+                    override fun onEmptyClick(view: View) {
+                        mStatusLayout.showLoadingLayout()
+                        page = 1
+                        loadGankList()
+                    }
 
-                override fun onErrorClick(view: View) {
-                    mStatusLayout.showLoadingLayout()
-                    page = 1
-                    loadGankList()
-                }
-            })
-            .build()
+                    override fun onErrorClick(view: View) {
+                        mStatusLayout.showLoadingLayout()
+                        page = 1
+                        loadGankList()
+                    }
+                })
+                .build()
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -90,7 +93,7 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
             setOnPullLoadMoreListener(this@GankVideoFragment)
             setAdapter(mGankAdapter)
         }
-            .recyclerView.apply {
+                .recyclerView.apply {
             this!!.addItemDecoration(GankItemDecoration(activity!!))
         }
         mGankAdapter.apply {
@@ -110,6 +113,12 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
                 }
             })
         }
+        fab.apply {
+            attachToRecyclerView(rv_gank.recyclerView!!)
+            setOnClickListener{
+                startActivity(Intent(activity, MyCollectionActivity::class.java))
+            }
+        }
     }
 
     override fun onFirstUserVisible() {
@@ -119,30 +128,30 @@ class GankVideoFragment : LazyFragment(), PullLoadMoreListener {
 
     private fun loadGankList() {
         ApiClient.instance.mService.getGankList(TYPE, 10, page)
-            .compose(RxScheduler.compose())
-            .bindToLifecycle(this)
-            .doAfterTerminate {
-                rv_gank.setPullLoadMoreCompleted()
-            }
-            .subscribe(object : ApiResponse<HttpEntity>(activity!!) {
-                override fun success(data: HttpEntity) {
-                    if (page == 1) {
-                        mGankAdapter.clear()
-                    }
-                    mGankAdapter.addAll(data.results)
-                    if (mGankAdapter.data.size > 0) {
-                        mStatusLayout.showContentLayout()
-                    } else {
-                        mStatusLayout.showEmptyLayout()
-                    }
+                .compose(RxScheduler.compose())
+                .bindToLifecycle(this)
+                .doAfterTerminate {
+                    rv_gank.setPullLoadMoreCompleted()
                 }
+                .subscribe(object : ApiResponse<HttpEntity>(activity!!) {
+                    override fun success(data: HttpEntity) {
+                        if (page == 1) {
+                            mGankAdapter.clear()
+                        }
+                        mGankAdapter.addAll(data.results)
+                        if (mGankAdapter.data.size > 0) {
+                            mStatusLayout.showContentLayout()
+                        } else {
+                            mStatusLayout.showEmptyLayout()
+                        }
+                    }
 
-                override fun failure(statusCode: Int,
-                                     apiErrorModel: ApiErrorModel) {
-                    activity!!.toast(apiErrorModel.msg)
-                    mStatusLayout.showErrorLayout()
-                }
-            })
+                    override fun failure(statusCode: Int,
+                                         apiErrorModel: ApiErrorModel) {
+                        activity!!.toast(apiErrorModel.msg)
+                        mStatusLayout.showErrorLayout()
+                    }
+                })
     }
 
     override fun onRefresh() {

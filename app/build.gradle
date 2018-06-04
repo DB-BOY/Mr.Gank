@@ -108,4 +108,5 @@ dependencies {
     debugImplementation dep.leakcanaryDebug
     releaseImplementation dep.leakcanaryRelease
     kapt dep.glideCompiler
+    implementation 'com.melnykov:floatingactionbutton:1.3.0'
 }

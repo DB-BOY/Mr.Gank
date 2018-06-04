@@ -23,29 +23,24 @@
         <item
             android:id="@+id/nav_gank"
             android:icon="@drawable/ic_menu_gank"
-            android:title="干货"/>
+            android:title="@string/nav_gank"/>
         <item
             android:id="@+id/nav_meizi"
             android:icon="@drawable/ic_menu_meizi"
-            android:title="妹子"/>
+            android:title="@string/nav_meizi"/>
     </group>
 
     <item android:title="其他">
         <menu>
             <item
-                android:id="@+id/nav_collection"
-                android:icon="@drawable/ic_menu_bookmark"
-                android:title="我的收藏"/>
-
-            <item
                 android:id="@+id/nav_donate"
                 android:icon="@drawable/ic_menu_donate"
-                android:title="捐助"/>
+                android:title="@string/navi_donate"/>
 
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_menu_about"
-                android:title="关于Mr.Gank"/>
+                android:title="@string/navi_about"/>
         </menu>
     </item>
 

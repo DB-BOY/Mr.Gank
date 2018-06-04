@@ -50,10 +50,10 @@ class BigMeiziActivity : BaseActivity() {
         Manifest.permission.READ_EXTERNAL_STORAGE)
 
     companion object {
-        val EXTRA_URL = "mImageUrl"
-        val TRANSIT_PIC = "picture"
-        val EXTRA_TITLE = "title"
-        val CODE_PERMISSIONS = 101
+        const val EXTRA_URL = "mImageUrl"
+        const val TRANSIT_PIC = "picture"
+        const val EXTRA_TITLE = "title"
+        const val CODE_PERMISSIONS = 101
     }
 
     private lateinit var mImageUrl: String

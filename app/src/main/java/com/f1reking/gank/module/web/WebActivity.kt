@@ -40,6 +40,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
+import com.f1reking.gank.R.string.settings
 import com.f1reking.gank.db.Collection
 import com.f1reking.gank.db.CollectionDaoOp
 import com.f1reking.gank.entity.GankEntity
@@ -112,7 +113,6 @@ class WebActivity : SwipeBackActivity() {
             // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
             wv_gank.settings.javaScriptEnabled = false
             wv_gank.clearHistory()
-            wv_gank.clearView()
             wv_gank.removeAllViews()
 
             try {
@@ -230,7 +230,7 @@ class WebActivity : SwipeBackActivity() {
         R.id.menu_share      -> OOIS {
             ShareUtils.shareText(this,
                 getString(R.string.share_article_url, getString(R.string.app_name),
-                    toolbar_title.text, wv_gank.url), getString(R.string.share_title))
+                        gankEntity.desc, wv_gank.url), getString(R.string.share_title))
         }
         R.id.menu_copy       -> OOIS {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

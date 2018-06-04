@@ -33,5 +33,12 @@
     <string name="share_to_friend">推荐给好友</string>
     <string name="email">hyh9102@gmail.com</string>
     <string name="author">\@F1ReKing</string>
+    <string name="donate_message">如果觉得应用不错，可以请作者喝杯奶茶~~</string>
+    <string name="donate_no">不要</string>
+    <string name="donate_pay">支付宝捐助</string>
+    <string name="nav_gank">干货</string>
+    <string name="nav_meizi">妹子</string>
+    <string name="navi_donate">捐助</string>
+    <string name="navi_about">关于Mr.Gank</string>
 
 </resources>

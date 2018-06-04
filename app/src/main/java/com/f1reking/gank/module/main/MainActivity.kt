@@ -28,6 +28,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.f1reking.gank.Constant
 import com.f1reking.gank.R
+import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
 import com.f1reking.gank.module.collection.MyCollectionActivity
 import com.f1reking.gank.module.main.gank.GankFragment
@@ -40,7 +41,7 @@ import kotlinx.android.synthetic.main.activity_main.nav_view
 import kotlinx.android.synthetic.main.fragment_gank.search_view
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
   private var mGankFrament: GankFragment? = null
   private var mMeiziFragment: MeiziFragment? = null
@@ -146,9 +147,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val dialog = AlertDialog.Builder(this@MainActivity)
             .create()
         dialog.apply {
-          setMessage("如果觉得应用不错，可以请作者喝杯奶茶~~")
-          setButton(DialogInterface.BUTTON_NEGATIVE, "不要") { dialog, which -> dialog!!.dismiss() }
-          setButton(DialogInterface.BUTTON_POSITIVE, "支付宝捐助") { dialog, which ->
+          setMessage(getString(R.string.donate_message))
+          setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.donate_no)) { dialog, which -> dialog!!.dismiss() }
+          setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.donate_pay)) { dialog, which ->
             dialog!!.dismiss()
             donateAlipay(Constant.PAAYCODE)
           }
@@ -156,11 +157,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog.show()
         drawer_layout.closeDrawer(GravityCompat.START)
       }
-      R.id.nav_collection -> {
-        startActivity(Intent(this@MainActivity, MyCollectionActivity::class.java))
-      }
       R.id.nav_about -> {
         startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+        drawer_layout.closeDrawer(GravityCompat.START)
       }
     }
     return true

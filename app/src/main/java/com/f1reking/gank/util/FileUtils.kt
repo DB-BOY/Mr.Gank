@@ -16,7 +16,6 @@
 
 package com.f1reking.gank.util
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -54,11 +53,11 @@ class FileUtils {
                                bitmap: Bitmap,
                                title: String) {
             var save: Boolean
-            val appDir = File(Environment.getExternalStorageDirectory(), "Mr.Gank")
+            val appDir = File(Environment.getExternalStorageDirectory(), "MrGank")
             if (!appDir.exists()) {
                 appDir.mkdir()
             }
-            val fileName = title + ".jpg"
+            val fileName = title + ".png"
             val file = File(appDir, fileName)
 
             try {
@@ -105,12 +104,7 @@ class FileUtils {
         fun shareImage(context: Context,
                        bitmap: Bitmap) {
             val uri = parse(Media.insertImage(context.contentResolver, bitmap, null, null))
-            val shareIntent = Intent()
-            shareIntent.action = Intent.ACTION_SEND
-            shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-            shareIntent.type = "image/*"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_pic_text))
-            context.startActivity(Intent.createChooser(shareIntent, "分享"))
+            ShareUtils.shareImage(context, uri)
         }
     }
 }

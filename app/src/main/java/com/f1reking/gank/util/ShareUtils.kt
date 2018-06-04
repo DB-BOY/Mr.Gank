@@ -18,7 +18,9 @@ package com.f1reking.gank.util
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import com.f1reking.gank.Constant
+import com.f1reking.gank.R
 
 /**
  * @author: F1ReKing
@@ -37,6 +39,16 @@ class ShareUtils {
             shareIntent.putExtra(Intent.EXTRA_TEXT, text)
             shareIntent.type = Constant.CONTENT_SHARE_TYPE
             context.startActivity(Intent.createChooser(shareIntent, title))
+        }
+
+        fun shareImage(context: Context, uri: Uri){
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+            shareIntent.type = "image/*"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_pic_text))
+            context.startActivity(Intent.createChooser(shareIntent, "分享"))
+
         }
     }
 }
