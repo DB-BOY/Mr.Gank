@@ -35,6 +35,10 @@
         <activity android:name=".module.search.SearchActivity"/>
         <activity android:name=".module.collection.MyCollectionActivity"/>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9a06095aaadbdfc2f514f104c2b3ddfe017ac243" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

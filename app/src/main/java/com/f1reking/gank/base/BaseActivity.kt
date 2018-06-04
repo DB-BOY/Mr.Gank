@@ -21,6 +21,13 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import com.f1reking.gank.R
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
+import com.crashlytics.android.answers.Answers
+
+
+
+
 
 /**
  * @author: F1ReKing
@@ -32,6 +39,8 @@ open class BaseActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        Fabric.with(this, Crashlytics())
+        Fabric.with(this, Answers())
     }
 
     fun setToolbarTitle(title: String) {

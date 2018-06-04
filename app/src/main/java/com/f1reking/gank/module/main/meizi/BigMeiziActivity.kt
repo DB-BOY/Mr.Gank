@@ -29,6 +29,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
 import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
 import com.f1reking.gank.R.string
@@ -47,7 +49,7 @@ import kotlinx.android.synthetic.main.toolbar.toolbar
 class BigMeiziActivity : BaseActivity() {
 
     private val PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE)
+            Manifest.permission.READ_EXTERNAL_STORAGE)
 
     companion object {
         const val EXTRA_URL = "mImageUrl"
@@ -87,9 +89,9 @@ class BigMeiziActivity : BaseActivity() {
                 }
             }
             GlideApp.with(this)
-                .asBitmap()
-                .load(mImageUrl)
-                .into(simpleTarget)
+                    .asBitmap()
+                    .load(mImageUrl)
+                    .into(simpleTarget)
             setOnClickListener { onBackPressed() }
         }
     }
@@ -100,37 +102,39 @@ class BigMeiziActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.menu_save  -> OOIS {
+        R.id.menu_save -> OOIS {
             saveImage()
         }
         R.id.menu_share -> OOIS {
             shareImage()
         }
-        else            -> super.onOptionsItemSelected(item)
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun saveImage() {
         val permissions = RxPermissions(this)
         permissions.request(*PERMISSIONS)
-            .subscribe { aBoolean ->
-                if (aBoolean!!) {
-                    FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
-                } else {
-                    showPermissionDialog()
+                .subscribe { aBoolean ->
+                    if (aBoolean!!) {
+                        FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
+                        Answers.getInstance().logCustom(CustomEvent("save Meizi").putCustomAttribute("meizi", mImageUrl))
+                    } else {
+                        showPermissionDialog()
+                    }
                 }
-            }
     }
 
     private fun shareImage() {
         val permissions = RxPermissions(this)
         permissions.request(*PERMISSIONS)
-            .subscribe { aBoolean ->
-                if (aBoolean!!) {
-                    FileUtils.shareImage(this, bitmap)
-                } else {
-                    showPermissionDialog()
+                .subscribe { aBoolean ->
+                    if (aBoolean!!) {
+                        FileUtils.shareImage(this, bitmap)
+                        Answers.getInstance().logCustom(CustomEvent("share Meizi").putCustomAttribute("meizi", mImageUrl))
+                    } else {
+                        showPermissionDialog()
+                    }
                 }
-            }
     }
 
     override fun onActivityResult(requestCode: Int,
@@ -143,13 +147,13 @@ class BigMeiziActivity : BaseActivity() {
 
     private fun showPermissionDialog() {
         Snackbar.make(iv_pic, getString(string.permission_help), Snackbar.LENGTH_LONG)
-            .setActionTextColor(ContextCompat.getColor(this, R.color.white))
-            .setAction(getString(string.snake_open)) {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                intent.data = Uri.parse("package:" + packageName)
-                startActivityForResult(intent, CODE_PERMISSIONS)
-            }
-            .show()
+                .setActionTextColor(ContextCompat.getColor(this, R.color.white))
+                .setAction(getString(string.snake_open)) {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    intent.data = Uri.parse("package:" + packageName)
+                    startActivityForResult(intent, CODE_PERMISSIONS)
+                }
+                .show()
     }
 }
 
