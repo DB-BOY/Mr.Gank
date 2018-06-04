@@ -32,7 +32,7 @@ import android.widget.TextView
 import com.f1reking.gank.R
 
 /**
- * Created by HuangYH on 2016/5/3.
+ * Created by F1ReKing on 2016/5/3.
  */
 class XRecyclerView : LinearLayout {
     var recyclerView: RecyclerView? = null

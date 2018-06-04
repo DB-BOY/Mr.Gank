@@ -13,31 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-package com.f1reking.gank.module.main.meizi
+package com.f1reking.gank.module.main.girl
 
 import android.content.Context
 import com.f1reking.gank.R
-import com.f1reking.gank.entity.GankEntity
+import com.f1reking.gank.entity.JDGirlEntity
 import com.f1reking.gank.util.GlideApp
 import me.f1reking.adapter.RecyclerAdapter
 import me.f1reking.adapter.RecyclerViewHolder
 
 /**
  * @author: F1ReKing
- * @date: 2018/1/9 13:44
+ * @date: 2018/6/4
  * @desc:
  */
-class MeiziListAdapter(var context: Context,
-                       var data: ArrayList<GankEntity>) :
-    RecyclerAdapter<GankEntity>(context, R.layout.item_list_meizi, data) {
+class JDGirlListAdapter(var context: Context,
+                        var data: ArrayList<JDGirlEntity>) :
+        RecyclerAdapter<JDGirlEntity>(context, R.layout.item_list_meizi, data) {
     override fun convert(holder: RecyclerViewHolder,
-                         entity: GankEntity?) {
+                         entity: JDGirlEntity?) {
         GlideApp.with(context)
-            .load(entity?.url)
-            .placeholder(R.drawable.pic_loading)
-            .error(R.drawable.pic_no)
-            .centerCrop()
-            .into(holder.getView(R.id.iv_pic))
+                .load(entity?.pics?.get(0))
+                .placeholder(R.drawable.pic_loading)
+                .error(R.drawable.pic_no)
+                .centerCrop()
+                .into(holder.getView(R.id.iv_pic))
     }
 }

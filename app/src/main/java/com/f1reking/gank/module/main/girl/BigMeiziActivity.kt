@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.f1reking.gank.module.main.meizi
+package com.f1reking.gank.module.main.girl
 
 import android.Manifest
 import android.content.Intent

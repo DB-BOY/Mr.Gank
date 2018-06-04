@@ -10,6 +10,11 @@
         <item>App</item>
     </array>
 
+    <array name="tab_girl">
+        <item>gank妹子</item>
+        <item>煎蛋妹子</item>
+    </array>
+
     <string-array name="query_suggestions">
         <item>Android</item>
         <item>Activity</item>

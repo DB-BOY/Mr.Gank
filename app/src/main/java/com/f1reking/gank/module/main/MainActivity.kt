@@ -24,15 +24,13 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.f1reking.gank.Constant
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
 import com.f1reking.gank.module.about.AboutActivity
-import com.f1reking.gank.module.collection.MyCollectionActivity
 import com.f1reking.gank.module.main.gank.GankFragment
-import com.f1reking.gank.module.main.meizi.MeiziFragment
+import com.f1reking.gank.module.main.girl.GirlFragment
 import com.f1reking.gank.toast
 import com.f1reking.gank.util.AlipayDonateUtils
 import com.f1reking.gank.util.AppUtils
@@ -44,7 +42,7 @@ import kotlinx.android.synthetic.main.toolbar.toolbar
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
   private var mGankFrament: GankFragment? = null
-  private var mMeiziFragment: MeiziFragment? = null
+  private var mGirlFragment: GirlFragment? = null
   private val fragmentManager by lazy {
     supportFragmentManager
   }
@@ -72,7 +70,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     super.onAttachFragment(fragment)
     when (fragment) {
       is GankFragment -> mGankFrament ?: let { mGankFrament = fragment }
-      is MeiziFragment -> mMeiziFragment ?: let { mMeiziFragment = fragment }
+      is GirlFragment -> mGirlFragment ?: let { mGirlFragment = fragment }
     }
   }
 
@@ -85,9 +83,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
               add(R.id.ll_container, it)
             }
           }
-          mMeiziFragment ?: let {
-            MeiziFragment().let {
-              mMeiziFragment = it
+          mGirlFragment ?: let {
+            GirlFragment().let {
+              mGirlFragment = it
               add(R.id.ll_container, it)
             }
           }
@@ -99,7 +97,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
               }
             }
             R.id.nav_meizi -> {
-              mMeiziFragment?.let {
+              mGirlFragment?.let {
                 this.show(it)
               }
             }
@@ -112,7 +110,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     mGankFrament?.let {
       transaction.hide(it)
     }
-    mMeiziFragment?.let {
+    mGirlFragment?.let {
       transaction.hide(it)
     }
   }
