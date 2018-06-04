@@ -25,6 +25,8 @@ import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.inflate
 import com.f1reking.gank.module.main.gank.TabPagerAdapter
+import com.f1reking.gank.module.main.girl.gank.GankGirlFragment
+import com.f1reking.gank.module.main.girl.jd.JDGirlFragment
 import kotlinx.android.synthetic.main.fragment_girl.*
 
 /**

@@ -14,27 +14,22 @@
  *  limitations under the License.
  */
 
-package com.f1reking.gank.module.main.girl
+package com.f1reking.gank.module.main.girl.gank
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.content.ContextCompat.startActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.f1reking.gank.Constant
 import com.f1reking.gank.R
-import com.f1reking.gank.R.id.rv_gank_girl
-import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.base.LazyFragment
 import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
-import com.f1reking.gank.entity.JDHttpEntity
 import com.f1reking.gank.inflate
+import com.f1reking.gank.module.main.girl.BigMeiziActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
@@ -62,7 +57,7 @@ class GankGirlFragment : LazyFragment(), PullLoadMoreListener {
     private var isMore: Boolean = false
 
     private val mGankGirlAdapter: GankGirlListAdapter by lazy {
-        GankGirlListAdapter(activity!!, datas)
+      GankGirlListAdapter(activity!!, datas)
     }
 
     private val mStatusLayout: StatusLayout by lazy {
@@ -124,10 +119,13 @@ class GankGirlFragment : LazyFragment(), PullLoadMoreListener {
                                          gankEntity: GankEntity,
                                          p3: Int) {
                     val intent = Intent(activity!!, BigMeiziActivity::class.java)
-                    intent.putExtra(BigMeiziActivity.EXTRA_URL, gankEntity.url)
-                    intent.putExtra(BigMeiziActivity.EXTRA_TITLE, gankEntity._id)
+                    intent.putExtra(
+                        BigMeiziActivity.EXTRA_URL, gankEntity.url)
+                    intent.putExtra(
+                        BigMeiziActivity.EXTRA_TITLE, gankEntity._id)
                     val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity!!, view, BigMeiziActivity.TRANSIT_PIC)
+                        activity!!, view,
+                        BigMeiziActivity.TRANSIT_PIC)
                     try {
                         ActivityCompat.startActivity(activity!!, intent, optionsCompat.toBundle())
                     } catch (e: IllegalArgumentException) {

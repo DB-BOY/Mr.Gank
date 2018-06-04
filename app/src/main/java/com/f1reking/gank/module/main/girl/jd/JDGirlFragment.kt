@@ -13,12 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.f1reking.gank.module.main.girl
+package com.f1reking.gank.module.main.girl.jd
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +27,7 @@ import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.JDGirlEntity
 import com.f1reking.gank.entity.JDHttpEntity
 import com.f1reking.gank.inflate
+import com.f1reking.gank.module.main.girl.BigMeiziActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
@@ -37,7 +36,7 @@ import com.f1reking.gank.widget.xrecyclerview.XRecyclerView
 import com.f1reking.library.statuslayout.StatusClickListener
 import com.f1reking.library.statuslayout.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import kotlinx.android.synthetic.main.fragment_jd_girl.*
+import kotlinx.android.synthetic.main.fragment_jd_girl.rv_jd_girl
 import me.f1reking.adapter.RecyclerAdapter
 
 /**
@@ -53,7 +52,7 @@ class JDGirlFragment : LazyFragment(), XRecyclerView.PullLoadMoreListener {
     private var isMore: Boolean = false
 
     private val mJDGirlListAdapter: JDGirlListAdapter by lazy {
-        JDGirlListAdapter(activity!!, datas)
+      JDGirlListAdapter(activity!!, datas)
     }
 
     private val mStatusLayout: StatusLayout by lazy {
@@ -107,16 +106,11 @@ class JDGirlFragment : LazyFragment(), XRecyclerView.PullLoadMoreListener {
                                          jdGirlEntity: JDGirlEntity,
                                          p3: Int) {
                     val intent = Intent(activity!!, BigMeiziActivity::class.java)
-                    intent.putExtra(BigMeiziActivity.EXTRA_URL, jdGirlEntity.pics[0])
-                    intent.putExtra(BigMeiziActivity.EXTRA_TITLE, jdGirlEntity.comment_author)
-                    val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity!!, view, BigMeiziActivity.TRANSIT_PIC)
-                    try {
-                        ActivityCompat.startActivity(activity!!, intent, optionsCompat.toBundle())
-                    } catch (e: IllegalArgumentException) {
-                        e.printStackTrace()
-                        startActivity(intent)
-                    }
+                    intent.putExtra(
+                        BigMeiziActivity.EXTRA_URL, jdGirlEntity.pics[0])
+                    intent.putExtra(
+                        BigMeiziActivity.EXTRA_TITLE, jdGirlEntity.comment_author)
+                    activity!!.startActivity(intent)
                 }
             })
         }

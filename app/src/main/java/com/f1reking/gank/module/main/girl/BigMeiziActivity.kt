@@ -19,14 +19,17 @@ package com.f1reking.gank.module.main.girl
 import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.crashlytics.android.answers.Answers
@@ -35,6 +38,7 @@ import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
 import com.f1reking.gank.R.string
 import com.f1reking.gank.base.BaseActivity
+import com.f1reking.gank.toast
 import com.f1reking.gank.util.FileUtils
 import com.f1reking.gank.util.GlideApp
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -48,112 +52,136 @@ import kotlinx.android.synthetic.main.toolbar.toolbar
  */
 class BigMeiziActivity : BaseActivity() {
 
-    private val PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE)
+  private val PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+      Manifest.permission.READ_EXTERNAL_STORAGE)
 
-    companion object {
-        const val EXTRA_URL = "mImageUrl"
-        const val TRANSIT_PIC = "picture"
-        const val EXTRA_TITLE = "title"
-        const val CODE_PERMISSIONS = 101
+  companion object {
+    const val EXTRA_URL = "mImageUrl"
+    const val TRANSIT_PIC = "picture"
+    const val EXTRA_TITLE = "title"
+    const val CODE_PERMISSIONS = 101
+  }
+
+  private lateinit var mImageUrl: String
+  private var picWidth: Int = 0
+  private var picHeight: Int = 0
+  private lateinit var bitmap: Bitmap
+  private lateinit var title: String
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    setContentView(R.layout.activity_big_meizi)
+    initView()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      val window = window
+      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+      window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+      window.statusBarColor = Color.TRANSPARENT
     }
+  }
 
-    private lateinit var mImageUrl: String
-    private var picWidth: Int = 0
-    private var picHeight: Int = 0
-    private lateinit var bitmap: Bitmap
-    private lateinit var title: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_big_meizi)
-        initView()
-        ViewCompat.setTransitionName(iv_pic, TRANSIT_PIC)
+  private fun initView() {
+    setToolbarTitle("")
+    title = intent.getStringExtra(EXTRA_TITLE)
+    toolbar.apply {
+      alpha = 0.7f
     }
-
-    private fun initView() {
-        setToolbarTitle("")
-        title = intent.getStringExtra(EXTRA_TITLE)
-        toolbar.apply {
-            alpha = 0.7f
+    iv_pic.apply {
+      mImageUrl = intent.getStringExtra(EXTRA_URL)
+      val simpleTarget = object : SimpleTarget<Bitmap>() {
+        override fun onResourceReady(resource: Bitmap,
+                                     transition: Transition<in Bitmap>?) {
+          picWidth = resource.width
+          picHeight = resource.height
+          bitmap = resource
+          iv_pic.setImageBitmap(resource)
         }
-        iv_pic.apply {
-            mImageUrl = intent.getStringExtra(EXTRA_URL)
-            val simpleTarget = object : SimpleTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap,
-                                             transition: Transition<in Bitmap>?) {
-                    picWidth = resource.width
-                    picHeight = resource.height
-                    bitmap = resource
-                    iv_pic.setImageBitmap(resource)
-                }
+      }
+      if (mImageUrl.endsWith("gif", true)) {
+        GlideApp.with(this)
+            .asGif()
+            .load(mImageUrl)
+            .into(iv_pic)
+      } else {
+        GlideApp.with(this)
+            .asBitmap()
+            .load(mImageUrl)
+            .into(simpleTarget)
+      }
+      setOnClickListener { onBackPressed() }
+    }
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    menuInflater.inflate(R.menu.menu_meizi, menu)
+    return super.onCreateOptionsMenu(menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+    R.id.menu_save -> OOIS {
+      saveImage()
+    }
+    R.id.menu_share -> OOIS {
+      shareImage()
+    }
+    else -> super.onOptionsItemSelected(item)
+  }
+
+  private fun saveImage() {
+    val permissions = RxPermissions(this)
+    permissions.request(*PERMISSIONS)
+        .subscribe { aBoolean ->
+          if (aBoolean!!) {
+            if (mImageUrl.endsWith("gif")) {
+              toast("动态图不支持保存")
+            } else {
+              FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
+              Answers.getInstance()
+                  .logCustom(CustomEvent("save Meizi").putCustomAttribute("meizi", mImageUrl))
             }
-            GlideApp.with(this)
-                    .asBitmap()
-                    .load(mImageUrl)
-                    .into(simpleTarget)
-            setOnClickListener { onBackPressed() }
+          } else {
+            showPermissionDialog()
+          }
         }
-    }
+  }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_meizi, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.menu_save -> OOIS {
-            saveImage()
+  private fun shareImage() {
+    val permissions = RxPermissions(this)
+    permissions.request(*PERMISSIONS)
+        .subscribe { aBoolean ->
+          if (aBoolean!!) {
+            if (mImageUrl.endsWith("gif")) {
+              toast("动态图不支持分享")
+            } else {
+              FileUtils.shareImage(this, bitmap)
+              Answers.getInstance()
+                  .logCustom(CustomEvent("share Meizi").putCustomAttribute("meizi", mImageUrl))
+            }
+          } else {
+            showPermissionDialog()
+          }
         }
-        R.id.menu_share -> OOIS {
-            shareImage()
+  }
+
+  override fun onActivityResult(requestCode: Int,
+                                resultCode: Int,
+                                data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (requestCode == CODE_PERMISSIONS) {
+    }
+  }
+
+  private fun showPermissionDialog() {
+    Snackbar.make(iv_pic, getString(string.permission_help), Snackbar.LENGTH_LONG)
+        .setActionTextColor(ContextCompat.getColor(this, R.color.white))
+        .setAction(getString(string.snake_open)) {
+          val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+          intent.data = Uri.parse("package:" + packageName)
+          startActivityForResult(intent, CODE_PERMISSIONS)
         }
-        else -> super.onOptionsItemSelected(item)
-    }
-
-    private fun saveImage() {
-        val permissions = RxPermissions(this)
-        permissions.request(*PERMISSIONS)
-                .subscribe { aBoolean ->
-                    if (aBoolean!!) {
-                        FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
-                        Answers.getInstance().logCustom(CustomEvent("save Meizi").putCustomAttribute("meizi", mImageUrl))
-                    } else {
-                        showPermissionDialog()
-                    }
-                }
-    }
-
-    private fun shareImage() {
-        val permissions = RxPermissions(this)
-        permissions.request(*PERMISSIONS)
-                .subscribe { aBoolean ->
-                    if (aBoolean!!) {
-                        FileUtils.shareImage(this, bitmap)
-                        Answers.getInstance().logCustom(CustomEvent("share Meizi").putCustomAttribute("meizi", mImageUrl))
-                    } else {
-                        showPermissionDialog()
-                    }
-                }
-    }
-
-    override fun onActivityResult(requestCode: Int,
-                                  resultCode: Int,
-                                  data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CODE_PERMISSIONS) {
-        }
-    }
-
-    private fun showPermissionDialog() {
-        Snackbar.make(iv_pic, getString(string.permission_help), Snackbar.LENGTH_LONG)
-                .setActionTextColor(ContextCompat.getColor(this, R.color.white))
-                .setAction(getString(string.snake_open)) {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    intent.data = Uri.parse("package:" + packageName)
-                    startActivityForResult(intent, CODE_PERMISSIONS)
-                }
-                .show()
-    }
+        .show()
+  }
 }
 
