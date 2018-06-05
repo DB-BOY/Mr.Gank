@@ -31,9 +31,13 @@
         <activity
             android:name=".module.web.WebActivity"
             android:theme="@style/Theme.Swipe.Back.NoActionBar"/>
-        <activity android:name=".module.main.meizi.BigMeiziActivity"/>
+        <activity android:name=".module.main.girl.BigMeiziActivity"/>
         <activity android:name=".module.search.SearchActivity"/>
         <activity android:name=".module.collection.MyCollectionActivity"/>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9a06095aaadbdfc2f514f104c2b3ddfe017ac243" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

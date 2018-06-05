@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <com.f1reking.gank.widget.xrecyclerview.XRecyclerView
         android:id="@+id/rv_gank"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_list"
+        android:background="@color/bg_list" />
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_menu_star"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/toolbarColor"
+        fab:fab_shadow="true"
         />
 
-</LinearLayout>
+</FrameLayout>

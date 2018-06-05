@@ -16,6 +16,7 @@
 
 package com.f1reking.gank.module.main.gank.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.GankEntity
 import com.f1reking.gank.entity.HttpEntity
 import com.f1reking.gank.inflate
+import com.f1reking.gank.module.collection.MyCollectionActivity
 import com.f1reking.gank.module.main.gank.GankListAdapter
 import com.f1reking.gank.module.web.WebActivity
 import com.f1reking.gank.net.ApiClient
@@ -38,6 +40,7 @@ import com.f1reking.library.statuslayout.StatusClickListener
 import com.f1reking.library.statuslayout.StatusLayout
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import kotlinx.android.synthetic.main.fragment_gank_android.rv_gank
+import kotlinx.android.synthetic.main.fragment_gank_ios.*
 import me.f1reking.adapter.RecyclerAdapter.OnItemClickListener
 
 /**
@@ -109,6 +112,12 @@ class GankiOSFragment : LazyFragment(), PullLoadMoreListener {
                     WebActivity.newIntent(activity!!, p2)
                 }
             })
+        }
+        fab.apply {
+            attachToRecyclerView(rv_gank.recyclerView!!)
+            setOnClickListener{
+                startActivity(Intent(activity, MyCollectionActivity::class.java))
+            }
         }
     }
 

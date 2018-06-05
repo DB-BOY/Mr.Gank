@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="tab_gank">
-        <item>趣视频</item>
         <item>Android</item>
         <item>iOS</item>
         <item>前端</item>
         <item>拓展资源</item>
         <item>瞎推荐</item>
         <item>App</item>
+    </array>
+
+    <array name="tab_girl">
+        <item>Gank妹子</item>
+        <item>煎蛋妹子</item>
     </array>
 
     <string-array name="query_suggestions">

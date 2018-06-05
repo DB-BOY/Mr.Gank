@@ -22,7 +22,7 @@ import android.util.AttributeSet
 import android.widget.TextView
 
 /**
- * @author: huangyh
+ * @author: F1ReKing
  * @date: 2018/1/25 09:08
  * @desc:
  */

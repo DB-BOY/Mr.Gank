@@ -33,13 +33,13 @@ import me.f1reking.adapter.RecyclerViewHolder
  */
 class GankListAdapter(var context: Context,
                       var data: ArrayList<GankEntity>) :
-    RecyclerAdapter<GankEntity>(context, R.layout.item_list_gank, data) {
+    RecyclerAdapter<GankEntity>(context, R.layout.item_list_gank_no_pic, data) {
   override fun convert(holder: RecyclerViewHolder,
                        entity: GankEntity?) {
-    Glide.with(context)
-        .load(entity?.images?.get(0))
-        .apply(RequestOptions().error(R.drawable.pic_no).placeholder(R.drawable.pic_loading))
-        .into(holder.getView(R.id.iv_gank_pic))
+//    Glide.with(context)
+//        .load(entity?.images?.get(0))
+//        .apply(RequestOptions().error(R.drawable.pic_no).placeholder(R.drawable.pic_loading))
+//        .into(holder.getView(R.id.iv_gank_pic))
     holder.setText(R.id.tv_title, entity?.desc)
     holder.setText(R.id.tv_time, entity?.publishedAt?.let { DateUtils.dateFormat(it) })
     holder.setText(R.id.tv_author, """@${entity?.who}""")

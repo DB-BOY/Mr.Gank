@@ -17,9 +17,11 @@
 package com.f1reking.gank.net
 
 import com.f1reking.gank.entity.HttpEntity
+import com.f1reking.gank.entity.JDHttpEntity
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Url
 
 /**
  * @author: F1ReKing
@@ -35,4 +37,8 @@ interface ApiService {
     @GET("search/query/{query}/category/all/count/{num}/page/{page}")
     fun queryGankList(@Path("query") query: String, @Path("num") num: Int, @Path("page")
     page: Int): Observable<HttpEntity>
+
+    //http://jandan.net/?oxwlxojflwblxbsapi=jandan.get_ooxx_comments&page=1
+    @GET
+    fun getJDGirlList(@Url url: String): Observable<JDHttpEntity>
 }

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.f1reking.gank.module.main.meizi
+package com.f1reking.gank.module.main.girl.gank
 
 import android.content.Context
 import com.f1reking.gank.R
@@ -28,8 +28,8 @@ import me.f1reking.adapter.RecyclerViewHolder
  * @date: 2018/1/9 13:44
  * @desc:
  */
-class MeiziListAdapter(var context: Context,
-                       var data: ArrayList<GankEntity>) :
+class GankGirlListAdapter(var context: Context,
+                          var data: ArrayList<GankEntity>) :
     RecyclerAdapter<GankEntity>(context, R.layout.item_list_meizi, data) {
     override fun convert(holder: RecyclerViewHolder,
                          entity: GankEntity?) {

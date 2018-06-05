@@ -38,8 +38,12 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
+import com.crashlytics.android.answers.ShareEvent
 import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
+import com.f1reking.gank.R.string.settings
 import com.f1reking.gank.db.Collection
 import com.f1reking.gank.db.CollectionDaoOp
 import com.f1reking.gank.entity.GankEntity
@@ -84,17 +88,17 @@ class WebActivity : SwipeBackActivity() {
 
     private val mStatusLayout: StatusLayout by lazy {
         StatusLayout.Builder(sr_gank)
-            .setOnErrorText("加载出错了\n请重试")
-            .setOnStatusClickListener(object : StatusClickListener {
-                override fun onEmptyClick(view: View) {
-                }
+                .setOnErrorText("加载出错了\n请重试")
+                .setOnStatusClickListener(object : StatusClickListener {
+                    override fun onEmptyClick(view: View) {
+                    }
 
-                override fun onErrorClick(view: View) {
-                    mStatusLayout.showContentLayout()
-                    wv_gank.reload()
-                }
-            })
-            .build()
+                    override fun onErrorClick(view: View) {
+                        mStatusLayout.showContentLayout()
+                        wv_gank.reload()
+                    }
+                })
+                .build()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,7 +116,6 @@ class WebActivity : SwipeBackActivity() {
             // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
             wv_gank.settings.javaScriptEnabled = false
             wv_gank.clearHistory()
-            wv_gank.clearView()
             wv_gank.removeAllViews()
 
             try {
@@ -158,7 +161,8 @@ class WebActivity : SwipeBackActivity() {
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    @SuppressLint("SetJavaScriptEnabled") private fun initWebSettings() {
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun initWebSettings() {
         val webSettings: WebSettings = wv_gank.settings
         webSettings.apply {
             javaScriptEnabled = true
@@ -214,25 +218,27 @@ class WebActivity : SwipeBackActivity() {
         menuInflater.inflate(R.menu.menu_web, menu)
         if (CollectionDaoOp.getInstance().queryById(applicationContext, id!!)!!.isNotEmpty()) {
             menu.findItem(R.id.menu_collection)
-                .setIcon(R.drawable.ic_menu_star)
+                    .setIcon(R.drawable.ic_menu_star)
         }
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.menu_browser    -> OOIS {
+        R.id.menu_browser -> OOIS {
             Intent().apply {
                 action = Intent.ACTION_VIEW
                 data = Uri.parse(wv_gank.url)
                 startActivity(this)
             }
+            Answers.getInstance().logCustom(CustomEvent("browser").putCustomAttribute("url", wv_gank.url))
         }
-        R.id.menu_share      -> OOIS {
+        R.id.menu_share -> OOIS {
             ShareUtils.shareText(this,
-                getString(R.string.share_article_url, getString(R.string.app_name),
-                    toolbar_title.text, wv_gank.url), getString(R.string.share_title))
+                    getString(R.string.share_article_url, getString(R.string.app_name),
+                            gankEntity.desc, wv_gank.url), getString(R.string.share_title))
+            Answers.getInstance().logShare(ShareEvent().putContentName(gankEntity.desc).putContentType(gankEntity.type))
         }
-        R.id.menu_copy       -> OOIS {
+        R.id.menu_copy -> OOIS {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newRawUri("Mr.gank", Uri.parse(wv_gank.wv_gank.url))
             cm.primaryClip = clipData
@@ -252,14 +258,14 @@ class WebActivity : SwipeBackActivity() {
                 collection.url = gankEntity.url
                 collection.who = gankEntity.who
                 CollectionDaoOp.getInstance()
-                    .insertData(applicationContext, collection)
+                        .insertData(applicationContext, collection)
                 item.icon = ContextCompat.getDrawable(this@WebActivity, R.drawable.ic_menu_star)
                 toast(getString(R.string.fav_submit))
             }
             EventBus.getDefault()
-                .post(MessageEvent("refresh"))
+                    .post(MessageEvent("refresh"))
         }
-        else                 -> super.onOptionsItemSelected(item)
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onKeyDown(keyCode: Int,

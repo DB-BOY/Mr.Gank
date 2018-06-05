@@ -19,6 +19,8 @@ package com.f1reking.gank.module.about
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.ShareEvent
 import com.f1reking.gank.OOIS
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseActivity
@@ -56,6 +58,7 @@ class AboutActivity : BaseActivity() {
         R.id.menu_share -> OOIS {
             ShareUtils.shareText(this, getString(R.string.share_app),
                 getString(R.string.share_to_friend))
+            Answers.getInstance().logShare(ShareEvent().putMethod("share app"))
         }
         else            -> super.onOptionsItemSelected(item)
     }

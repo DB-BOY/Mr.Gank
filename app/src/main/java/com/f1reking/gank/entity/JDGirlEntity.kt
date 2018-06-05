@@ -13,7 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package com.f1reking.gank.entity
 
 import android.annotation.SuppressLint
@@ -22,18 +21,23 @@ import kotlinx.android.parcel.Parcelize
 
 /**
  * @author: F1ReKing
- * @date: 2018/1/8 14:15
+ * @date: 2018/6/4
  * @desc:
  */
+
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class GankEntity(
-        var _id: String?,
-        var ganhuo_id: String?,
-        var desc: String?,
-        var publishedAt: String?,
-        var type: String?,
-        var url: String?,
-        var who: String?,
-        var images: MutableList<String>?
+data class JDGirlEntity(
+        val comment_ID: String,
+        val comment_post_ID: String,
+        val comment_author: String,
+        val comment_date: String,
+        val comment_date_gmt: String,
+        val comment_content: String,
+        val user_id: String,
+        val vote_positive: String,
+        val vote_negative: String,
+        val sub_comment_count: String,
+        val text_content: String,
+        val pics: List<String>
 ) : Parcelable

@@ -33,7 +33,6 @@ import com.f1reking.gank.module.main.gank.fragment.GankAndroidFragment
 import com.f1reking.gank.module.main.gank.fragment.GankAppFragment
 import com.f1reking.gank.module.main.gank.fragment.GankRecommendFragment
 import com.f1reking.gank.module.main.gank.fragment.GankResourcesFragment
-import com.f1reking.gank.module.main.gank.fragment.GankVideoFragment
 import com.f1reking.gank.module.main.gank.fragment.GankWebFragment
 import com.f1reking.gank.module.main.gank.fragment.GankiOSFragment
 import com.f1reking.gank.module.search.SearchActivity
@@ -66,14 +65,12 @@ class GankFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    val mGankVideoFragment = GankVideoFragment()
     val mGankAndroidFragment = GankAndroidFragment()
     val mGankiOSFragment = GankiOSFragment()
     val mGankWebFragment = GankWebFragment()
     val mGankResourcesFragment = GankResourcesFragment()
     val mGankRecommendFragment = GankRecommendFragment()
     val mGankAppFragment = GankAppFragment()
-    fragmentList.add(mGankVideoFragment)
     fragmentList.add(mGankAndroidFragment)
     fragmentList.add(mGankiOSFragment)
     fragmentList.add(mGankWebFragment)
@@ -84,7 +81,7 @@ class GankFragment : BaseFragment() {
         resources.getStringArray(R.array.tab_gank))
     vp_gank.apply {
       adapter = pagerAdapter
-      offscreenPageLimit = 7
+      offscreenPageLimit = 6
     }
     tab_gank.apply {
       setupWithViewPager(vp_gank)

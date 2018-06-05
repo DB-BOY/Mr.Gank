@@ -13,22 +13,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-package com.f1reking.gank
+package com.f1reking.gank.entity
 
 /**
  * @author: F1ReKing
- * @date: 2018/1/7 15:25
+ * @date: 2018/6/4
  * @desc:
  */
-object Constant {
-
-    const val BASE_URL = "http://gank.io/api/"
-
-    const val JD_URL = "http://jandan.net/?oxwlxojflwblxbsapi=jandan.get_ooxx_comments&page="
-
-    const val CONTENT_SHARE_TYPE = "text/plain"
-
-    const val PAAYCODE = "FKX05689ZL39PEJ8GQIQDA"
-
-}
+data class JDHttpEntity(var status: String,
+                        val page_count: Int,
+                        val total_comments: Int,
+                        val count: Int,
+                        var comments: List<JDGirlEntity>)
