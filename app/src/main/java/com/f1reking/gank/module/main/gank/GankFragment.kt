@@ -81,7 +81,7 @@ class GankFragment : BaseFragment() {
         resources.getStringArray(R.array.tab_gank))
     vp_gank.apply {
       adapter = pagerAdapter
-      offscreenPageLimit = 6
+      offscreenPageLimit = fragmentList.size
     }
     tab_gank.apply {
       setupWithViewPager(vp_gank)
