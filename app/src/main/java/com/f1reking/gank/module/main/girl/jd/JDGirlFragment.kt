@@ -109,7 +109,7 @@ class JDGirlFragment : LazyFragment(), XRecyclerView.PullLoadMoreListener {
                     intent.putExtra(
                         BigMeiziActivity.EXTRA_URL, jdGirlEntity.pics[0])
                     intent.putExtra(
-                        BigMeiziActivity.EXTRA_TITLE, jdGirlEntity.comment_author)
+                        BigMeiziActivity.EXTRA_TITLE, jdGirlEntity.comment_ID)
                     activity!!.startActivity(intent)
                 }
             })
