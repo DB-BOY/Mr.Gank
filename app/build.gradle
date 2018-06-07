@@ -116,4 +116,5 @@ dependencies {
     implementation('com.crashlytics.sdk.android:answers:1.4.2@aar') {
         transitive = true
     }
+    implementation 'com.safframework.log:saf-log:1.5.3'
 }

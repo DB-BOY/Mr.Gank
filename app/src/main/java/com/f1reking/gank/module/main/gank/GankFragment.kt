@@ -29,12 +29,6 @@ import com.androidkun.xtablayout.XTabLayout.OnTabSelectedListener
 import com.f1reking.gank.R
 import com.f1reking.gank.base.BaseFragment
 import com.f1reking.gank.inflate
-import com.f1reking.gank.module.main.gank.fragment.GankAndroidFragment
-import com.f1reking.gank.module.main.gank.fragment.GankAppFragment
-import com.f1reking.gank.module.main.gank.fragment.GankRecommendFragment
-import com.f1reking.gank.module.main.gank.fragment.GankResourcesFragment
-import com.f1reking.gank.module.main.gank.fragment.GankWebFragment
-import com.f1reking.gank.module.main.gank.fragment.GankiOSFragment
 import com.f1reking.gank.module.search.SearchActivity
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.fragment_gank.search_view
@@ -65,12 +59,12 @@ class GankFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    val mGankAndroidFragment = GankAndroidFragment()
-    val mGankiOSFragment = GankiOSFragment()
-    val mGankWebFragment = GankWebFragment()
-    val mGankResourcesFragment = GankResourcesFragment()
-    val mGankRecommendFragment = GankRecommendFragment()
-    val mGankAppFragment = GankAppFragment()
+    val mGankAndroidFragment = GankListFragment.newInstance(resources.getStringArray(R.array.tab_gank)[0])
+    val mGankiOSFragment = GankListFragment.newInstance(resources.getStringArray(R.array.tab_gank)[1])
+    val mGankWebFragment = GankListFragment.newInstance(resources.getStringArray(R.array.tab_gank)[2])
+    val mGankResourcesFragment = GankListFragment.newInstance(resources.getStringArray(R.array.tab_gank)[3])
+    val mGankRecommendFragment = GankListFragment.newInstance(resources.getStringArray(R.array.tab_gank)[4])
+    val mGankAppFragment = GankListFragment.newInstance(resources.getStringArray(R.array.tab_gank)[5])
     fragmentList.add(mGankAndroidFragment)
     fragmentList.add(mGankiOSFragment)
     fragmentList.add(mGankWebFragment)
