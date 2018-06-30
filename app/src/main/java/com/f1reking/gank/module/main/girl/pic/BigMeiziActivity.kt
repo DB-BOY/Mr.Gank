@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.f1reking.gank.module.main.girl
+package com.f1reking.gank.module.main.girl.pic
 
 import android.Manifest
 import android.content.Intent
@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -42,7 +43,7 @@ import com.f1reking.gank.toast
 import com.f1reking.gank.util.FileUtils
 import com.f1reking.gank.util.GlideApp
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.activity_big_meizi.iv_pic
+import kotlinx.android.synthetic.main.activity_big_meizi.vp_pic
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
 /**
@@ -56,21 +57,23 @@ class BigMeiziActivity : BaseActivity() {
       Manifest.permission.READ_EXTERNAL_STORAGE)
 
   companion object {
-    const val EXTRA_URL = "mImageUrl"
-    const val TRANSIT_PIC = "picture"
-    const val EXTRA_TITLE = "title"
+    const val EXTRA_PIC_LIST = "pic_list"
+    const val EXTRA_ID = "id"
+    const val EXTRA_POSITION = "currentPosition"
     const val CODE_PERMISSIONS = 101
   }
 
-  private lateinit var mImageUrl: String
+  private lateinit var ids: List<String>
+  private lateinit var picList: List<String>
+  private lateinit var mPagerAdapter: PicPagerAdapter
+  private var currentPosition: Int = 0
+  private var url: String = ""
   private var picWidth: Int = 0
   private var picHeight: Int = 0
-  private lateinit var bitmap: Bitmap
-  private lateinit var title: String
+  private var bitmap: Bitmap? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
     setContentView(R.layout.activity_big_meizi)
     initView()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -84,34 +87,34 @@ class BigMeiziActivity : BaseActivity() {
 
   private fun initView() {
     setToolbarTitle("")
-    title = intent.getStringExtra(EXTRA_TITLE)
+    ids = intent.getStringArrayListExtra(EXTRA_ID)
+    picList = intent.getStringArrayListExtra(EXTRA_PIC_LIST)
+    currentPosition = intent.getIntExtra(EXTRA_POSITION, 0)
+    url = picList[currentPosition]
+    getBitmap()
+    mPagerAdapter = PicPagerAdapter(this, picList)
+    vp_pic.apply {
+      adapter = mPagerAdapter
+      setCurrentItem(currentPosition, false)
+      addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        override fun onPageSelected(position: Int) {
+          super.onPageSelected(position)
+          currentPosition = position
+          url = picList[currentPosition]
+          getBitmap()
+          toolbar.title = (currentPosition + 1).toString() + "/" + picList.size.toString()
+        }
+      })
+    }
+
     toolbar.apply {
       alpha = 0.7f
+      title = (currentPosition + 1).toString() + "/" + picList.size.toString()
     }
-    iv_pic.apply {
-      mImageUrl = intent.getStringExtra(EXTRA_URL)
-      val simpleTarget = object : SimpleTarget<Bitmap>() {
-        override fun onResourceReady(resource: Bitmap,
-                                     transition: Transition<in Bitmap>?) {
-          picWidth = resource.width
-          picHeight = resource.height
-          bitmap = resource
-          iv_pic.setImageBitmap(resource)
-        }
-      }
-      if (mImageUrl.endsWith("gif", true)) {
-        GlideApp.with(this)
-            .asGif()
-            .load(mImageUrl)
-            .into(iv_pic)
-      } else {
-        GlideApp.with(this)
-            .asBitmap()
-            .load(mImageUrl)
-            .into(simpleTarget)
-      }
-      setOnClickListener { onBackPressed() }
-    }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -134,12 +137,12 @@ class BigMeiziActivity : BaseActivity() {
     permissions.request(*PERMISSIONS)
         .subscribe { aBoolean ->
           if (aBoolean!!) {
-            if (mImageUrl.endsWith("gif")) {
+            if (url.endsWith("gif")) {
               toast("动态图不支持保存")
             } else {
-              FileUtils.saveImageToGallery(this, iv_pic, bitmap, title)
+              FileUtils.saveImageToGallery(this, vp_pic, bitmap!!, ids[currentPosition])
               Answers.getInstance()
-                  .logCustom(CustomEvent("save Meizi").putCustomAttribute("meizi", mImageUrl))
+                  .logCustom(CustomEvent("save Meizi").putCustomAttribute("meizi", url))
             }
           } else {
             showPermissionDialog()
@@ -147,17 +150,33 @@ class BigMeiziActivity : BaseActivity() {
         }
   }
 
+  private fun getBitmap() {
+    val simpleTarget = object : SimpleTarget<Bitmap>() {
+      override fun onResourceReady(resource: Bitmap,
+                                   transition: Transition<in Bitmap>?) {
+        picWidth = resource.width
+        picHeight = resource.height
+        bitmap = resource
+      }
+    }
+    GlideApp.with(BigMeiziActivity@ this)
+        .asBitmap()
+        .load(url)
+        .thumbnail(0.1f)
+        .into(simpleTarget)
+  }
+
   private fun shareImage() {
     val permissions = RxPermissions(this)
     permissions.request(*PERMISSIONS)
         .subscribe { aBoolean ->
           if (aBoolean!!) {
-            if (mImageUrl.endsWith("gif")) {
+            if (url.endsWith("gif")) {
               toast("动态图不支持分享")
             } else {
-              FileUtils.shareImage(this, bitmap)
+              FileUtils.shareImage(this, bitmap!!)
               Answers.getInstance()
-                  .logCustom(CustomEvent("share Meizi").putCustomAttribute("meizi", mImageUrl))
+                  .logCustom(CustomEvent("share Meizi").putCustomAttribute("meizi", url))
             }
           } else {
             showPermissionDialog()
@@ -174,7 +193,7 @@ class BigMeiziActivity : BaseActivity() {
   }
 
   private fun showPermissionDialog() {
-    Snackbar.make(iv_pic, getString(string.permission_help), Snackbar.LENGTH_LONG)
+    Snackbar.make(vp_pic, getString(string.permission_help), Snackbar.LENGTH_LONG)
         .setActionTextColor(ContextCompat.getColor(this, R.color.white))
         .setAction(getString(string.snake_open)) {
           val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)

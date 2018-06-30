@@ -38,7 +38,6 @@ interface ApiService {
     fun queryGankList(@Path("query") query: String, @Path("num") num: Int, @Path("page")
     page: Int): Observable<HttpEntity>
 
-    //http://jandan.net/?oxwlxojflwblxbsapi=jandan.get_ooxx_comments&page=1
     @GET
     fun getJDGirlList(@Url url: String): Observable<JDHttpEntity>
 }

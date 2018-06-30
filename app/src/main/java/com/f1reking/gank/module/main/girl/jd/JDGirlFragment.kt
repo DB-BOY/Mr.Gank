@@ -27,7 +27,7 @@ import com.f1reking.gank.entity.ApiErrorModel
 import com.f1reking.gank.entity.JDGirlEntity
 import com.f1reking.gank.entity.JDHttpEntity
 import com.f1reking.gank.inflate
-import com.f1reking.gank.module.main.girl.BigMeiziActivity
+import com.f1reking.gank.module.main.girl.pic.BigMeiziActivity
 import com.f1reking.gank.net.ApiClient
 import com.f1reking.gank.net.ApiResponse
 import com.f1reking.gank.net.RxScheduler
@@ -46,129 +46,136 @@ import me.f1reking.adapter.RecyclerAdapter
  */
 class JDGirlFragment : LazyFragment(), XRecyclerView.PullLoadMoreListener {
 
-    private var layout: View? = null
-    private val datas = ArrayList<JDGirlEntity>()
-    private var page: Int = 1
-    private var isMore: Boolean = false
+  private var layout: View? = null
+  private val datas = ArrayList<JDGirlEntity>()
+  private var page: Int = 1
+  private var isMore: Boolean = false
 
-    private val mJDGirlListAdapter: JDGirlListAdapter by lazy {
-      JDGirlListAdapter(activity!!, datas)
+  private val mJDGirlListAdapter: JDGirlListAdapter by lazy {
+    JDGirlListAdapter(activity!!, datas)
+  }
+
+  private val mStatusLayout: StatusLayout by lazy {
+    StatusLayout.Builder(rv_jd_girl)
+        .setOnEmptyText("咦，妹子都不见了\n\n 重新找看看吧")
+        .setOnErrorText("出错啦 ")
+        .setOnStatusClickListener(object : StatusClickListener {
+          override fun onEmptyClick(view: View) {
+            mStatusLayout.showLoadingLayout()
+            page = 1
+            loadJDGirlList()
+          }
+
+          override fun onErrorClick(view: View) {
+            mStatusLayout.showLoadingLayout()
+            page = 1
+            loadJDGirlList()
+          }
+        })
+        .build()
+  }
+
+  override fun onCreateView(inflater: LayoutInflater,
+                            container: ViewGroup?,
+                            savedInstanceState: Bundle?): View? {
+    layout = container!!.inflate(R.layout.fragment_jd_girl)
+    return layout
+  }
+
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+    initView()
+  }
+
+  private fun initView() {
+    rv_jd_girl.apply {
+      setColorSchemeResources(R.color.colorPrimary)
+      setGridLayout(2)
+      setOnPullLoadMoreListener(this@JDGirlFragment)
+      setAdapter(mJDGirlListAdapter)
     }
-
-    private val mStatusLayout: StatusLayout by lazy {
-        StatusLayout.Builder(rv_jd_girl)
-                .setOnEmptyText("咦，妹子都不见了\n\n 重新找看看吧")
-                .setOnErrorText("出错啦 ")
-                .setOnStatusClickListener(object : StatusClickListener {
-                    override fun onEmptyClick(view: View) {
-                        mStatusLayout.showLoadingLayout()
-                        page = 1
-                        loadJDGirlList()
-                    }
-
-                    override fun onErrorClick(view: View) {
-                        mStatusLayout.showLoadingLayout()
-                        page = 1
-                        loadJDGirlList()
-                    }
-                })
-                .build()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        layout = container!!.inflate(R.layout.fragment_jd_girl)
-        return layout
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initView()
-    }
-
-    private fun initView() {
-        rv_jd_girl.apply {
-            setColorSchemeResources(R.color.colorPrimary)
-            setGridLayout(2)
-            setOnPullLoadMoreListener(this@JDGirlFragment)
-            setAdapter(mJDGirlListAdapter)
+    mJDGirlListAdapter.apply {
+      setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener<JDGirlEntity> {
+        override fun onItemLongClick(p0: ViewGroup?,
+                                     p1: View?,
+                                     p2: JDGirlEntity?,
+                                     position: Int): Boolean {
+          return true
         }
-        mJDGirlListAdapter.apply {
-            setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener<JDGirlEntity> {
-                override fun onItemLongClick(p0: ViewGroup?,
-                                             p1: View?,
-                                             p2: JDGirlEntity?,
-                                             p3: Int): Boolean {
-                    return true
-                }
 
-                override fun onItemClick(p0: ViewGroup?,
-                                         view: View,
-                                         jdGirlEntity: JDGirlEntity,
-                                         p3: Int) {
-                    val intent = Intent(activity!!, BigMeiziActivity::class.java)
-                    intent.putExtra(
-                        BigMeiziActivity.EXTRA_URL, jdGirlEntity.pics[0])
-                    intent.putExtra(
-                        BigMeiziActivity.EXTRA_TITLE, jdGirlEntity.comment_ID)
-                    activity!!.startActivity(intent)
-                }
-            })
+        override fun onItemClick(p0: ViewGroup?,
+                                 view: View,
+                                 jdGirlEntity: JDGirlEntity,
+                                 p3: Int) {
+          val intent = Intent(activity!!, BigMeiziActivity::class.java)
+          val picList = ArrayList<String>()
+          val ids = ArrayList<String>()
+          mJDGirlListAdapter.data.forEach {
+            picList.add(it.pics[0])
+            ids.add(it.comment_ID)
+          }
+          intent.putExtra(BigMeiziActivity.EXTRA_PIC_LIST, picList)
+          intent.putExtra(BigMeiziActivity.EXTRA_ID, ids)
+          intent.putExtra(BigMeiziActivity.EXTRA_POSITION, p3)
+          startActivity(intent)
         }
+      })
     }
+  }
 
+  override fun onFirstUserVisible() {
+    mStatusLayout.showLoadingLayout()
+    loadJDGirlList()
+  }
 
-    override fun onFirstUserVisible() {
-        mStatusLayout.showLoadingLayout()
-        loadJDGirlList()
-    }
+  private fun loadJDGirlList() {
+    ApiClient.instance.mService.getJDGirlList(Constant.JD_URL + page)
+        .compose(RxScheduler.compose())
+        .bindToLifecycle(this)
+        .doAfterTerminate { rv_jd_girl.setPullLoadMoreCompleted() }
+        .subscribe(object : ApiResponse<JDHttpEntity>(activity!!) {
+          override fun success(data: JDHttpEntity) {
+            if (page == 1) {
+              mJDGirlListAdapter.clear()
+            }
+            mJDGirlListAdapter.addAll(data.comments)
+            if (mJDGirlListAdapter.data.size > 0) {
+              mStatusLayout.showContentLayout()
+            } else {
+              mStatusLayout.showEmptyLayout()
+            }
+            if (isMore) {
+              if (data.comments.isEmpty()) {
+                --page
+              }
+            }
+          }
 
-    private fun loadJDGirlList() {
-        ApiClient.instance.mService.getJDGirlList(Constant.JD_URL + page)
-                .compose(RxScheduler.compose())
-                .bindToLifecycle(this)
-                .doAfterTerminate { rv_jd_girl.setPullLoadMoreCompleted() }
-                .subscribe(object : ApiResponse<JDHttpEntity>(activity!!) {
-                    override fun success(data: JDHttpEntity) {
-                        if (page == 1) {
-                            mJDGirlListAdapter.clear()
-                        }
-                        mJDGirlListAdapter.addAll(data.comments)
-                        if (mJDGirlListAdapter.data.size > 0) {
-                            mStatusLayout.showContentLayout()
-                        } else {
-                            mStatusLayout.showEmptyLayout()
-                        }
-                        if (isMore) {
-                            if (data.comments.isEmpty()) {
-                                --page
-                            }
-                        }
-                    }
+          override fun failure(statusCode: Int,
+                               apiErrorModel: ApiErrorModel) {
+            activity!!.toast(apiErrorModel.msg)
+            if (mJDGirlListAdapter.data.size == 0) {
+              mStatusLayout.showErrorLayout()
+            }
+            if (isMore) {
+              --page
+            }
+          }
+        })
+  }
 
-                    override fun failure(statusCode: Int, apiErrorModel: ApiErrorModel) {
-                        activity!!.toast(apiErrorModel.msg)
-                        if (mJDGirlListAdapter.data.size == 0) {
-                            mStatusLayout.showErrorLayout()
-                        }
-                        if (isMore) {
-                            --page
-                        }
-                    }
-                })
-    }
+  override fun onRefresh() {
+    isMore = false
+    page = 1
+    loadJDGirlList()
+  }
 
-    override fun onRefresh() {
-        isMore = false
-        page = 1
-        loadJDGirlList()
-    }
+  override fun onBackTop() {
+  }
 
-    override fun onBackTop() {
-    }
-
-    override fun onLoadMore() {
-        isMore = true
-        ++page
-        loadJDGirlList()
-    }
+  override fun onLoadMore() {
+    isMore = true
+    ++page
+    loadJDGirlList()
+  }
 }

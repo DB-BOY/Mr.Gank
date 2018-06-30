@@ -6,8 +6,16 @@
     android:background="@color/black"
     >
 
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/iv_pic"
+    <!--<com.github.chrisbanes.photoview.PhotoView-->
+        <!--android:id="@+id/iv_pic"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fitsSystemWindows="false"-->
+        <!--android:visibility="gone"-->
+        <!--/>-->
+
+    <com.f1reking.gank.widget.ViewPagerFixed
+        android:id="@+id/vp_pic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"

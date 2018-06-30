@@ -16,9 +16,9 @@
 
 package com.f1reking.gank.net
 
-import android.util.Log
 import com.f1reking.gank.BuildConfig
 import com.f1reking.gank.Constant
+import com.safframework.log.L
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -47,12 +47,15 @@ class ApiClient {
             GsonConverterFactory.create()).addCallAdapterFactory(
             RxJava2CallAdapterFactory.create()).client(getOkHttpClient()).build()
         mService = retrofit.create(ApiService::class.java)
+        L.init(this.javaClass)
     }
 
     private fun getOkHttpClient(): OkHttpClient {
         val httpClientBuilder = OkHttpClient.Builder() //设置日志
         if (BuildConfig.DEBUG) {
-            val logging = HttpLoggingInterceptor { Log.d("http", it) }
+            val logging = HttpLoggingInterceptor {
+                L.json(it)
+            }
             logging.level = HttpLoggingInterceptor.Level.BODY
             httpClientBuilder.addInterceptor(logging)
         }

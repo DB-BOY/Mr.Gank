@@ -27,7 +27,8 @@ import com.f1reking.gank.inflate
 import com.f1reking.gank.module.main.gank.TabPagerAdapter
 import com.f1reking.gank.module.main.girl.gank.GankGirlFragment
 import com.f1reking.gank.module.main.girl.jd.JDGirlFragment
-import kotlinx.android.synthetic.main.fragment_girl.*
+import kotlinx.android.synthetic.main.fragment_girl.tab_girl
+import kotlinx.android.synthetic.main.fragment_girl.vp_girl
 
 /**
  * @author: F1ReKing
@@ -57,7 +58,7 @@ class GirlFragment :BaseFragment(){
                 resources.getStringArray(R.array.tab_girl))
         vp_girl.apply {
             adapter = pagerAdapter
-            offscreenPageLimit = 2
+            offscreenPageLimit = fragmentList.size
         }
         tab_girl.apply {
             setupWithViewPager(vp_girl)
